@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.4.4
+# Version: 2.4.5
 # Aciklama: Java quality gate, Windows Inno Setup smoke test ve cross-platform update manifestiyle release uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -62,7 +62,7 @@ jobs:
           $installArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=`"$target`"")
           $installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
           if ($installProcess.ExitCode -ne 0) { throw "Setup smoke install basarisiz: $($installProcess.ExitCode)" }
-          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\bin\javaw.exe')) {
+          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
             if (-not (Test-Path -LiteralPath (Join-Path $target $required))) { throw "Setup smoke eksik dosya: $required" }
           }
           $uninstaller = Join-Path $target 'unins000.exe'
