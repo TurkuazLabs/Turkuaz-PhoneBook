@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.4
+# Version: 2.5.5
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -65,13 +65,17 @@ jobs:
           if (-not (Test-Path -LiteralPath $setup)) { throw "Setup bulunamadi: $setup" }
           $target = Join-Path $env:TEMP "TurkuazTelefonRehberi-Smoke"
           Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction SilentlyContinue
-          & $setup /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR="$target"
-          if ($LASTEXITCODE -ne 0) { throw "Setup smoke install basarisiz: $LASTEXITCODE" }
+          $installArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=`"$target`"")
+          $installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
+          if ($installProcess.ExitCode -ne 0) { throw "Setup smoke install basarisiz: $($installProcess.ExitCode)" }
           foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\bin\javaw.exe')) {
             if (-not (Test-Path -LiteralPath (Join-Path $target $required))) { throw "Setup smoke eksik dosya: $required" }
           }
           $uninstaller = Join-Path $target 'unins000.exe'
-          if (Test-Path -LiteralPath $uninstaller) { & $uninstaller /VERYSILENT /SUPPRESSMSGBOXES /NORESTART }
+          if (Test-Path -LiteralPath $uninstaller) {
+            $uninstallProcess = Start-Process -FilePath $uninstaller -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART') -Wait -PassThru
+            if ($uninstallProcess.ExitCode -ne 0) { throw "Setup smoke uninstall basarisiz: $($uninstallProcess.ExitCode)" }
+          }
 
   linux-native:
     runs-on: ubuntu-latest
