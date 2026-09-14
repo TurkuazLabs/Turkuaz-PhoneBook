@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/tools/DesktopApiTool.java
 // # 📌 Amac: Android istemcinin masaustu LAN senkron API'siyle HTTP iletisimi yapan adaptorudur.
 // # 📌 Tool - Java
-// # Version: 2.37.0
-// # Aciklama: Sinirsiz iletisim satirlari ve profil fotografi dahil status, listeleme ve form-urlencoded import isteklerini yapar.
+// # Version: 2.37.1
+// # Aciklama: HTTP ve JSON parse hatalarini Tool katmaninda sarar; kisileri ve sync UUID yanitlarini guvenli sekilde ayrıştırır.
 // # Bagimli Oldugu Katman: Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi.mobile.tools;
 
@@ -12,6 +12,7 @@ import com.turkuazlabs.telefonrehberi.mobile.models.MobileContact;
 import com.turkuazlabs.telefonrehberi.mobile.models.MobileContactMethod;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -25,29 +26,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class DesktopApiTool {
-    public void test(String baseUrl, String token) { request(baseUrl + MobileConfig.STATUS_PATH, token, MobileConfig.HTTP_GET, null); }
+    public void test(String baseUrl, String token) {
+        request(baseUrl + MobileConfig.STATUS_PATH, token, MobileConfig.HTTP_GET, null);
+    }
 
     public List<MobileContact> fetchContacts(String baseUrl, String token) {
         String json = request(baseUrl + MobileConfig.CONTACTS_PATH, token, MobileConfig.HTTP_GET, null);
-        JSONObject root = new JSONObject(json);
-        JSONArray array = root.getJSONArray(MobileConfig.JSON_CONTACTS);
-        List<MobileContact> contacts = new ArrayList<>();
-        for (int index = 0; index < array.length(); index++) {
-            JSONObject item = array.getJSONObject(index);
-            List<MobileContactMethod> phones = methods(item.optJSONArray(MobileConfig.FIELD_PHONES));
-            List<MobileContactMethod> emails = methods(item.optJSONArray(MobileConfig.FIELD_EMAILS));
-            contacts.add(new MobileContact(
-                    String.valueOf(item.getLong(MobileConfig.JSON_ID)), text(item, MobileConfig.FIELD_SYNC_UUID), text(item, MobileConfig.FIELD_NAME),
-                    text(item, MobileConfig.FIELD_PHONE), text(item, MobileConfig.FIELD_PHONE_SECONDARY), text(item, MobileConfig.FIELD_PHONE_WORK),
-                    text(item, MobileConfig.FIELD_EMAIL), text(item, MobileConfig.FIELD_EMAIL_SECONDARY), text(item, MobileConfig.FIELD_COMPANY),
-                    text(item, MobileConfig.FIELD_JOB_TITLE), text(item, MobileConfig.FIELD_BIRTHDAY), text(item, MobileConfig.FIELD_WEBSITE),
-                    text(item, MobileConfig.FIELD_CATEGORY), text(item, MobileConfig.FIELD_ADDRESS), text(item, MobileConfig.FIELD_CITY),
-                    text(item, MobileConfig.FIELD_DISTRICT), text(item, MobileConfig.FIELD_POSTAL_CODE), text(item, MobileConfig.FIELD_COUNTRY),
-                    text(item, MobileConfig.FIELD_NOTES), item.optBoolean(MobileConfig.FIELD_FAVORITE, false), phones, emails,
-                    text(item, MobileConfig.FIELD_PHOTO_BASE64)
-            ));
+        try {
+            JSONObject root = new JSONObject(json);
+            JSONArray array = root.getJSONArray(MobileConfig.JSON_CONTACTS);
+            List<MobileContact> contacts = new ArrayList<>();
+            for (int index = 0; index < array.length(); index++) {
+                JSONObject item = array.getJSONObject(index);
+                List<MobileContactMethod> phones = methods(item.optJSONArray(MobileConfig.FIELD_PHONES));
+                List<MobileContactMethod> emails = methods(item.optJSONArray(MobileConfig.FIELD_EMAILS));
+                contacts.add(new MobileContact(
+                        String.valueOf(item.getLong(MobileConfig.JSON_ID)), text(item, MobileConfig.FIELD_SYNC_UUID), text(item, MobileConfig.FIELD_NAME),
+                        text(item, MobileConfig.FIELD_PHONE), text(item, MobileConfig.FIELD_PHONE_SECONDARY), text(item, MobileConfig.FIELD_PHONE_WORK),
+                        text(item, MobileConfig.FIELD_EMAIL), text(item, MobileConfig.FIELD_EMAIL_SECONDARY), text(item, MobileConfig.FIELD_COMPANY),
+                        text(item, MobileConfig.FIELD_JOB_TITLE), text(item, MobileConfig.FIELD_BIRTHDAY), text(item, MobileConfig.FIELD_WEBSITE),
+                        text(item, MobileConfig.FIELD_CATEGORY), text(item, MobileConfig.FIELD_ADDRESS), text(item, MobileConfig.FIELD_CITY),
+                        text(item, MobileConfig.FIELD_DISTRICT), text(item, MobileConfig.FIELD_POSTAL_CODE), text(item, MobileConfig.FIELD_COUNTRY),
+                        text(item, MobileConfig.FIELD_NOTES), item.optBoolean(MobileConfig.FIELD_FAVORITE, false), phones, emails,
+                        text(item, MobileConfig.FIELD_PHOTO_BASE64)
+                ));
+            }
+            return contacts;
+        } catch (JSONException exception) {
+            throw jsonError(exception);
         }
-        return contacts;
     }
 
     public String pushContact(String baseUrl, String token, String deviceId, String syncUuid, MobileContact contact) {
@@ -77,7 +84,11 @@ public final class DesktopApiTool {
         values.add(encode(MobileConfig.FORM_EXTERNAL_ID, contact.externalId()));
         values.add(encode(MobileConfig.FORM_SYNC_UUID, syncUuid));
         String response = request(baseUrl + MobileConfig.IMPORT_PATH, token, MobileConfig.HTTP_POST, String.join("&", values));
-        return new JSONObject(response).optString(MobileConfig.FIELD_SYNC_UUID, "");
+        try {
+            return new JSONObject(response).optString(MobileConfig.FIELD_SYNC_UUID, "");
+        } catch (JSONException exception) {
+            throw jsonError(exception);
+        }
     }
 
     private List<MobileContactMethod> methods(JSONArray array) {
@@ -106,11 +117,20 @@ public final class DesktopApiTool {
     }
 
     private String component(String value) {
-        try { return URLEncoder.encode(value == null ? "" : value, StandardCharsets.UTF_8.name()); }
-        catch (java.io.UnsupportedEncodingException exception) { throw new IllegalStateException(exception); }
+        try {
+            return URLEncoder.encode(value == null ? "" : value, StandardCharsets.UTF_8.name());
+        } catch (java.io.UnsupportedEncodingException exception) {
+            throw new IllegalStateException(exception);
+        }
     }
 
-    private String text(JSONObject item, String key) { return item.optString(key, ""); }
+    private String text(JSONObject item, String key) {
+        return item.optString(key, "");
+    }
+
+    private IllegalStateException jsonError(JSONException exception) {
+        return new IllegalStateException("Desktop API JSON yaniti gecersiz: " + exception.getMessage(), exception);
+    }
 
     private String request(String url, String token, String method, String body) {
         HttpURLConnection connection = null;
