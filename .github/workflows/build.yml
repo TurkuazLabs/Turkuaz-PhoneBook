@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.2
+# Version: 2.5.3
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -107,6 +107,8 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools
 
       - name: Setup Gradle 8.13
         uses: gradle/actions/setup-gradle@v6
