@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.3
+# Version: 2.5.4
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -57,8 +57,12 @@ jobs:
       - name: Smoke test Windows installer
         shell: powershell
         run: |
-          $version = (Select-String -Path .\config\version.yml -Pattern '^app_version:' | ForEach-Object { ($_ -split ':',2)[1].Trim().Trim('"') })
+          $versionMatch = Select-String -Path .\config\version.yml -Pattern '^app_version:' | Select-Object -First 1
+          if ($null -eq $versionMatch) { throw "app_version bulunamadi" }
+          $version = ($versionMatch.Line -split ':',2)[1].Trim().Trim('"')
+          if ([string]::IsNullOrWhiteSpace($version)) { throw "app_version bos" }
           $setup = Join-Path $PWD "dist\TelefonRehberi-Setup-v$version.exe"
+          if (-not (Test-Path -LiteralPath $setup)) { throw "Setup bulunamadi: $setup" }
           $target = Join-Path $env:TEMP "TurkuazTelefonRehberi-Smoke"
           Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction SilentlyContinue
           & $setup /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR="$target"
