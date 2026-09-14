@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.5
+# Version: 2.5.6
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -68,7 +68,7 @@ jobs:
           $installArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=`"$target`"")
           $installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
           if ($installProcess.ExitCode -ne 0) { throw "Setup smoke install basarisiz: $($installProcess.ExitCode)" }
-          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\bin\javaw.exe')) {
+          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
             if (-not (Test-Path -LiteralPath (Join-Path $target $required))) { throw "Setup smoke eksik dosya: $required" }
           }
           $uninstaller = Join-Path $target 'unins000.exe'
