@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.1
+# Version: 2.5.2
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -36,6 +36,7 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version: '1.23.x'
+          cache-dependency-path: launcher/native/go.mod
 
       - name: Run Java quality gate
         shell: powershell
@@ -85,9 +86,11 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version: '1.23.x'
+          cache-dependency-path: launcher/native/go.mod
 
       - name: Build Linux native release
-        run: ./tools/build-linux-release.sh
+        shell: bash
+        run: bash ./tools/build-linux-release.sh
 
   android-api-36:
     runs-on: ubuntu-latest
