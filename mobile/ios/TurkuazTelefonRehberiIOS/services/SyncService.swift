@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/services/SyncService.swift
 // # 📌 Amac: iOS ile masaustu arasindaki iki yonlu rehber senkronizasyonu is kurallarini yonetir.
 // # 📌 Service - Swift
-// # Version: 2.37.0
-// # Aciklama: Kalici sync UUID mappingiyle duplicate-safe pull ve idempotent push akisini uygular.
+// # Version: 2.37.1
+// # Aciklama: Kalici sync UUID mappingiyle duplicate-safe pull ve idempotent push akisini Swift 6 actor izolasyonuyla uygular.
 // # Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
 import Foundation
 
+@MainActor
 final class SyncService {
     private let contactsRepository: DeviceContactRepository
     private let settingsRepository: SettingsRepository
