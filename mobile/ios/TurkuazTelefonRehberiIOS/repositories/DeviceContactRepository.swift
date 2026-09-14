@@ -1,12 +1,13 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/repositories/DeviceContactRepository.swift
 // # 📌 Amac: iOS sistem rehberini Contacts framework uzerinden genisletilmis alanlarla okur ve yazar.
 // # 📌 Repository - Swift
-// # Version: 2.37.1
-// # Aciklama: Telefon/e-posta duplicate esleme ve kalici sync UUID mappingi icin native contact identifier dondurur.
+// # Version: 2.37.2
+// # Aciklama: Telefon/e-posta duplicate esleme ve kalici sync UUID mappingi icin native contact identifier dondurur; Swift 6 actor izolasyonu uygular.
 // # Bagimli Oldugu Katman: Repository | Model
 import Contacts
 import Foundation
 
+@MainActor
 final class DeviceContactRepository {
     private let store = CNContactStore()
 
