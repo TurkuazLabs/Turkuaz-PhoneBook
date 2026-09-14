@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/tools/DesktopApiTool.swift
 // # 📌 Amac: iOS istemcinin masaustu LAN senkron API'siyle HTTP iletisimi yapan adaptorudur.
 // # 📌 Tool - Swift
-// # Version: 2.37.0
-// # Aciklama: Sinirsiz telefon/e-posta ve profil fotografi dahil status, listeleme ve form-urlencoded import isteklerini URLSession ile yapar.
+// # Version: 2.37.1
+// # Aciklama: Sinirsiz telefon/e-posta ve profil fotografi dahil status, listeleme ve import isteklerini Swift 6 actor izolasyonuyla yapar.
 // # Bagimli Oldugu Katman: Tool | Config | Model | Language
 import Foundation
 
+@MainActor
 final class DesktopApiTool {
     func test(baseUrl: String, token: String) async throws {
         _ = try await request(url: baseUrl + MobileConfig.statusPath, token: token, method: MobileConfig.httpGet, body: nil)
