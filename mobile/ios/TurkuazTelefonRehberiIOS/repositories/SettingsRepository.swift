@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/repositories/SettingsRepository.swift
 // # 📌 Amac: iOS mobil senkron baglanti ayarlarini, Keychain tokenini ve sync mappinglerini kalici saklar.
 // # 📌 Repository - Swift
-// # Version: 2.37.1
-// # Aciklama: URL/cihaz/mapping verisini UserDefaults'ta, tokeni Keychain'de tutar ve legacy tokeni otomatik tasir.
+// # Version: 2.37.2
+// # Aciklama: URL/cihaz/mapping verisini UserDefaults'ta, tokeni Keychain'de tutar; Swift 6 actor izolasyonu uygular.
 // # Bagimli Oldugu Katman: Repository | Config | Tool
 import Foundation
 
+@MainActor
 final class SettingsRepository {
     private let defaults = UserDefaults.standard
     private let keychain = KeychainTokenTool()
