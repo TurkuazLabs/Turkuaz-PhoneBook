@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.0
+# Version: 2.5.1
 # Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -89,7 +89,6 @@ jobs:
       - name: Build Linux native release
         run: ./tools/build-linux-release.sh
 
-
   android-api-36:
     runs-on: ubuntu-latest
 
@@ -103,18 +102,23 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
       - name: Setup Gradle 8.13
         uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: '8.13'
-          cache-provider: basic
 
       - name: Install Android SDK 36
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+        shell: bash
+        run: |
+          sdkmanager --version
+          sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
 
       - name: Build Android debug APK
         working-directory: mobile/android
-        run: gradle :app:assembleDebug
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
 
   ios-simulator:
     runs-on: macos-latest
