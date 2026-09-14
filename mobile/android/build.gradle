@@ -1,0 +1,9 @@
+// # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/build.gradle
+// # 📌 Amac: Android istemcinin kok Gradle plugin surumunu tanimlar.
+// # 📌 Config - Gradle
+// # Version: 1.0.0
+// # Aciklama: Android Gradle Plugin 8.13.2 kullanan kok build dosyasidir.
+// # Bagimli Oldugu Katman: Config
+plugins {
+    id 'com.android.application' version '8.13.2' apply false
+}

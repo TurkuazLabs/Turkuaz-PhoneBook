@@ -1,0 +1,70 @@
+<!--
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/res/layout/activity_main.xml
+# 📌 Amac: Android mobil senkron ekraninin gorunumunu tanimlar.
+# 📌 View - XML
+# Version: 1.1.0
+# Aciklama: PC adresi, token, iki yonlu senkron butonlari ve durum metnini gosterir.
+# Bagimli Oldugu Katman: View | Language
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sync_title"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/serverUrlField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/server_url_hint"
+            android:inputType="textUri" />
+
+        <EditText
+            android:id="@+id/tokenField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/sync_token_hint"
+            android:inputType="textNoSuggestions" />
+
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/test_connection" />
+
+        <Button
+            android:id="@+id/pullButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/pull_contacts" />
+
+        <Button
+            android:id="@+id/pushButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/push_contacts" />
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/ready" />
+    </LinearLayout>
+</ScrollView>

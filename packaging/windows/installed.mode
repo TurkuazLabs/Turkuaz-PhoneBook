@@ -1,0 +1,7 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/windows/installed.mode
+# 📌 Amac: Native launcher'a Program Files kurulum modunda calistigini bildirir.
+# 📌 Config - Text
+# Version: 1.0.0
+# Aciklama: Inno Setup payload'ina eklenen salt-okunur kurulum isaretidir.
+# Bagimli Oldugu Katman: Tool | Config
+installed

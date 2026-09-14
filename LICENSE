@@ -1,0 +1,12 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/LICENSE
+# 📌 Amac: Turkuaz Telefon Rehberi kaynak kodunun varsayilan telif ve kullanim kosullarini tanimlar.
+# 📌 Modul - Text
+# Version: 1.0.0
+# Aciklama: Acik bir OSS lisansi secilene kadar tum haklari TurkuazLabs'ta tutan source-visible lisans bildirimidir.
+# Bagimli Oldugu Katman: Tool | Config
+
+Copyright (c) 2026 TurkuazLabs. All rights reserved.
+
+Bu repository'nin herkese acik gorunmesi; kaynak kodun, binary dagitimlarin, marka varliklarinin veya turevlerinin kullanimi, kopyalanmasi, degistirilmesi, yeniden dagitilmasi ya da ticari kullanimi icin otomatik bir lisans vermez.
+
+TurkuazLabs tarafindan yazili olarak baska bir izin veya lisans verilmedikce tum haklar saklidir. Ucuncu taraf bagimliliklar kendi lisanslari altindadir.

@@ -1,0 +1,26 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/app.yml
+# 📌 Amac: Masaustu uygulamanin SQLite ve mobil LAN senkron calisma ayarlarini tanimlar.
+# 📌 Config - YAML
+# Version: 1.4.0
+# Aciklama: Windows DB dosyasini Contacts/Veri alanina, diger relative veri yollarini teknik OS veri kokune gore tanimlar.
+# Bagimli Oldugu Katman: Config
+
+# database_file Windows'ta Contacts/Turkuaz Telefon Rehberi/Veri altina; diger relative yollar teknik OS veri kokune gore cozulur.
+
+database_file: "data/telefon-rehberi.db"
+legacy_data_file: "data/contacts.tsv"
+sync_token_file: "data/sync-token.txt"
+sqlite_busy_timeout_ms: "5000"
+mobile_sync_enabled: "false"
+mobile_sync_bind_address: "0.0.0.0"
+mobile_sync_port: "8787"
+mobile_sync_backlog: "20"
+mobile_sync_threads: "4"
+mobile_sync_max_request_bytes: "2097152"
+sync_token_bytes: "32"
+
+default_phone_country_iso: "TR"
+bulk_history_limit: "20"
+history_limit: "250"
+contact_activity_limit: "12"
+history_retention_limit: "5000"

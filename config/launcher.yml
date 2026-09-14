@@ -1,0 +1,39 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/launcher.yml
+# 📌 Amac: Portable Java, SQLite JDBC, FlatLaf ve GitHub Releases update ayarlarini merkezi olarak tutar.
+# 📌 Config - YAML
+# Version: 2.4.0
+# Aciklama: Portable/installed runtime, sabitlenmis JDBC-SLF4J bagimliliklari ve GitHub auto-update ayarlaridir.
+# Bagimli Oldugu Katman: Tool
+
+app_name: "Turkuaz Telefon Rehberi"
+app_jar: "app/TelefonRehberi.jar"
+app_main_class: "com.turkuazlabs.telefonrehberi.Main"
+java_major: "17"
+java_image_type: "jre"
+java_vendor: "eclipse"
+java_architecture: "auto"
+java_runtime_dir: "runtime/temurin-17"
+adoptium_assets_url: "https://api.adoptium.net/v3/assets/latest/{major}/hotspot?architecture={arch}&heap_size=normal&image_type={image}&jvm_impl=hotspot&os={os}&vendor={vendor}"
+sqlite_jdbc_version: "3.53.4.0"
+sqlite_jdbc_path: "lib/sqlite-jdbc-3.53.4.0.jar"
+sqlite_jdbc_url: "https://github.com/xerial/sqlite-jdbc/releases/download/{version}/sqlite-jdbc-{version}.jar"
+sqlite_jdbc_sha256: "bcb1f51e36f940867e83342f9efbf5968ac44a6bef4d397bb4af7b17b45cd2fb"
+slf4j_version: "1.7.36"
+slf4j_api_path: "lib/slf4j-api-{version}.jar"
+slf4j_api_url: "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/{version}/slf4j-api-{version}.jar"
+slf4j_api_sha256: "d3ef575e3e4979678dc01bf1dcce51021493b4d11fb7f1be8ad982877c16a1c0"
+flatlaf_version: "3.7.2"
+flatlaf_path: "lib/flatlaf-{version}.jar"
+flatlaf_url: "https://repo1.maven.org/maven2/com/formdev/flatlaf/{version}/flatlaf-{version}.jar"
+flatlaf_sha256_url: "https://repo1.maven.org/maven2/com/formdev/flatlaf/{version}/flatlaf-{version}.jar.sha256"
+update_enabled: "true"
+github_owner: "TurkuazLabs"
+github_repo: "turkuaz-telefon-rehberi"
+github_latest_asset_url: "https://github.com/{owner}/{repo}/releases/latest/download/{asset}"
+update_manifest_asset: "update-manifest.yml"
+installed_update_enabled: "true"
+installed_update_asset_key: "windows_setup_asset"
+installed_update_sha_key: "windows_setup_sha256"
+installed_update_arguments: "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /CLOSEAPPLICATIONS /AUTOUPDATE"
+update_timeout_seconds: "180"
+backup_keep_count: "5"

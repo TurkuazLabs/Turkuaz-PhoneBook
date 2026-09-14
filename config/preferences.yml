@@ -1,0 +1,16 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/preferences.yml
+# 📌 Amac: Eski portable preferences migrationi ve gelistirme icin varsayilan kullanici tercih sablonunu tutar.
+# 📌 Config - YAML
+# Version: 2.8.1
+# Aciklama: v2.33.0 runtime bu dosyayi uygulama klasorunden okumaz; tercihler OS kullanici veri kokundeki config/preferences.yml dosyasinda saklanir.
+# Bagimli Oldugu Katman: Repository | View
+
+theme: "light"
+startup_page: "dashboard"
+remember_window: "true"
+window_width: "1540"
+window_height: "940"
+compact_mode: "false"
+confirm_delete: "true"
+auto_backup: "true"
+backup_retention: "14"

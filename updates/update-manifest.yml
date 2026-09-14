@@ -1,0 +1,17 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml
+# 📌 Amac: GitHub Release cross-platform update metadata ve SHA-256 degerlerini tanimlar.
+# 📌 Modul - YAML
+# Version: 2.2.0
+# Aciklama: v2.37.0 portable update templateidir; Windows Setup alanlari release pipeline tarafindan eklenir.
+# Bagimli Oldugu Katman: Tool
+
+app_version: "2.37.0"
+app_asset: "TelefonRehberi.jar"
+app_sha256: "9d4da3fe92b27b557939636e56ce8b0f0890f03e5dfbc41bcf853d132d47e609"
+launcher_version: "2.4.0"
+launcher_windows_asset: "TelefonRehberi.exe"
+launcher_windows_sha256: "29c1bf368e3d5ca24909c0a722858c837d67d5823e5df60aa91a4563b579731e"
+launcher_linux_asset: "TelefonRehberi-linux-amd64"
+launcher_linux_sha256: "a29c4811a9a7a50b3d0c19397ac1791295d1f0e475d69e7360f31a1461860b2e"
+launcher_asset: "TelefonRehberi.exe"
+launcher_sha256: "29c1bf368e3d5ca24909c0a722858c837d67d5823e5df60aa91a4563b579731e"

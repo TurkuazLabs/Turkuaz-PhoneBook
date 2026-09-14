@@ -1,0 +1,22 @@
+// # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/settings.gradle
+// # 📌 Amac: Android mobil istemci Gradle proje ve repository ayarlarini tanimlar.
+// # 📌 Config - Gradle
+// # Version: 1.0.0
+// # Aciklama: Tek app modulunu ve Google/Maven Central repository kaynaklarini kaydeder.
+// # Bagimli Oldugu Katman: Config
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "TurkuazTelefonRehberiMobile"
+include ':app'

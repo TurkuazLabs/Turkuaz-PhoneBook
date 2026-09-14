@@ -1,0 +1,38 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.gitignore
+# 📌 Amac: Build, runtime, dependency, mobil build ve kullanici rehber verilerini Git deposu disinda tutar.
+# 📌 Config - GitIgnore
+# Version: 1.3.0
+# Aciklama: Kaynak kodu korur; runtime, SQLite/FlatLaf bagimliliklari, DB, token, APK build ve Xcode uretilen dosyalarini ignore eder.
+# Bagimli Oldugu Katman: Tool
+
+/build/
+/dist/
+/runtime/*
+!/runtime/README.md
+/cache/*
+!/cache/README.md
+/logs/*
+!/logs/README.md
+/backup/*
+!/backup/README.md
+/data/*.tsv
+/data/*.db
+/data/*.db-shm
+/data/*.db-wal
+/data/sync-token.txt
+/lib/*.jar
+!/lib/README.md
+/app/*.jar
+/mobile/android/.gradle/
+/mobile/android/**/build/
+/mobile/ios/**/*.xcodeproj/
+/mobile/ios/**/DerivedData/
+*.class
+*.log
+.idea/
+.vscode/
+dist-installer/
+dist-linux/
+/build-tests/
+/build-linux/
+/dist-linux/

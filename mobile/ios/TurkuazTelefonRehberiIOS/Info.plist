@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/Info.plist
+# 📌 Amac: iOS rehber ve yerel ag izin aciklamalari ile local HTTP politikasini tanimlar.
+# 📌 Config - XML
+# Version: 1.0.0
+# Aciklama: Contacts, Local Network ve ATS local networking izinlerini tanimlar.
+# Bagimli Oldugu Katman: Config
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSContactsUsageDescription</key>
+    <string>Telefon rehberindeki kisileri Turkuaz Telefon Rehberi ile iki yonlu senkron etmek icin erisim gerekir.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Ayni Wi-Fi agindaki Turkuaz Telefon Rehberi masaustu uygulamasina baglanmak icin yerel ag erisimi gerekir.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+</dict>
+</plist>

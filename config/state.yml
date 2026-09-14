@@ -1,0 +1,9 @@
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/state.yml
+# 📌 Amac: Kurulu uygulama ve native launcher surum durumunu tutar.
+# 📌 Modul - YAML
+# Version: 2.1.0
+# Aciklama: GitHub updater tarafindan yonetilen yerel surum bilgisidir.
+# Bagimli Oldugu Katman: Repository
+
+app_version: "2.37.0"
+launcher_version: "2.4.0"
