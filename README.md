@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin ana GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.2
+# Version: 2.37.3
 # Aciklama: Global marka kimligi, yerellestirilmis urun adi, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
@@ -27,6 +27,7 @@
     <a href="#neden-turkuaz-phonebook">Neden?</a> •
     <a href="#temel-ozellikler">Ozellikler</a> •
     <a href="#platform-durumu">Platformlar</a> •
+    <a href="#dil-ve-yerellestirme">Dil</a> •
     <a href="#hizli-baslangic">Hizli Baslangic</a> •
     <a href="#veri-ve-gizlilik">Veri ve Gizlilik</a> •
     <a href="#mimari">Mimari</a>
@@ -39,7 +40,7 @@
 
 Repository ve global urun kimligi **Turkuaz PhoneBook** olarak kullanilir. Dil bagimsiz ana marka ise yalnizca **Turkuaz**'dir.
 
-Gorunen urun adi kullanici diline gore yerellestirilebilir:
+Gorunen urun adi kullanici diline gore yerellestirilir:
 
 - Turkce: **Turkuaz Telefon Rehberi**
 - Ingilizce: **Turkuaz PhoneBook**
@@ -116,6 +117,18 @@ Projenin temel hedefleri:
 | iOS | 🧪 Test asamasi | Simulator build | Gercek cihaz dagitimi henuz release akisinda degil |
 
 GitHub Actions `main` branch uzerinde Windows, Linux, Android API 36 ve iOS simulator buildlerini dogrular.
+
+## Dil ve Yerellestirme
+
+Dagitim katmanlarinda Turkce ve Ingilizce urun adi ayrimi uygulanir:
+
+- Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
+- Android varsayilan olarak Ingilizce resource kullanir; sistem dili Turkce ise `values-tr` kaynaklari devreye girer.
+- iOS gorunen ad, izin metinleri ve senkron ekran mesajlarini sistem diline gore Turkce veya Ingilizce gosterir.
+- Linux `.desktop` girdisi varsayilan Ingilizce ad/aciklama ile birlikte Turkce `Name[tr]` ve `Comment[tr]` degerlerini tasir.
+- Ana logo ve splash marka adi yalnizca **Turkuaz** olarak dil bagimsiz tutulur.
+
+Masaustu Swing arayuzunun genis metin katalogu Language katmaninda merkezidir; tam runtime dil secimi mevcut teknik kimlik ve veri yollarini degistirmeden genisletilebilir.
 
 ## Hizli Baslangic
 
