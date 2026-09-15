@@ -1,0 +1,11 @@
+/*
+# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/resources/tr.lproj/InfoPlist.strings
+# 📌 Amac: iOS Info.plist gorunen ad ve izin metinlerinin Turkce yerellestirmesini tanimlar.
+# 📌 Language - Strings
+# Version: 1.0.0
+# Aciklama: Turkce sistemlerde Turkuaz Telefon Rehberi adi ile Contacts ve Local Network izin aciklamalarini gosterir.
+# Bagimli Oldugu Katman: Language | Config
+*/
+"CFBundleDisplayName" = "Turkuaz Telefon Rehberi";
+"NSContactsUsageDescription" = "Telefon rehberindeki kisileri Turkuaz Telefon Rehberi ile iki yonlu senkron etmek icin erisim gerekir.";
+"NSLocalNetworkUsageDescription" = "Ayni guvenilir Wi-Fi/LAN agindaki Turkuaz Telefon Rehberi masaustu uygulamasina baglanmak icin yerel ag erisimi gerekir.";

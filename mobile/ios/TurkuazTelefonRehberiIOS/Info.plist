@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/Info.plist
-# 📌 Amac: iOS rehber ve yerel ag izin aciklamalari ile local HTTP politikasini tanimlar.
+# 📌 Amac: iOS uygulama adi, rehber ve yerel ag izin aciklamalari ile local HTTP politikasini tanimlar.
 # 📌 Config - XML
-# Version: 1.0.0
-# Aciklama: Contacts, Local Network ve ATS local networking izinlerini tanimlar.
-# Bagimli Oldugu Katman: Config
+# Version: 1.1.0
+# Aciklama: Varsayilan Ingilizce gorunen ad/izin metinlerini tanimlar; Turkce karsiliklar InfoPlist.strings ile yerellestirilir.
+# Bagimli Oldugu Katman: Config | Language
 -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleDisplayName</key>
+    <string>Turkuaz PhoneBook</string>
     <key>NSContactsUsageDescription</key>
-    <string>Telefon rehberindeki kisileri Turkuaz Telefon Rehberi ile iki yonlu senkron etmek icin erisim gerekir.</string>
+    <string>Contacts access is required to sync your phone contacts with Turkuaz PhoneBook.</string>
     <key>NSLocalNetworkUsageDescription</key>
-    <string>Ayni Wi-Fi agindaki Turkuaz Telefon Rehberi masaustu uygulamasina baglanmak icin yerel ag erisimi gerekir.</string>
+    <string>Local network access is required to connect to the Turkuaz PhoneBook desktop app on the same trusted network.</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsLocalNetworking</key>

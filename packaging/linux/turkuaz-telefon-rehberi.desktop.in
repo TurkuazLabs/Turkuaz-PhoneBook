@@ -1,14 +1,18 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/linux/turkuaz-telefon-rehberi.desktop.in
-# 📌 Amac: Linux masaustu menusu icin Telefon Rehberi uygulama girdisi sablonudur.
+# 📌 Amac: Linux masaustu menusu icin yerellestirilmis Turkuaz PhoneBook uygulama girdisi sablonudur.
 # 📌 View - DesktopEntry
-# Version: 1.0.0
-# Aciklama: Native Linux launcher'i terminal acmadan baslatir ve Turkuaz ikonunu kullanir.
-# Bagimli Oldugu Katman: View | Tool
+# Version: 1.1.0
+# Aciklama: Varsayilan Ingilizce ad/aciklama ile Turkce Name/Comment yerellestirmesini ve native launcher'i tanimlar.
+# Bagimli Oldugu Katman: View | Tool | Language
 
 [Desktop Entry]
 Type=Application
-Name=Turkuaz Telefon Rehberi
-Comment=Kisilerinizi yerel olarak yonetin
+Name=Turkuaz PhoneBook
+Name[tr]=Turkuaz Telefon Rehberi
+GenericName=Contact Manager
+GenericName[tr]=Telefon Rehberi
+Comment=Manage your contacts locally
+Comment[tr]=Kisilerinizi yerel olarak yonetin
 Exec=@APP_EXEC@
 Icon=turkuaz-telefon-rehberi
 Terminal=false
