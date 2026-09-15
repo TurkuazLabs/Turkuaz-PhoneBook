@@ -1,13 +1,13 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
 # 📌 Amac: TurkuazLabs GitHub repository, quality gate ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.4.0
-# Aciklama: v2.37.0 Windows Inno Setup auto-update, Linux native/TAR.GZ ve mobile test build akisidir.
+# Version: 2.4.1
+# Aciklama: Turkuaz-PhoneBook repository adi, v2.37.0 Windows Inno Setup auto-update, Linux native/TAR.GZ ve mobile test build akisidir.
 # Bagimli Oldugu Katman: Tool | Config
 
 # Repository
 
-`https://github.com/TurkuazLabs/turkuaz-telefon-rehberi`
+`https://github.com/TurkuazLabs/Turkuaz-PhoneBook`
 
 Kaynak dosyalari repository kokune yerlestir.
 
@@ -30,6 +30,17 @@ Kaynak dosyalari repository kokune yerlestir.
 
 Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kurulur. Portable kullanici `TelefonRehberi.exe`, Linux kullanicisi `TelefonRehberi` native launcher ile baslatir.
 
+## Marka ve urun adi
+
+GitHub repository ve global urun kimligi `Turkuaz PhoneBook` olarak kullanilir. Ana logo yalnizca `Turkuaz` markasini tasir.
+
+Gorunen uygulama adi kurulum/arayuz diline gore yerellestirilebilir:
+
+- Turkce: `Turkuaz Telefon Rehberi`
+- Ingilizce: `Turkuaz PhoneBook`
+
+Geriye donuk uyumluluk icin teknik kimlikler (`TelefonRehberi.exe`, Java package adlari, Inno Setup AppId ve mevcut veri klasorleri) yeniden adlandirilmaz.
+
 ## Veri konumlari
 
 - Windows SQLite: `%USERPROFILE%\Contacts\Turkuaz Telefon Rehberi\Veri\telefon-rehberi.db`
@@ -43,6 +54,8 @@ Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kur
 ## Otomatik guncelleme
 
 Release workflow `TelefonRehberi-Setup-vX.Y.Z.exe` SHA-256 degerini `update-manifest.yml` icine yazar. Program Files kurulumlu launcher yeni `app_version` gorurse Setup EXE'yi LocalAppData cache'e indirir, SHA-256 dogrular ve Inno Setup'i normal kullanici tokeniyla baslatir. Inno Setup UAC ister ve `/AUTOUPDATE` tamamlaninca uygulamayi normal kullanici olarak yeniden acar. Portable Windows ve Linux dagitimlari JAR/native launcher staged update akisini kullanir.
+
+Updater release assetlerini `https://github.com/TurkuazLabs/Turkuaz-PhoneBook` repository'sinden alir.
 
 ## Quality gate
 
