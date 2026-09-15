@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/launcher.yml
 # 📌 Amac: Portable Java, SQLite JDBC, FlatLaf ve GitHub Releases update ayarlarini merkezi olarak tutar.
 # 📌 Config - YAML
-# Version: 2.4.0
-# Aciklama: Portable/installed runtime, sabitlenmis JDBC-SLF4J bagimliliklari ve GitHub auto-update ayarlaridir.
+# Version: 2.4.1
+# Aciklama: Portable/installed runtime, sabitlenmis JDBC-SLF4J bagimliliklari ve Turkuaz-PhoneBook GitHub auto-update ayarlaridir.
 # Bagimli Oldugu Katman: Tool
 
 app_name: "Turkuaz Telefon Rehberi"
@@ -28,7 +28,7 @@ flatlaf_url: "https://repo1.maven.org/maven2/com/formdev/flatlaf/{version}/flatl
 flatlaf_sha256_url: "https://repo1.maven.org/maven2/com/formdev/flatlaf/{version}/flatlaf-{version}.jar.sha256"
 update_enabled: "true"
 github_owner: "TurkuazLabs"
-github_repo: "turkuaz-telefon-rehberi"
+github_repo: "Turkuaz-PhoneBook"
 github_latest_asset_url: "https://github.com/{owner}/{repo}/releases/latest/download/{asset}"
 update_manifest_asset: "update-manifest.yml"
 installed_update_enabled: "true"
