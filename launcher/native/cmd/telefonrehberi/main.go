@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/cmd/telefonrehberi/main.go
 // 📌 Amac: TelefonRehberi native launcher executable giris noktasidir.
 // 📌 Modul - Go
-// Version: 2.0.0
-// Aciklama: Request'i controller katmanina devreden ince bootstrap dosyasidir.
+// Version: 2.0.1
+// Aciklama: Turkuaz-PhoneBook modul kokundeki controller katmanina request devreden ince bootstrap dosyasidir.
 // Bagimli Oldugu Katman: Controller
 
 package main
@@ -10,7 +10,7 @@ package main
 import (
 	"os"
 
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/controllers"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/controllers"
 )
 
 func main() {

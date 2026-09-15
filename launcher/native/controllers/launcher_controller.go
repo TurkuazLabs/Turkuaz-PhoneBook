@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/controllers/launcher_controller.go
 // 📌 Amac: Native launcher komut satiri girisini alir ve servisi cagirir.
 // 📌 Modul - Go
-// Version: 2.1.0
-// Aciklama: Normal baslatma ve self-update helper request controlleridir.
+// Version: 2.1.1
+// Aciklama: Turkuaz-PhoneBook modul kokunu kullanan normal baslatma ve self-update helper request controlleridir.
 // Bagimli Oldugu Katman: Controller
 
 package controllers
@@ -11,10 +11,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/language"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/services"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/tools"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/views"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/language"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/services"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/tools"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/views"
 )
 
 type LauncherController struct{}

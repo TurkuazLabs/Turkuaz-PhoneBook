@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/services/launcher_service.go
 // 📌 Amac: Native launcher is akisini ve update kurallarini yonetir.
 // 📌 Modul - Go
-// Version: 2.4.0
-// Aciklama: Portable ve kurulumlu update akisini, kullanici update tercihi overrideini ve Java baslatmayi yonetir.
+// Version: 2.4.1
+// Aciklama: Turkuaz-PhoneBook modul kokuyla portable/installed update, kullanici tercihi override ve Java baslatma akislarini yonetir.
 // Bagimli Oldugu Katman: Service
 
 package services
@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/language"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/repositories"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/tools"
-	"github.com/turkuazlabs/turkuaz-telefon-rehberi/launcher/native/views"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/language"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/repositories"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/tools"
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/views"
 )
 
 const (
