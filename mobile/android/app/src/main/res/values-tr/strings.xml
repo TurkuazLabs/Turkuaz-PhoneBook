@@ -2,8 +2,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/res/values-tr/strings.xml
 # 📌 Amac: Android uygulamasinin Turkce statik metinlerini merkezi resource katmaninda tutar.
 # 📌 Language - XML
-# Version: 1.0.0
-# Aciklama: Sistem dili Turkce oldugunda Turkuaz Telefon Rehberi gorunen adini ve senkron metinlerini kullanir.
+# Version: 1.0.1
+# Aciklama: Sistem dili Turkce oldugunda yerellestirilmis metinleri kullanir ve AAPT apostrof kacisini korur.
 # Bagimli Oldugu Katman: Language
 -->
 <resources>
@@ -13,6 +13,6 @@
     <string name="sync_token_hint">Senkron tokeni</string>
     <string name="test_connection">Baglantiyi Test Et</string>
     <string name="pull_contacts">PC Rehberini Telefona Al</string>
-    <string name="push_contacts">Telefon Rehberini PC'ye Gonder</string>
+    <string name="push_contacts">Telefon Rehberini PC\'ye Gonder</string>
     <string name="ready">Hazir</string>
 </resources>
