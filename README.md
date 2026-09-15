@@ -1,19 +1,20 @@
 # 📄 Dosya Yolu: /README.md
-# 📌 Amac: Turkuaz Telefon Rehberi projesinin ana GitHub vitrini ve teknik ozetidir
+# 📌 Amac: Turkuaz PhoneBook projesinin ana GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.1
-# Aciklama: Proje vitrini, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
+# Version: 2.37.2
+# Aciklama: Global marka kimligi, yerellestirilmis urun adi, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
-  <img src="assets/branding/app-logo.png" alt="Turkuaz Telefon Rehberi" width="520">
+  <img src="assets/branding/app-icon-128.png" alt="Turkuaz" width="120">
 
-  <h1>Turkuaz Telefon Rehberi</h1>
+  <h1>Turkuaz PhoneBook</h1>
 
-  <p><strong>Yerel veriyi merkezde tutan, masaustu odakli modern kisi yonetimi ve mobil senkron uygulamasi.</strong></p>
+  <p><strong>Local-first contact management and mobile sync by TurkuazLabs.</strong></p>
+  <p>Turkce arayuz adi: <strong>Turkuaz Telefon Rehberi</strong> · Ana marka: <strong>Turkuaz</strong></p>
 
   <p>
-    <a href="https://github.com/TurkuazLabs/turkuaz-telefon-rehberi/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/turkuaz-telefon-rehberi/actions/workflows/build.yml/badge.svg" alt="Build"></a>
+    <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
     <img src="https://img.shields.io/badge/version-2.37.0-0aa6a6" alt="Version 2.37.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
@@ -22,7 +23,8 @@
   </p>
 
   <p>
-    <a href="#neden-turkuaz-telefon-rehberi">Neden?</a> •
+    <a href="#marka-ve-urun-adi">Marka</a> •
+    <a href="#neden-turkuaz-phonebook">Neden?</a> •
     <a href="#temel-ozellikler">Ozellikler</a> •
     <a href="#platform-durumu">Platformlar</a> •
     <a href="#hizli-baslangic">Hizli Baslangic</a> •
@@ -33,9 +35,24 @@
 
 ---
 
-## Neden Turkuaz Telefon Rehberi?
+## Marka ve Urun Adi
 
-Turkuaz Telefon Rehberi, kisi verisini bir bulut servisine zorunlu olarak tasimadan yonetmek isteyen kullanicilar icin gelistirilen masaustu odakli bir rehber uygulamasidir.
+Repository ve global urun kimligi **Turkuaz PhoneBook** olarak kullanilir. Dil bagimsiz ana marka ise yalnizca **Turkuaz**'dir.
+
+Gorunen urun adi kullanici diline gore yerellestirilebilir:
+
+- Turkce: **Turkuaz Telefon Rehberi**
+- Ingilizce: **Turkuaz PhoneBook**
+
+Logo ve ikon kimligi dile bagli degildir. Teknik geriye donuk uyumluluk icin `TelefonRehberi.exe`, Java package adlari, Inno Setup `AppId` ve mevcut kullanici veri klasorleri yeniden adlandirilmaz.
+
+Canonical repository:
+
+`https://github.com/TurkuazLabs/Turkuaz-PhoneBook`
+
+## Neden Turkuaz PhoneBook?
+
+Turkuaz PhoneBook, kisi verisini bir bulut servisine zorunlu olarak tasimadan yonetmek isteyen kullanicilar icin gelistirilen masaustu odakli bir rehber uygulamasidir.
 
 Ana veri SQLite veritabaninda kullanicinin kendi cihazinda tutulur. Windows ve Linux masaustu istemcileri ana calisma ortamini olusturur; Android ve iOS istemcileri ise ayni guvenilir yerel ag uzerinden masaustu uygulamasi ile senkronize olabilir.
 
@@ -139,7 +156,7 @@ Release ve kalite scriptleri `tools/` klasorundedir. GitHub Actions ayni kalite 
 
 ## Veri ve Gizlilik
 
-Turkuaz Telefon Rehberi'nin ana kisi veritabani yereldir. Uygulamanin calismasi icin zorunlu bir TurkuazLabs bulut hesabi veya merkezi kisi verisi servisi gerekmez.
+Turkuaz PhoneBook'un ana kisi veritabani yereldir. Uygulamanin calismasi icin zorunlu bir TurkuazLabs bulut hesabi veya merkezi kisi verisi servisi gerekmez.
 
 ### Windows Ana Veri
 
