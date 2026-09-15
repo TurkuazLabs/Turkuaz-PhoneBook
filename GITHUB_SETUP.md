@@ -1,9 +1,9 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
 # 📌 Amac: TurkuazLabs GitHub repository, quality gate ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.4.1
+# Version: 2.4.2
 # Aciklama: Turkuaz-PhoneBook repository adi, v2.37.0 Windows Inno Setup auto-update, Linux native/TAR.GZ ve mobile test build akisidir.
-# Bagimli Oldugu Katman: Tool | Config
+# Bagimli Oldugu Katman: Tool | Config | Language
 
 # Repository
 
@@ -34,10 +34,12 @@ Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kur
 
 GitHub repository ve global urun kimligi `Turkuaz PhoneBook` olarak kullanilir. Ana logo yalnizca `Turkuaz` markasini tasir.
 
-Gorunen uygulama adi kurulum/arayuz diline gore yerellestirilebilir:
+Gorunen uygulama adi dil/platform yerellestirmesine gore degisir:
 
 - Turkce: `Turkuaz Telefon Rehberi`
 - Ingilizce: `Turkuaz PhoneBook`
+
+Windows Inno Setup secilen kurulum dilini kullanir. Android varsayilan Ingilizce resource ile gelir ve Turkce sistemlerde `values-tr` kaynagina gecer. iOS sistem diline gore gorunen ad, izin ve senkron mesajlarini yerellestirir. Linux `.desktop` girdisi varsayilan Ingilizce degerlerle birlikte Turkce `Name[tr]` ve `Comment[tr]` alanlarini tasir.
 
 Geriye donuk uyumluluk icin teknik kimlikler (`TelefonRehberi.exe`, Java package adlari, Inno Setup AppId ve mevcut veri klasorleri) yeniden adlandirilmaz.
 
