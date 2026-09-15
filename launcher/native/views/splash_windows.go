@@ -1,9 +1,9 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/views/splash_windows.go
 // 📌 Amac: Windows native Turkuaz splash ekranini cizer ve hata dialogunu gosterir.
 // 📌 Modul - Go
-// Version: 2.0.0
-// Aciklama: Konsolsuz Win32 acilis ekrani ve MessageBox view katmanidir.
-// Bagimli Oldugu Katman: View
+// Version: 2.1.0
+// Aciklama: Konsolsuz Win32 acilis ekraninda dil bagimsiz Turkuaz marka adini ve MessageBox view katmanini kullanir.
+// Bagimli Oldugu Katman: View | Language
 
 //go:build windows
 
@@ -131,7 +131,7 @@ func (s *windowsSplash) run() {
 	y := int32((int(sh) - height) / 2)
 	hwnd, _, _ := procCreateWindowEx.Call(
 		wsExToolWindow|wsExTopmost,
-		uintptr(unsafe.Pointer(className)), uintptr(unsafe.Pointer(utf16ptr("Turkuaz Telefon Rehberi"))),
+		uintptr(unsafe.Pointer(className)), uintptr(unsafe.Pointer(utf16ptr("Turkuaz"))),
 		wsPopup, uintptr(x), uintptr(y), width, height,
 		0, 0, instance, 0,
 	)
@@ -231,7 +231,7 @@ func paintSplash(hwnd uintptr) {
 	fontTitle, _, _ := procCreateFont.Call(^uintptr(31)+1, 0, 0, 0, 700, 0, 0, 0, 1, 0, 0, 5, 0, uintptr(unsafe.Pointer(utf16ptr("Segoe UI"))))
 	old, _, _ := procSelectObject.Call(hdc, fontTitle)
 	titleRect := rect{54, 122, 506, 165}
-	procDrawText.Call(hdc, uintptr(unsafe.Pointer(utf16ptr("Turkuaz Telefon Rehberi"))), ^uintptr(0), uintptr(unsafe.Pointer(&titleRect)), dtCenter|dtVCenter|dtSingleLine)
+	procDrawText.Call(hdc, uintptr(unsafe.Pointer(utf16ptr("Turkuaz"))), ^uintptr(0), uintptr(unsafe.Pointer(&titleRect)), dtCenter|dtVCenter|dtSingleLine)
 	procSelectObject.Call(hdc, old)
 	procDeleteObject.Call(fontTitle)
 
