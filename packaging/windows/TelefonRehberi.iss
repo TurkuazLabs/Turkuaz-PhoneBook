@@ -1,9 +1,9 @@
 ; 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/windows/TelefonRehberi.iss
-; 📌 Amac: Turkuaz Telefon Rehberi Windows Program Files kurulum paketini tanimlar.
+; 📌 Amac: Turkuaz Windows Program Files kurulum paketini ve dil bazli urun adini tanimlar.
 ; 📌 Tool - InnoSetup
-; Version: 1.1.0
-; Aciklama: Program Files kurulumu ve /AUTOUPDATE sonrasi otomatik yeniden baslatma davranisini tanimlar.
-; Bagimli Oldugu Katman: Tool | Config
+; Version: 1.2.0
+; Aciklama: Turkce kurulumda Turkuaz Telefon Rehberi, Ingilizce kurulumda Turkuaz PhoneBook adini kullanir; teknik kurulum kimlikleri sabit kalir.
+; Bagimli Oldugu Katman: Tool | Config | Language
 
 #ifndef AppVersion
   #define AppVersion "2.37.0"
@@ -15,21 +15,22 @@
   #define OutputDir "..\..\dist"
 #endif
 
-#define AppName "Turkuaz Telefon Rehberi"
 #define AppPublisher "TurkuazLabs"
 #define AppExeName "TelefonRehberi.exe"
 #define AppId "{{A993B70A-4C66-49B2-9A80-62D8495FADE1}"
 
 [Setup]
 AppId={#AppId}
-AppName={#AppName}
+AppName={cm:ProductName}
 AppVersion={#AppVersion}
-AppVerName={#AppName} {#AppVersion}
+AppVerName={cm:ProductName} {#AppVersion}
 AppPublisher={#AppPublisher}
 AppPublisherURL=https://www.turkuazlabs.com
 AppSupportURL=https://www.turkuazlabs.com
+VersionInfoProductName=Turkuaz
+VersionInfoDescription=Turkuaz Setup
 DefaultDirName={autopf}\TurkuazLabs\TelefonRehberi
-DefaultGroupName=TurkuazLabs\Telefon Rehberi
+DefaultGroupName=TurkuazLabs\{cm:ProductName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
@@ -39,7 +40,7 @@ OutputDir={#OutputDir}
 OutputBaseFilename=TelefonRehberi-Setup-v{#AppVersion}
 SetupIconFile={#PayloadDir}\assets\branding\app-icon.ico
 UninstallDisplayIcon={app}\{#AppExeName}
-UninstallDisplayName={#AppName}
+UninstallDisplayName={cm:ProductName}
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
@@ -53,22 +54,32 @@ UsePreviousTasks=yes
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
+[CustomMessages]
+turkish.ProductName=Turkuaz Telefon Rehberi
+english.ProductName=Turkuaz PhoneBook
+turkish.CreateDesktopShortcut=Masaustune kisayol olustur
+english.CreateDesktopShortcut=Create a desktop shortcut
+turkish.AdditionalShortcuts=Ek kisayollar:
+english.AdditionalShortcuts=Additional shortcuts:
+turkish.LaunchProduct=Turkuaz Telefon Rehberi'ni baslat
+english.LaunchProduct=Launch Turkuaz PhoneBook
+
 [Tasks]
-Name: "desktopicon"; Description: "Masaustune kisayol olustur"; GroupDescription: "Ek kisayollar:"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopShortcut}"; GroupDescription: "{cm:AdditionalShortcuts}"; Flags: unchecked
 
 [Files]
 Source: "{#PayloadDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{autoprograms}\TurkuazLabs\Telefon Rehberi"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"
-Name: "{autodesktop}\Telefon Rehberi"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"; Tasks: desktopicon
+Name: "{autoprograms}\TurkuazLabs\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"
+Name: "{autodesktop}\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"; Tasks: desktopicon
 
 [Registry]
 Root: HKLM; Subkey: "Software\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}"; ValueType: string; ValueName: ""; ValueData: "{app}\{#AppExeName}"; Flags: uninsdeletekey
 Root: HKLM; Subkey: "Software\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}"; ValueType: string; ValueName: "Path"; ValueData: "{app}"; Flags: uninsdeletevalue
 
 [Run]
-Filename: "{app}\{#AppExeName}"; Description: "Telefon Rehberi'ni baslat"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent runasoriginaluser
+Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProduct}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent runasoriginaluser
 Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; Flags: nowait runasoriginaluser; Check: IsAutoUpdateMode
 
 [Code]
