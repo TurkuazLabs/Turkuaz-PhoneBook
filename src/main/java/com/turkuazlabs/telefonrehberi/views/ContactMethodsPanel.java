@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/ContactMethodsPanel.java
 // # 📌 Amac: Sinirsiz telefon veya e-posta satirlarini modern ve yerellestirilmis liste olarak duzenler.
 // # 📌 View - Java
-// # Version: 2.15.1
-// # Aciklama: Contact method etiketlerini ve telefon ulke kodu adlarini Language katmaninda yerellestirir; eski canonical storage degerlerini korur.
+// Version: 2.15.2
+// # Aciklama: Contact method etiketlerini ve telefon ulke kodlarini Language katmaninda yerellestirir; ulke listesini gorunen yerel ada gore siralar ve storage uyumlulugunu korur.
 // # Bagimli Oldugu Katman: View | Model | Config | Tool | Language
 package com.turkuazlabs.telefonrehberi.views;
 
@@ -39,11 +39,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public final class ContactMethodsPanel extends JPanel {
@@ -92,9 +92,7 @@ public final class ContactMethodsPanel extends JPanel {
 
     private void showActions(JButton anchor) {
         int index = list.getSelectedIndex();
-        if (index < 0) {
-            return;
-        }
+        if (index < 0) return;
         JPopupMenu menu = new JPopupMenu();
         JMenuItem edit = new JMenuItem(Messages.METHOD_EDIT_BUTTON);
         JMenuItem primary = new JMenuItem(Messages.METHOD_PRIMARY_BUTTON);
@@ -204,14 +202,12 @@ public final class ContactMethodsPanel extends JPanel {
         PhoneCountryCode detected = current == null
                 ? PhoneCountryCodeCatalog.byIso(AppConfig.DEFAULT_PHONE_COUNTRY_ISO)
                 : phoneNumberTool.detectCountry(current.value(), AppConfig.DEFAULT_PHONE_COUNTRY_ISO);
-        JComboBox<PhoneCountryCode> countryCombo = new JComboBox<>(PhoneCountryCodeCatalog.selectableValues().toArray(PhoneCountryCode[]::new));
+        JComboBox<PhoneCountryCode> countryCombo = new JComboBox<>(localizedCountryValues());
         countryCombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> source, Object value, int index, boolean selected, boolean focus) {
                 super.getListCellRendererComponent(source, value, index, selected, focus);
-                if (value instanceof PhoneCountryCode country) {
-                    setText(PhoneCountryCodeText.display(country));
-                }
+                if (value instanceof PhoneCountryCode country) setText(PhoneCountryCodeText.display(country));
                 return this;
             }
         });
@@ -298,20 +294,25 @@ public final class ContactMethodsPanel extends JPanel {
         return new ContactMethod(kind, label, value, primary.isSelected(), current == null ? model.size() : current.position());
     }
 
+    private PhoneCountryCode[] localizedCountryValues() {
+        PhoneCountryCode defaultValue = PhoneCountryCodeCatalog.byIso(AppConfig.DEFAULT_PHONE_COUNTRY_ISO);
+        List<PhoneCountryCode> sorted = PhoneCountryCodeCatalog.values().stream()
+                .filter(value -> !value.isoCode().equals(defaultValue.isoCode()))
+                .sorted(Comparator.comparing(PhoneCountryCodeText::countryName, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+        List<PhoneCountryCode> result = new ArrayList<>();
+        result.add(defaultValue);
+        result.addAll(sorted);
+        result.add(PhoneCountryCodeCatalog.custom());
+        return result.toArray(PhoneCountryCode[]::new);
+    }
+
     private String validationMessage(PhoneValidationResult result) {
         return switch (result.status()) {
             case EMPTY -> Messages.PHONE_VALIDATION_EMPTY;
             case VALID -> Messages.PHONE_VALIDATION_VALID;
-            case TOO_SHORT -> String.format(
-                    Messages.PHONE_VALIDATION_TOO_SHORT_FORMAT,
-                    result.nationalDigitCount(),
-                    result.minNationalDigits()
-            );
-            case TOO_LONG -> String.format(
-                    Messages.PHONE_VALIDATION_TOO_LONG_FORMAT,
-                    result.nationalDigitCount(),
-                    result.maxNationalDigits()
-            );
+            case TOO_SHORT -> String.format(Messages.PHONE_VALIDATION_TOO_SHORT_FORMAT, result.nationalDigitCount(), result.minNationalDigits());
+            case TOO_LONG -> String.format(Messages.PHONE_VALIDATION_TOO_LONG_FORMAT, result.nationalDigitCount(), result.maxNationalDigits());
         };
     }
 
@@ -321,7 +322,7 @@ public final class ContactMethodsPanel extends JPanel {
         return panel;
     }
 
-    private void addField(JPanel panel, int row, String labelText, java.awt.Component component) {
+    private void addField(JPanel panel, int row, String labelText, Component component) {
         GridBagConstraints label = constraints(0, row, 0.0);
         label.anchor = GridBagConstraints.WEST;
         panel.add(new JLabel(labelText), label);
@@ -330,7 +331,7 @@ public final class ContactMethodsPanel extends JPanel {
         panel.add(component, field);
     }
 
-    private void addWide(JPanel panel, int row, java.awt.Component component) {
+    private void addWide(JPanel panel, int row, Component component) {
         GridBagConstraints field = constraints(0, row, 1.0);
         field.gridwidth = 2;
         field.fill = GridBagConstraints.HORIZONTAL;
