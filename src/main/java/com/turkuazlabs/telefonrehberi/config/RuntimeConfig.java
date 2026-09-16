@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/RuntimeConfig.java
 // # 📌 Amac: config/app.yml dosyasini okuyup tipli masaustu calisma ayarlarina donusturur.
 // # 📌 Config - Java
-// # Version: 1.4.0
-// # Aciklama: Harici YAML ayarlarini parse eder; yeni history/timeline limitlerinde eski portable config icin merkezi fallback uygular.
+// Version: 1.5.0
+// Aciklama: Harici YAML ayarlarini parse eder; AUTO telefon ulke kodunu sistem locale bolgesinden cozer ve eski config fallbacklerini korur.
 // # Bagimli Oldugu Katman: Config
 package com.turkuazlabs.telefonrehberi.config;
 
@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public record RuntimeConfig(
@@ -31,6 +32,8 @@ public record RuntimeConfig(
         int contactActivityLimit,
         int historyRetentionLimit
 ) {
+    private static final String AUTO_PHONE_COUNTRY = "AUTO";
+
     public static RuntimeConfig load(Path path) {
         Map<String, String> values = readSimpleYaml(path);
         return new RuntimeConfig(
@@ -45,7 +48,7 @@ public record RuntimeConfig(
                 positiveInt(values, "mobile_sync_threads"),
                 positiveIntOrDefault(values, "mobile_sync_max_request_bytes", RuntimeConfigDefaults.MOBILE_SYNC_MAX_REQUEST_BYTES),
                 positiveInt(values, "sync_token_bytes"),
-                required(values, "default_phone_country_iso").toUpperCase(java.util.Locale.ROOT),
+                phoneCountryIso(values),
                 positiveIntOrDefault(values, "bulk_history_limit", RuntimeConfigDefaults.BULK_HISTORY_LIMIT),
                 positiveIntOrDefault(values, "history_limit", RuntimeConfigDefaults.HISTORY_LIMIT),
                 positiveIntOrDefault(values, "contact_activity_limit", RuntimeConfigDefaults.CONTACT_ACTIVITY_LIMIT),
@@ -80,6 +83,19 @@ public record RuntimeConfig(
         } catch (IOException exception) {
             throw new IllegalStateException("Config okunamadi: " + path.toAbsolutePath(), exception);
         }
+    }
+
+    private static String phoneCountryIso(Map<String, String> values) {
+        String configured = required(values, "default_phone_country_iso").toUpperCase(Locale.ROOT);
+        if (!AUTO_PHONE_COUNTRY.equals(configured)) {
+            return configured;
+        }
+        Locale locale = Locale.getDefault();
+        String country = locale.getCountry();
+        if (country != null && !country.isBlank()) {
+            return country.toUpperCase(Locale.ROOT);
+        }
+        return "tr".equalsIgnoreCase(locale.getLanguage()) ? "TR" : "US";
     }
 
     private static String required(Map<String, String> values, String key) {
@@ -119,7 +135,7 @@ public record RuntimeConfig(
     }
 
     private static boolean booleanValue(Map<String, String> values, String key) {
-        String value = required(values, key).toLowerCase(java.util.Locale.ROOT);
+        String value = required(values, key).toLowerCase(Locale.ROOT);
         return switch (value) {
             case "true", "1", "yes", "on" -> true;
             case "false", "0", "no", "off" -> false;
