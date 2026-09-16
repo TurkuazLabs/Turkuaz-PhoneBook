@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
-// # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti ve kullanici ayarlarinin kritik entegrasyonlarini dogrular.
+// # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun adi yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// # Version: 1.0.0
-// # Aciklama: JUnit bagimliligi olmadan Java 17 ile calisan release quality gate entegrasyon testidir.
-// # Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model
+// Version: 1.1.0
+// Aciklama: JUnit bagimliligi olmadan Java 17 ile calisan release quality gate entegrasyon testidir; sistem diline gore masaustu urun adini da korur.
+// Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
+import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.Contact;
 import com.turkuazlabs.telefonrehberi.models.ContactDraft;
@@ -30,6 +31,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.UUID;
 
 public final class QualityGateTest {
@@ -40,6 +42,7 @@ public final class QualityGateTest {
         Class.forName("org.sqlite.JDBC");
         Path root = Files.createTempDirectory("telefonrehberi-quality-");
         try {
+            testProductNameLocalization();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
@@ -49,6 +52,14 @@ public final class QualityGateTest {
         } finally {
             deleteRecursively(root);
         }
+    }
+
+    private static void testProductNameLocalization() {
+        String expected = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage())
+                ? ProductText.APP_NAME_TR
+                : ProductText.APP_NAME_EN;
+        check(expected.equals(ProductText.APP_NAME), "Sistem diline gore urun adi yerellestirmesi hatali.");
+        check("Turkuaz".equals(ProductText.BRAND_NAME), "Dil bagimsiz Turkuaz marka adi degisti.");
     }
 
     private static void testBackupIncludesCommittedWalData(Path root) throws Exception {
