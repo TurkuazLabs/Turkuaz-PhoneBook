@@ -1,10 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/AppConfig.java
 // # 📌 Amac: Uygulama protokol sabitlerini ve yerel config dosya yollarini merkezi sunar.
 // # 📌 Config - Java
-// # Version: 2.37.0
-// # Aciklama: Windows Contacts DB, XDG veri alanlari, sync limitleri ve v2.37 kalite sabitlerini merkezi tutar.
-// # Bagimli Oldugu Katman: Config
+// Version: 2.37.1
+// Aciklama: Yerellestirilmis gorunen urun adi, Windows Contacts DB, XDG veri alanlari, sync limitleri ve v2.37 kalite sabitlerini merkezi tutar.
+// Bagimli Oldugu Katman: Config | Language
 package com.turkuazlabs.telefonrehberi.config;
+
+import com.turkuazlabs.telefonrehberi.language.ProductText;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public final class AppConfig {
-    public static final String APP_NAME = "Turkuaz Telefon Rehberi";
+    public static final String APP_NAME = ProductText.APP_NAME;
     public static final String APP_VERSION = "2.37.0";
     public static final String BRAND_SITE_NAME = "TurkuazLabs";
     public static final String PUBLIC_WEBSITE_DISPLAY = "www.turkuazlabs.com";
