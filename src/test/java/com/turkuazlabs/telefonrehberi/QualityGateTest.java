@@ -1,17 +1,20 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.3.0
-// Aciklama: Java 17 release quality gate; urun/metin yerellestirmesi ile contact method display cevirisinin kalici storage etiketlerini degistirmemesini de dogrular.
+// Version: 1.4.0
+// Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve sistem locale tabanli telefon ulke secimini de dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
+import com.turkuazlabs.telefonrehberi.config.AppConfig;
 import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
+import com.turkuazlabs.telefonrehberi.language.PhoneCountryCodeText;
 import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.Contact;
 import com.turkuazlabs.telefonrehberi.models.ContactDraft;
+import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
 import com.turkuazlabs.telefonrehberi.repositories.ContactHistoryRepository;
 import com.turkuazlabs.telefonrehberi.repositories.ContactRepository;
@@ -47,6 +50,7 @@ public final class QualityGateTest {
             testProductNameLocalization();
             testDesktopMessageLocalization();
             testContactMethodLabelLocalization();
+            testPhoneCountryLocalizationAndDefault();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
@@ -90,6 +94,28 @@ public final class QualityGateTest {
         } finally {
             Locale.setDefault(original);
         }
+    }
+
+    private static void testPhoneCountryLocalizationAndDefault() {
+        Locale original = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.ENGLISH);
+            PhoneCountryCode germany = new PhoneCountryCode("DE", "Almanya", "+49");
+            check("Germany (+49)".equals(PhoneCountryCodeText.display(germany)), "DE ulke adi Ingilizce gosterilemedi.");
+            check("Other / Custom Code".equals(PhoneCountryCodeText.display(new PhoneCountryCode("CUSTOM", "Diger / Ozel Kod", ""))), "Custom ulke kodu Ingilizce yerellestirilemedi.");
+
+            Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+            check(PhoneCountryCodeText.display(germany).startsWith("Almanya"), "DE ulke adi Turkce gosterilemedi.");
+        } finally {
+            Locale.setDefault(original);
+        }
+
+        String localeCountry = original.getCountry();
+        String expectedIso = localeCountry == null || localeCountry.isBlank()
+                ? ("tr".equalsIgnoreCase(original.getLanguage()) ? "TR" : "US")
+                : localeCountry.toUpperCase(Locale.ROOT);
+        check(expectedIso.equals(AppConfig.DEFAULT_PHONE_COUNTRY_ISO), "AUTO telefon ulke ISO sistem locale bolgesiyle uyusmuyor.");
+        check(!"AUTO".equals(AppConfig.DEFAULT_PHONE_COUNTRY_ISO), "AUTO telefon ulke ISO runtime degerine cozulmedi.");
     }
 
     private static void testBackupIncludesCommittedWalData(Path root) throws Exception {
