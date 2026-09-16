@@ -1,14 +1,15 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/ContactMethodsPanel.java
-// # 📌 Amac: Sinirsiz telefon veya e-posta satirlarini modern liste olarak duzenler.
+// # 📌 Amac: Sinirsiz telefon veya e-posta satirlarini modern ve yerellestirilmis liste olarak duzenler.
 // # 📌 View - Java
-// # Version: 2.14.0
-// # Aciklama: Telefon/e-posta alanlarini ortak modern buton sistemiyle yonetir ve dar editor alaninda yatay scrollbar olusturmaz.
+// # Version: 2.15.0
+// # Aciklama: Contact method etiketlerini Language katmaninda yerellestirir; eski canonical storage degerlerini duzenleme sirasinda degistirmeden korur.
 // # Bagimli Oldugu Katman: View | Model | Config | Tool | Language
 package com.turkuazlabs.telefonrehberi.views;
 
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
 import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
 import com.turkuazlabs.telefonrehberi.config.PhoneCountryCodeCatalog;
+import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.models.ContactMethod;
 import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
@@ -57,7 +58,8 @@ public final class ContactMethodsPanel extends JPanel {
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setFixedCellHeight(34);
         list.setCellRenderer((source, method, index, selected, focus) -> {
-            JLabel label = new JLabel((method.primary() ? "*  " : "   ") + method.label() + "   " + method.value());
+            String displayLabel = ContactMethodText.displayLabel(method.label());
+            JLabel label = new JLabel((method.primary() ? "*  " : "   ") + displayLabel + "   " + method.value());
             label.setOpaque(true);
             label.setBorder(new EmptyBorder(6, 8, 6, 8));
             label.setBackground(selected ? ModernThemePalette.accentSoft() : ModernThemePalette.surface());
@@ -177,7 +179,8 @@ public final class ContactMethodsPanel extends JPanel {
     }
 
     private ContactMethod promptEmail(ContactMethod current) {
-        JTextField labelField = new JTextField(current == null ? defaultLabel : current.label());
+        String originalStoredLabel = current == null ? defaultLabel : current.label();
+        JTextField labelField = new JTextField(ContactMethodText.displayLabel(originalStoredLabel));
         JTextField valueField = new JTextField(current == null ? "" : current.value());
         JCheckBox primary = new JCheckBox(Messages.METHOD_PRIMARY_LABEL, current == null || current.primary());
         JPanel fields = formPanel();
@@ -188,12 +191,13 @@ public final class ContactMethodsPanel extends JPanel {
         if (result != JOptionPane.OK_OPTION) return null;
         String value = text(valueField);
         if (value.isBlank()) return null;
-        String label = text(labelField).isBlank() ? defaultLabel : text(labelField);
+        String label = ContactMethodText.storageLabel(originalStoredLabel, text(labelField), defaultLabel);
         return new ContactMethod(kind, label, value, primary.isSelected(), current == null ? model.size() : current.position());
     }
 
     private ContactMethod promptPhone(ContactMethod current) {
-        JTextField labelField = new JTextField(current == null ? defaultLabel : current.label());
+        String originalStoredLabel = current == null ? defaultLabel : current.label();
+        JTextField labelField = new JTextField(ContactMethodText.displayLabel(originalStoredLabel));
         PhoneCountryCode detected = current == null
                 ? PhoneCountryCodeCatalog.byIso(AppConfig.DEFAULT_PHONE_COUNTRY_ISO)
                 : phoneNumberTool.detectCountry(current.value(), AppConfig.DEFAULT_PHONE_COUNTRY_ISO);
@@ -277,7 +281,7 @@ public final class ContactMethodsPanel extends JPanel {
         }
         String value = phoneNumberTool.compose(selected, text(customCodeField), text(numberField));
         if (value.isBlank()) return null;
-        String label = text(labelField).isBlank() ? defaultLabel : text(labelField);
+        String label = ContactMethodText.storageLabel(originalStoredLabel, text(labelField), defaultLabel);
         return new ContactMethod(kind, label, value, primary.isSelected(), current == null ? model.size() : current.position());
     }
 
