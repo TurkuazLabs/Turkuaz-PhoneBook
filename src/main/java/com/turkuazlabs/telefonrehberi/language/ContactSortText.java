@@ -1,9 +1,9 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/language/ContactSortText.java
-// # 📌 Amac: Kisi siralama enum degerlerini kullaniciya gosterilecek metinlere cevirir.
+// # 📌 Amac: Kisi siralama enum degerlerini kullaniciya sistem diline uygun metinlerle gosterir.
 // # 📌 Language - Java
-// # Version: 1.0.0
-// # Aciklama: ContactSort teknik degerlerinin arayuzde okunur Turkce adlarla gosterilmesini saglar.
-// # Bagimli Oldugu Katman: Language | Model
+// Version: 1.1.0
+// Aciklama: ContactSort teknik degerlerini Turkce locale icin Turkce, diger diller icin Ingilizce fallback etiketlerine cevirir.
+// Bagimli Oldugu Katman: Language | Model
 package com.turkuazlabs.telefonrehberi.language;
 
 import com.turkuazlabs.telefonrehberi.models.ContactSort;
@@ -15,12 +15,12 @@ public final class ContactSortText {
     public static String display(ContactSort sort) {
         ContactSort safeSort = sort == null ? ContactSort.defaultSort() : sort;
         return switch (safeSort) {
-            case FAVORITES_FIRST -> Messages.SORT_FAVORITES_FIRST;
-            case NAME_ASC -> Messages.SORT_NAME_ASC;
-            case NAME_DESC -> Messages.SORT_NAME_DESC;
-            case COMPANY -> Messages.SORT_COMPANY;
-            case CITY -> Messages.SORT_CITY;
-            case UPDATED_DESC -> Messages.SORT_UPDATED_DESC;
+            case FAVORITES_FIRST -> LocaleText.text(Messages.SORT_FAVORITES_FIRST, "Favorites First");
+            case NAME_ASC -> LocaleText.text(Messages.SORT_NAME_ASC, "Name A-Z");
+            case NAME_DESC -> LocaleText.text(Messages.SORT_NAME_DESC, "Name Z-A");
+            case COMPANY -> LocaleText.text(Messages.SORT_COMPANY, "Company A-Z");
+            case CITY -> LocaleText.text(Messages.SORT_CITY, "City A-Z");
+            case UPDATED_DESC -> LocaleText.text(Messages.SORT_UPDATED_DESC, "Recently Updated");
         };
     }
 }
