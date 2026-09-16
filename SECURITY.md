@@ -1,26 +1,28 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/SECURITY.md
-# 📌 Amac: Turkuaz PhoneBook guvenlik bildirim ve destek politikasini tanimlar.
+# 📌 Amac: Defines the Turkuaz PhoneBook security support and vulnerability-reporting policy.
 # 📌 Modul - Markdown
-# Version: 1.1.0
-# Aciklama: Desteklenen surum, hassas veri, LAN sync ve guvenlik raporlama sinirlarini global urun kimligiyle aciklar.
+# Version: 1.2.0
+# Aciklama: English primary policy covering supported releases, sensitive data, LAN sync boundaries and responsible security reporting.
 # Bagimli Oldugu Katman: Tool | Config
 
-# Guvenlik Politikasi
+# Security Policy
 
-Bu politika **Turkuaz PhoneBook** (Turkce arayuz adi: **Turkuaz Telefon Rehberi**) icin gecerlidir.
+This policy applies to **Turkuaz PhoneBook** (Turkish product name: **Turkuaz Telefon Rehberi**).
 
-## Desteklenen surum
+[Turkce guvenlik politikasi](./SECURITY.tr.md)
 
-Guvenlik duzeltmeleri aktif olarak en yeni GitHub Release surumune uygulanir. Eski surum kullananlar once en yeni release'e guncellemelidir.
+## Supported Version
 
-## Hassas veri
+Security fixes are applied to the latest actively supported GitHub Release. Users of older versions should update to the latest release before reporting a problem that may already have been fixed.
 
-Issue veya discussion icine gercek kisi veritabani, telefon numarasi, e-posta, sync tokeni, backup DB veya kisisel ekran goruntusu yuklemayin. Sorunu mumkunse bos/test verisiyle tekrar uretin.
+## Sensitive Data
 
-## Mobil LAN senkronu
+Do not upload real contact databases, phone numbers, email addresses, synchronization tokens, backup databases, or personal screenshots to public issues or discussions. Reproduce problems with empty or test data whenever possible.
 
-Mobil sync varsayilan kapali gelir ve guvenilir yerel ag icin tasarlanmistir. 8787 portunu Internet'e acmayin. Tokeni paylasmayin.
+## Mobile LAN Synchronization
 
-## Guvenlik acigi bildirimi
+Mobile synchronization is disabled by default and is intended only for trusted local networks. Do not expose port `8787` to the Internet and do not share synchronization tokens with untrusted devices or people.
 
-Repository GitHub Security Advisories / private vulnerability reporting ozelligi etkinse onu kullanin. Public issue'da exploit, token veya kullanici verisi yayinlamayin.
+## Reporting a Vulnerability
+
+If GitHub Security Advisories / private vulnerability reporting is enabled for this repository, use that private channel. Do not publish exploit details, tokens, private user data, or other sensitive material in a public issue.
