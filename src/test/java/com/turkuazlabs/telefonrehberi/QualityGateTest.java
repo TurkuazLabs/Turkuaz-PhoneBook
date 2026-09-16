@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
-// # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun adi yerellestirmesini dogrular.
+// # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.1.0
-// Aciklama: JUnit bagimliligi olmadan Java 17 ile calisan release quality gate entegrasyon testidir; sistem diline gore masaustu urun adini da korur.
+// Version: 1.2.0
+// Aciklama: JUnit bagimliligi olmadan Java 17 ile calisan release quality gate entegrasyon testidir; sistem diline gore urun adi ve temel masaustu metinlerini korur.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
+import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.Contact;
@@ -43,6 +44,7 @@ public final class QualityGateTest {
         Path root = Files.createTempDirectory("telefonrehberi-quality-");
         try {
             testProductNameLocalization();
+            testDesktopMessageLocalization();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
@@ -60,6 +62,15 @@ public final class QualityGateTest {
                 : ProductText.APP_NAME_EN;
         check(expected.equals(ProductText.APP_NAME), "Sistem diline gore urun adi yerellestirmesi hatali.");
         check("Turkuaz".equals(ProductText.BRAND_NAME), "Dil bagimsiz Turkuaz marka adi degisti.");
+    }
+
+    private static void testDesktopMessageLocalization() {
+        boolean turkish = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        check(ProductText.APP_NAME.equals(Messages.WINDOW_TITLE), "Masaustu pencere adi ProductText ile uyusmuyor.");
+        check((turkish ? "Kisiler" : "Contacts").equals(Messages.NAV_CONTACTS), "Kisiler navigasyon metni yerellestirme hatasi.");
+        check((turkish ? "Ayarlar" : "Settings").equals(Messages.NAV_SETTINGS), "Ayarlar navigasyon metni yerellestirme hatasi.");
+        check((turkish ? "Hata" : "Error").equals(Messages.ERROR_TITLE), "Hata basligi yerellestirme hatasi.");
+        check((turkish ? "Yedekleme" : "Backup").equals(Messages.BACKUP_TITLE), "Yedekleme basligi yerellestirme hatasi.");
     }
 
     private static void testBackupIncludesCommittedWalData(Path root) throws Exception {
