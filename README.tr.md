@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.tr.md
 # 📌 Amac: Turkuaz PhoneBook projesinin Turkce GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.4
-# Aciklama: Global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
+# Version: 2.37.5
+# Aciklama: Global marka kimligi, Turkce/Ingilizce masaustu yerellestirmesi, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -75,15 +75,17 @@ Temel hedefler:
 
 ## Dil ve Yerellestirme
 
+- Masaustu Swing arayuzu JVM/sistem locale degerini kullanir: `tr` icin Turkce katalog, diger diller icin Ingilizce fallback katalog kullanilir.
+- Masaustu urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger sistemlerde **Turkuaz PhoneBook** olarak gorunur.
 - Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
-- Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanir.
+- Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak splash, durum ve kullaniciya gosterilen hata metinlerini yerellestirir.
 - Android varsayilan Ingilizce resource ve Turkce `values-tr` kaynaklari kullanir.
-- iOS varsayilan Ingilizce ad/izin metinleri ile Turkce `InfoPlist.strings` kaynaklarini kullanir; senkron ekran mesajlari da sistem diline gore secilir.
+- iOS varsayilan Ingilizce ad/izin metinleri ile Turkce `InfoPlist.strings` kaynaklarini kullanir; senkron ekran mesajlari da tercih edilen UI diline gore secilir.
 - Linux `.desktop` girdisi Ingilizce varsayilan ad ile Turkce `Name[tr]` / `Comment[tr]` degerlerini tasir.
 - `Kurulum.sh` ve `Kaldir.sh` terminal mesajlari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
 - Ana logo ve splash marka adi yalnizca **Turkuaz** olarak kalir.
 
-Masaustu Swing arayuzunun genis metin katalogu Language katmaninda merkezidir; tam runtime dil secimi sonraki yerellestirme genisletmesidir.
+Masaustu yerellestirmesi simdilik sistem diline gore uygulama acilisinda belirlenir. Uygulama calisirken Ayarlar ekranindan dili anlik degistirme secenegi henuz sunulmaz. Teknik kimlikler ve mevcut kullanici veri yollari degismez.
 
 ## Hizli Baslangic
 
@@ -166,6 +168,7 @@ Windows yedek dizini:
 CI su kontrolleri gerceklestirir:
 
 - Java 17 compile ve SQLite quality gate
+- Turkce/Ingilizce masaustu urun adi ve temel mesaj katalogu yerellestirme regression kontrolleri
 - WAL-safe backup, sync UUID, history retention ve request limit testleri
 - Go launcher native build
 - Windows Inno Setup gercek silent install/uninstall smoke testi
