@@ -2,8 +2,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/res/layout/activity_main.xml
 # 📌 Amac: Android mobil senkron ekraninin gorunumunu tanimlar.
 # 📌 View - XML
-# Version: 1.1.0
-# Aciklama: PC adresi, token, iki yonlu senkron butonlari ve durum metnini gosterir.
+# Version: 1.1.1
+# Aciklama: PC adresi, maskelenmis token alani, iki yonlu senkron butonlari ve durum metnini gosterir.
 # Bagimli Oldugu Katman: View | Language
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="@string/sync_token_hint"
-            android:inputType="textNoSuggestions" />
+            android:importantForAutofill="no"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/testButton"
