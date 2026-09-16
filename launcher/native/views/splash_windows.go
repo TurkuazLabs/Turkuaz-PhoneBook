@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/views/splash_windows.go
 // 📌 Amac: Windows native Turkuaz splash ekranini cizer ve hata dialogunu gosterir.
 // 📌 Modul - Go
-// Version: 2.1.0
-// Aciklama: Konsolsuz Win32 acilis ekraninda dil bagimsiz Turkuaz marka adini ve MessageBox view katmanini kullanir.
+// Version: 2.2.0
+// Aciklama: Dil bagimsiz Turkuaz marka basligini korurken splash alt baslik ve durum metinlerini Language katmanindan yerellestirir.
 // Bagimli Oldugu Katman: View | Language
 
 //go:build windows
@@ -16,6 +16,8 @@ import (
 	"sync"
 	"syscall"
 	"unsafe"
+
+	"github.com/turkuazlabs/turkuaz-phonebook/launcher/native/language"
 )
 
 const (
@@ -109,7 +111,7 @@ func rgb(r, g, b byte) uintptr      { return uintptr(r) | uintptr(g)<<8 | uintpt
 func utf16ptr(value string) *uint16 { p, _ := syscall.UTF16PtrFromString(value); return p }
 
 func NewSplash() Splash {
-	s := &windowsSplash{status: "Baslatiliyor...", percent: 5, ready: make(chan struct{})}
+	s := &windowsSplash{status: language.StatusStarting, percent: 5, ready: make(chan struct{})}
 	activeSplash = s
 	go s.run()
 	<-s.ready
@@ -239,9 +241,9 @@ func paintSplash(hwnd uintptr) {
 	fontSmall, _, _ := procCreateFont.Call(^uintptr(16)+1, 0, 0, 0, 400, 0, 0, 0, 1, 0, 0, 5, 0, uintptr(unsafe.Pointer(utf16ptr("Segoe UI"))))
 	old, _, _ = procSelectObject.Call(hdc, fontSmall)
 	subRect := rect{45, 166, 515, 194}
-	procDrawText.Call(hdc, uintptr(unsafe.Pointer(utf16ptr("Kisileriniz guvende, her zaman yaninizda"))), ^uintptr(0), uintptr(unsafe.Pointer(&subRect)), dtCenter|dtVCenter|dtSingleLine)
+	procDrawText.Call(hdc, uintptr(unsafe.Pointer(utf16ptr(language.SplashSubtitle))), ^uintptr(0), uintptr(unsafe.Pointer(&subRect)), dtCenter|dtVCenter|dtSingleLine)
 
-	status := "Baslatiliyor..."
+	status := language.StatusStarting
 	percent := 5
 	if activeSplash != nil {
 		activeSplash.mu.RLock()
