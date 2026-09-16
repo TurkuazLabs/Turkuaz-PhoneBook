@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.7
-# Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Android LAN endpoint quality gate, Linux, Android API 36 ve iOS build kontrollerini calistirir.
+# Version: 2.6.0
+# Aciklama: Version consistency, Java SQLite quality gate, native launcher, Inno Setup smoke, Android LAN endpoint quality gate, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -37,6 +37,10 @@ jobs:
         with:
           go-version: '1.23.x'
           cache-dependency-path: launcher/native/go.mod
+
+      - name: Verify release version consistency
+        shell: powershell
+        run: .\tools\check-version-consistency.ps1
 
       - name: Run Java quality gate
         shell: powershell
