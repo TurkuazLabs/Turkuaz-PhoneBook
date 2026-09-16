@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/language/Messages.java
 // # 📌 Amac: Android mobil istemcide kullanilan kullanici mesajlarini sistem diline gore merkezi olarak tutar.
 // # 📌 Language - Java
-// # Version: 1.3.0
-// # Aciklama: Turkce sistemlerde Turkce, diger sistemlerde Ingilizce senkron ve hata mesajlari kullanir.
+// # Version: 1.4.0
+// # Aciklama: Turkce sistemlerde Turkce, diger sistemlerde Ingilizce senkron, HTTP, JSON ve ag hata mesajlari kullanir.
 // # Bagimli Oldugu Katman: Language
 package com.turkuazlabs.telefonrehberi.mobile.language;
 
@@ -30,6 +30,14 @@ public final class Messages {
     );
     public static final String ERROR_PREFIX = text("Hata: ", "Error: ");
     public static final String HTTP_ERROR_FORMAT = "HTTP %d: %s";
+    public static final String DESKTOP_API_JSON_INVALID_FORMAT = text(
+            "Masaustu API JSON yaniti gecersiz: %s",
+            "Desktop API returned invalid JSON: %s"
+    );
+    public static final String DESKTOP_API_REQUEST_FAILED_FORMAT = text(
+            "Masaustu API istegi basarisiz: %s",
+            "Desktop API request failed: %s"
+    );
     public static final String CONTACT_ID_MISSING = text(
             "Android contact kimligi alinamadi.",
             "Android contact ID could not be obtained."
@@ -45,6 +53,18 @@ public final class Messages {
 
     public static String httpError(int status, String body) {
         return String.format(Locale.getDefault(), HTTP_ERROR_FORMAT, status, body);
+    }
+
+    public static String desktopApiJsonInvalid(String detail) {
+        return String.format(Locale.getDefault(), DESKTOP_API_JSON_INVALID_FORMAT, safeDetail(detail));
+    }
+
+    public static String desktopApiRequestFailed(String detail) {
+        return String.format(Locale.getDefault(), DESKTOP_API_REQUEST_FAILED_FORMAT, safeDetail(detail));
+    }
+
+    private static String safeDetail(String detail) {
+        return detail == null || detail.isBlank() ? text("Bilinmeyen hata", "Unknown error") : detail;
     }
 
     private static String text(String turkish, String english) {
