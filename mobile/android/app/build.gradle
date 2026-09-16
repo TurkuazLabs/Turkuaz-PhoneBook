@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/build.gradle
 // # 📌 Amac: Android uygulama modulunun SDK, Java ve paketleme ayarlarini tanimlar.
 // # 📌 Config - Gradle
-// # Version: 1.1.1
-// # Aciklama: Android 16 API 36 ve Java 17 hedefli native Java mobil istemci build ayarlaridir.
+// # Version: 1.2.0
+// # Aciklama: Android 16 API 36, Java 17 ve Turkuaz PhoneBook 2.38.0 mobil istemci build ayarlaridir.
 // # Bagimli Oldugu Katman: Config
 plugins {
     id 'com.android.application'
@@ -16,8 +16,8 @@ android {
         applicationId 'com.turkuazlabs.telefonrehberi.mobile'
         minSdk 26
         targetSdk 36
-        versionCode 570
-        versionName '2.37.0'
+        versionCode 580
+        versionName '2.38.0'
     }
 
     compileOptions {
