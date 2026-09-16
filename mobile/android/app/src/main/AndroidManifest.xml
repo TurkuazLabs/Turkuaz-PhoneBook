@@ -1,9 +1,9 @@
 <!--
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/AndroidManifest.xml
-# 📌 Amac: Android rehber izinlerini, ag erisimini ve yerellestirilmis MainActivity uygulama adini tanimlar.
+# 📌 Amac: Android rehber izinlerini, ag erisimini, yerellestirilmis uygulama adini ve backup politikasini tanimlar.
 # 📌 Config - XML
-# Version: 1.0.1
-# Aciklama: READ_CONTACTS, WRITE_CONTACTS, LAN HTTP senkron izinleri ve @string/app_name tabanli yerellestirilmis etiketi tanimlar.
+# Version: 1.0.2
+# Aciklama: READ_CONTACTS, WRITE_CONTACTS, LAN HTTP senkron izinleri, @string/app_name etiketi ve cihaz/sync kimliklerinin baska cihaza restore edilmesini onleyen backup politikasini tanimlar.
 # Bagimli Oldugu Katman: Config | View | Language
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true">
         <activity
