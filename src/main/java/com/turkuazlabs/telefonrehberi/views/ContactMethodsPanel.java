@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/ContactMethodsPanel.java
 // # 📌 Amac: Sinirsiz telefon veya e-posta satirlarini modern ve yerellestirilmis liste olarak duzenler.
 // # 📌 View - Java
-// # Version: 2.15.0
-// # Aciklama: Contact method etiketlerini Language katmaninda yerellestirir; eski canonical storage degerlerini duzenleme sirasinda degistirmeden korur.
+// # Version: 2.15.1
+// # Aciklama: Contact method etiketlerini ve telefon ulke kodu adlarini Language katmaninda yerellestirir; eski canonical storage degerlerini korur.
 // # Bagimli Oldugu Katman: View | Model | Config | Tool | Language
 package com.turkuazlabs.telefonrehberi.views;
 
@@ -11,12 +11,14 @@ import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
 import com.turkuazlabs.telefonrehberi.config.PhoneCountryCodeCatalog;
 import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
+import com.turkuazlabs.telefonrehberi.language.PhoneCountryCodeText;
 import com.turkuazlabs.telefonrehberi.models.ContactMethod;
 import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
 import com.turkuazlabs.telefonrehberi.models.PhoneValidationResult;
 import com.turkuazlabs.telefonrehberi.tools.PhoneNumberTool;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,6 +37,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -202,6 +205,16 @@ public final class ContactMethodsPanel extends JPanel {
                 ? PhoneCountryCodeCatalog.byIso(AppConfig.DEFAULT_PHONE_COUNTRY_ISO)
                 : phoneNumberTool.detectCountry(current.value(), AppConfig.DEFAULT_PHONE_COUNTRY_ISO);
         JComboBox<PhoneCountryCode> countryCombo = new JComboBox<>(PhoneCountryCodeCatalog.selectableValues().toArray(PhoneCountryCode[]::new));
+        countryCombo.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> source, Object value, int index, boolean selected, boolean focus) {
+                super.getListCellRendererComponent(source, value, index, selected, focus);
+                if (value instanceof PhoneCountryCode country) {
+                    setText(PhoneCountryCodeText.display(country));
+                }
+                return this;
+            }
+        });
         countryCombo.setSelectedItem(detected);
         if (countryCombo.getSelectedIndex() < 0) countryCombo.setSelectedItem(PhoneCountryCodeCatalog.byIso(AppConfig.DEFAULT_PHONE_COUNTRY_ISO));
 
