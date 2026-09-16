@@ -1,13 +1,15 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/README.md
-# 📌 Amac: Android native Java mobil istemcisinin build, izin ve senkron kullanimini aciklar.
+# 📌 Amac: Android native Java companion client build, permission and synchronization usage documentation.
 # 📌 Documentation - Markdown
-# Version: 2.37.0
-# Aciklama: Android API 36 istemcisinin gelistirme ve cihaz test adimlarini tanimlar.
+# Version: 2.38.0
+# Aciklama: Android API 36 companion client development, device testing, localization and trusted-LAN synchronization steps in English.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
-# Android Mobil Istemci
+# Turkuaz PhoneBook — Android Companion
 
-## Gereksinimler
+[Turkce README](./README.tr.md)
+
+## Requirements
 
 - JDK 17
 - Android SDK API 36
@@ -16,37 +18,41 @@
 
 ## Build
 
-GitHub Actions build'i otomatik yapar. Lokal ortamda `mobile/android` klasorunde Gradle mevcutsa:
+GitHub Actions builds the Android client automatically. With Gradle available locally, run from `mobile/android`:
 
 `gradle :app:assembleDebug`
 
-APK:
+Debug APK:
 
 `app/build/outputs/apk/debug/app-debug.apk`
 
-## Ilk baglanti
+## First Connection
 
-1. Windows masaustu uygulamasini ac.
-2. `Mobil Senkron` butonuna bas.
-3. PC adresini Android uygulamasindaki PC adresi alanina gir.
-4. Tokeni gir.
-5. `Baglantiyi Test Et` sec.
-6. Android rehber izni istediginde izin ver.
+1. Open the Turkuaz PhoneBook desktop application.
+2. Open **Mobile Sync**.
+3. Enter the desktop PC address in the Android client.
+4. Enter the sync token.
+5. Select **Test Connection**.
+6. Grant Contacts permission when Android asks for it.
 
-## Yonu sec
+## Choose a Direction
 
-`PC Rehberini Telefona Al`: SQLite kayitlarini Android sistem rehberine ekler.
+**Get PC Contacts** adds desktop SQLite contacts to the Android system contacts provider.
 
-`Telefon Rehberini PC'ye Gonder`: Android sistem rehberini okuyup PC SQLite veritabanina yollar.
+**Send Phone Contacts to PC** reads Android contacts and sends them to the desktop SQLite database.
 
-## Izinler
+## Permissions
 
 - `android.permission.INTERNET`
 - `android.permission.READ_CONTACTS`
 - `android.permission.WRITE_CONTACTS`
 
-Rehber izinleri runtime'da kullanicidan istenir.
+Contacts permissions are requested at runtime.
 
-## Guvenlik
+## Localization
 
-v2.37.0 local HTTP kullandigi icin PC ve Android ayni guvenilir LAN/Wi-Fi aginda olmali. Masaustu 8787 portunu Internet'e acma.
+English is the default/fallback resource language. Turkish devices use `values-tr`. The visible product name is **Turkuaz PhoneBook** in English/fallback locales and **Turkuaz Telefon Rehberi** in Turkish.
+
+## Security
+
+v2.37.0 uses local HTTP for LAN synchronization. Use sync only while the PC and Android device are on the same trusted LAN/Wi-Fi network. Do not expose the desktop sync port `8787` to the Internet.

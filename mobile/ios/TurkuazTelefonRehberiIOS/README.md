@@ -1,13 +1,15 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/README.md
-# 📌 Amac: iOS SwiftUI istemcisinin XcodeGen, signing, izin ve senkron kullanimini aciklar.
+# 📌 Amac: iOS SwiftUI companion client XcodeGen, signing, permissions and synchronization usage documentation.
 # 📌 Documentation - Markdown
-# Version: 2.37.0
-# Aciklama: iOS Contacts framework istemcisini simulator veya gercek cihaz icin hazirlama adimlarini tanimlar.
+# Version: 2.38.0
+# Aciklama: iOS 18+ Contacts framework companion client setup, simulator/device preparation, localization and trusted-LAN synchronization steps in English.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
-# iOS Mobil Istemci
+# Turkuaz PhoneBook — iOS Companion
 
-## Teknoloji
+[Turkce README](./README.tr.md)
+
+## Technology
 
 - Swift 6
 - SwiftUI
@@ -15,31 +17,35 @@
 - iOS 18+
 - XcodeGen
 
-## Xcode projesini uret
+## Generate the Xcode Project
 
-macOS'ta XcodeGen kurulu iken bu klasorde:
+With XcodeGen installed on macOS, run in this directory:
 
 `xcodegen generate`
 
-Sonra `TurkuazTelefonRehberiIOS.xcodeproj` Xcode ile acilir.
+Then open `TurkuazTelefonRehberiIOS.xcodeproj` in Xcode.
 
-## Gercek iPhone build
+## Real iPhone Build
 
-Gercek cihaza yuklemek icin Xcode Signing & Capabilities bolumunde kendi Apple Development Team secilmelidir. Bundle ID gerekiyorsa `project.yml` icinden degistirilir ve proje yeniden uretilir.
+To install on a physical device, select your Apple Development Team under Xcode **Signing & Capabilities**. If a different bundle identifier is required, update `project.yml` and regenerate the Xcode project.
 
-## Ilk baglanti
+## First Connection
 
-1. Windows masaustu uygulamasinda `Mobil Senkron` penceresini ac.
-2. PC adresini ve tokeni iPhone uygulamasina gir.
-3. `Baglantiyi Test Et` sec.
-4. Contacts izni istendiginde izin ver.
+1. Open **Mobile Sync** in the Turkuaz PhoneBook desktop application.
+2. Enter the PC address and sync token in the iPhone client.
+3. Select **Test Connection**.
+4. Grant Contacts access when iOS asks for it.
 
-## Yonu sec
+## Choose a Direction
 
-`PC Rehberini iPhone'a Al`: PC SQLite rehberini iPhone sistem rehberine ekler.
+**Get PC Contacts on iPhone** adds desktop SQLite contacts to the iPhone system address book.
 
-`iPhone Rehberini PC'ye Gonder`: iPhone rehberini okuyup PC SQLite veritabanina aktarir.
+**Send iPhone Contacts to PC** reads iPhone contacts and sends them to the desktop SQLite database.
 
-## Guvenlik
+## Localization
 
-Local Network ve Contacts izin aciklamalari `Info.plist` icindedir. v2.37.0 local HTTP kullandigi icin yalnizca guvenilir LAN/Wi-Fi aginda kullan.
+English is the default/fallback product and permission language. Turkish product/permission strings are provided through `resources/tr.lproj/InfoPlist.strings`. Sync-screen messages follow the preferred UI language.
+
+## Security
+
+The application declares Local Network and Contacts permission descriptions in `Info.plist`. v2.37.0 uses local HTTP for LAN synchronization, so use it only on a trusted LAN/Wi-Fi network shared by the desktop and iPhone.
