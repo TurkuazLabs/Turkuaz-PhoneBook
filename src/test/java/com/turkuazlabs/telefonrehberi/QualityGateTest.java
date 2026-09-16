@@ -1,12 +1,13 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.4.0
-// Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve sistem locale tabanli telefon ulke secimini de dogrular.
+// Version: 1.4.1
+// Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve destekli/desteksiz sistem bolgelerinde telefon ulke fallback davranisini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
+import com.turkuazlabs.telefonrehberi.config.PhoneCountryCodeCatalog;
 import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.language.PhoneCountryCodeText;
@@ -110,11 +111,13 @@ public final class QualityGateTest {
             Locale.setDefault(original);
         }
 
-        String localeCountry = original.getCountry();
-        String expectedIso = localeCountry == null || localeCountry.isBlank()
-                ? ("tr".equalsIgnoreCase(original.getLanguage()) ? "TR" : "US")
-                : localeCountry.toUpperCase(Locale.ROOT);
-        check(expectedIso.equals(AppConfig.DEFAULT_PHONE_COUNTRY_ISO), "AUTO telefon ulke ISO sistem locale bolgesiyle uyusmuyor.");
+        String localeCountry = original.getCountry() == null ? "" : original.getCountry().toUpperCase(Locale.ROOT);
+        boolean supported = PhoneCountryCodeCatalog.values().stream()
+                .anyMatch(value -> value.isoCode().equals(localeCountry));
+        String expectedIso = supported
+                ? localeCountry
+                : ("tr".equalsIgnoreCase(original.getLanguage()) ? "TR" : "US");
+        check(expectedIso.equals(AppConfig.DEFAULT_PHONE_COUNTRY_ISO), "AUTO telefon ulke ISO destek/fallback kuraliyla uyusmuyor.");
         check(!"AUTO".equals(AppConfig.DEFAULT_PHONE_COUNTRY_ISO), "AUTO telefon ulke ISO runtime degerine cozulmedi.");
     }
 
