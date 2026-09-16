@@ -1,11 +1,13 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/SECURITY.md
-# 📌 Amac: Turkuaz Telefon Rehberi guvenlik bildirim ve destek politikasini tanimlar.
+# 📌 Amac: Turkuaz PhoneBook guvenlik bildirim ve destek politikasini tanimlar.
 # 📌 Modul - Markdown
-# Version: 1.0.0
-# Aciklama: Desteklenen surum, hassas veri, LAN sync ve guvenlik raporlama sinirlarini aciklar.
+# Version: 1.1.0
+# Aciklama: Desteklenen surum, hassas veri, LAN sync ve guvenlik raporlama sinirlarini global urun kimligiyle aciklar.
 # Bagimli Oldugu Katman: Tool | Config
 
 # Guvenlik Politikasi
+
+Bu politika **Turkuaz PhoneBook** (Turkce arayuz adi: **Turkuaz Telefon Rehberi**) icin gecerlidir.
 
 ## Desteklenen surum
 

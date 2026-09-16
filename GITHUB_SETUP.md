@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
-# 📌 Amac: TurkuazLabs GitHub repository, quality gate ve cross-platform release akislarini belgeler.
+# 📌 Amac: TurkuazLabs GitHub repository, quality gate, yerellestirme ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
 # Version: 2.4.2
-# Aciklama: Turkuaz-PhoneBook repository adi, v2.37.0 Windows Inno Setup auto-update, Linux native/TAR.GZ ve mobile test build akisidir.
+# Aciklama: Turkuaz-PhoneBook repository adi, v2.37.0 Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build ve Turkce/Ingilizce dagitim kimligi akisidir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 # Repository
@@ -34,12 +34,19 @@ Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kur
 
 GitHub repository ve global urun kimligi `Turkuaz PhoneBook` olarak kullanilir. Ana logo yalnizca `Turkuaz` markasini tasir.
 
-Gorunen uygulama adi dil/platform yerellestirmesine gore degisir:
+Gorunen uygulama adi kurulum/arayuz diline gore yerellestirilebilir:
 
 - Turkce: `Turkuaz Telefon Rehberi`
-- Ingilizce: `Turkuaz PhoneBook`
+- Ingilizce ve diger diller icin fallback: `Turkuaz PhoneBook`
 
-Windows Inno Setup secilen kurulum dilini kullanir. Android varsayilan Ingilizce resource ile gelir ve Turkce sistemlerde `values-tr` kaynagina gecer. iOS sistem diline gore gorunen ad, izin ve senkron mesajlarini yerellestirir. Linux `.desktop` girdisi varsayilan Ingilizce degerlerle birlikte Turkce `Name[tr]` ve `Comment[tr]` alanlarini tasir.
+Dagitim katmanlari:
+
+- Windows Inno Setup, secilen kurulum diline gore urun adini yerellestirir.
+- Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL` / `LC_MESSAGES` / `LANG` degerlerini kullanarak Turkce veya Ingilizce splash/durum metinleri secmektedir.
+- Android varsayilan Ingilizce `values` kaynaklarini, Turkce sistemlerde `values-tr` kaynaklarini kullanir.
+- iOS varsayilan Ingilizce urun/izin metinlerini ve Turkce `InfoPlist.strings` kaynaklarini kullanir; senkron ekran metinleri de sistem diline gore secilir.
+- Linux `.desktop` girdisi Ingilizce varsayilan ad ile Turkce `Name[tr]` / `Comment[tr]` degerlerini tasir.
+- `Kurulum.sh` ve `Kaldir.sh` terminal mesajlari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
 
 Geriye donuk uyumluluk icin teknik kimlikler (`TelefonRehberi.exe`, Java package adlari, Inno Setup AppId ve mevcut veri klasorleri) yeniden adlandirilmaz.
 

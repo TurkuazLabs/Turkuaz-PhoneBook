@@ -1,13 +1,13 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/THIRD_PARTY_NOTICES.md
-# 📌 Amac: Dagitimda kullanilan ucuncu taraf runtime ve kutuphanelerin lisans bildirimlerini ozetler.
+# 📌 Amac: Turkuaz PhoneBook dagitiminda kullanilan ucuncu taraf runtime ve kutuphanelerin lisans bildirimlerini ozetler.
 # 📌 Tool - Markdown
-# Version: 1.0.0
-# Aciklama: Temurin JRE, SQLite JDBC, SLF4J API, FlatLaf ve Go runtime lisans kaynaklarini listeler.
+# Version: 1.1.0
+# Aciklama: Temurin JRE, SQLite JDBC, SLF4J API, FlatLaf ve Go runtime lisans kaynaklarini global urun kimligiyle listeler.
 # Bagimli Oldugu Katman: Tool | Config
 
 # Ucuncu Taraf Bildirimleri
 
-Turkuaz Telefon Rehberi asagidaki ucuncu taraf bilesenleri kullanir. Her bilesenin kendi lisans kosullari gecerlidir.
+**Turkuaz PhoneBook** (Turkce arayuz adi: **Turkuaz Telefon Rehberi**) asagidaki ucuncu taraf bilesenleri kullanir. Her bilesenin kendi lisans kosullari gecerlidir.
 
 - Eclipse Temurin / OpenJDK 17 JRE: GPLv2 with Classpath Exception ve paket icindeki ilgili legal bildirimler. Kaynak: https://adoptium.net/
 - Xerial SQLite JDBC 3.53.4.0: Apache License 2.0; SQLite native kutuphanesi kendi upstream kosullarina tabidir. Kaynak: https://github.com/xerial/sqlite-jdbc

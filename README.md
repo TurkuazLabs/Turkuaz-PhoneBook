@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin ana GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.3
-# Aciklama: Global marka kimligi, yerellestirilmis urun adi, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
+# Version: 2.37.4
+# Aciklama: Global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -43,7 +43,7 @@ Repository ve global urun kimligi **Turkuaz PhoneBook** olarak kullanilir. Dil b
 Gorunen urun adi kullanici diline gore yerellestirilir:
 
 - Turkce: **Turkuaz Telefon Rehberi**
-- Ingilizce: **Turkuaz PhoneBook**
+- Ingilizce ve diger diller icin fallback: **Turkuaz PhoneBook**
 
 Logo ve ikon kimligi dile bagli degildir. Teknik geriye donuk uyumluluk icin `TelefonRehberi.exe`, Java package adlari, Inno Setup `AppId` ve mevcut kullanici veri klasorleri yeniden adlandirilmaz.
 
@@ -123,9 +123,11 @@ GitHub Actions `main` branch uzerinde Windows, Linux, Android API 36 ve iOS simu
 Dagitim katmanlarinda Turkce ve Ingilizce urun adi ayrimi uygulanir:
 
 - Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
+- Native Go launcher Windows'ta isletim sistemi UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak Turkce veya Ingilizce splash/durum metinleri secmektedir.
 - Android varsayilan olarak Ingilizce resource kullanir; sistem dili Turkce ise `values-tr` kaynaklari devreye girer.
 - iOS gorunen ad, izin metinleri ve senkron ekran mesajlarini sistem diline gore Turkce veya Ingilizce gosterir.
 - Linux `.desktop` girdisi varsayilan Ingilizce ad/aciklama ile birlikte Turkce `Name[tr]` ve `Comment[tr]` degerlerini tasir.
+- Linux `Kurulum.sh` ve `Kaldir.sh` terminal ciktilari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
 - Ana logo ve splash marka adi yalnizca **Turkuaz** olarak dil bagimsiz tutulur.
 
 Masaustu Swing arayuzunun genis metin katalogu Language katmaninda merkezidir; tam runtime dil secimi mevcut teknik kimlik ve veri yollarini degistirmeden genisletilebilir.
@@ -154,7 +156,7 @@ ile uygulamayi baslatin. Native launcher gerekli runtime ve bagimliliklari paket
 
 ### Linux
 
-Linux full paketini cikarttiktan sonra `Kurulum.sh` ile kullanici hesabina kurulum yapilabilir. Paket native ELF launcher ve masaustu `.desktop` girisi icerir.
+Linux full paketini cikarttiktan sonra `Kurulum.sh` ile kullanici hesabina kurulum yapilabilir. Paket native ELF launcher ve masaustu `.desktop` girisi icerir. Kurulum ve kaldirma terminal mesajlari Turkce locale icin Turkce, diger diller icin Ingilizce gosterilir.
 
 ### Kaynaktan Gelistirme
 
