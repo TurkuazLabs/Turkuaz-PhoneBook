@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.2.0
-// Aciklama: JUnit bagimliligi olmadan Java 17 ile calisan release quality gate entegrasyon testidir; sistem diline gore urun adi ve temel masaustu metinlerini korur.
+// Version: 1.3.0
+// Aciklama: Java 17 release quality gate; urun/metin yerellestirmesi ile contact method display cevirisinin kalici storage etiketlerini degistirmemesini de dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
+import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
@@ -45,6 +46,7 @@ public final class QualityGateTest {
         try {
             testProductNameLocalization();
             testDesktopMessageLocalization();
+            testContactMethodLabelLocalization();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
@@ -71,6 +73,23 @@ public final class QualityGateTest {
         check((turkish ? "Ayarlar" : "Settings").equals(Messages.NAV_SETTINGS), "Ayarlar navigasyon metni yerellestirme hatasi.");
         check((turkish ? "Hata" : "Error").equals(Messages.ERROR_TITLE), "Hata basligi yerellestirme hatasi.");
         check((turkish ? "Yedekleme" : "Backup").equals(Messages.BACKUP_TITLE), "Yedekleme basligi yerellestirme hatasi.");
+    }
+
+    private static void testContactMethodLabelLocalization() {
+        Locale original = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.ENGLISH);
+            check("Mobile".equals(ContactMethodText.displayLabel("Cep")), "Cep etiketi Ingilizce Mobile olmadi.");
+            check("Email".equals(ContactMethodText.displayLabel("E-posta")), "E-posta etiketi Ingilizce Email olmadi.");
+            check("Cep".equals(ContactMethodText.storageLabel("Cep", "Mobile", "Cep")), "Localized display canonical Cep storage degerini bozdu.");
+            check("VIP".equals(ContactMethodText.storageLabel("Cep", "VIP", "Cep")), "Kullanici ozel etiketi saklanmadi.");
+
+            Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+            check("Cep".equals(ContactMethodText.displayLabel("Cep")), "Cep etiketi Turkce locale'de degisti.");
+            check("E-posta".equals(ContactMethodText.displayLabel("Email")), "English Email etiketi Turkce display'e cevrilmedi.");
+        } finally {
+            Locale.setDefault(original);
+        }
     }
 
     private static void testBackupIncludesCommittedWalData(Path root) throws Exception {
