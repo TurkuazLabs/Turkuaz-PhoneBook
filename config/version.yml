@@ -1,9 +1,9 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/version.yml
 # 📌 Amac: Release pipeline icin uygulama ve launcher surumlerini merkezi olarak tutar.
 # 📌 Config - YAML
-# Version: 1.29.1
-# Aciklama: v2.37.0 kalite, veri guvenligi ve sync kimlik release surum kaynagidir.
+# Version: 1.30.0
+# Aciklama: v2.38.0 marka, Turkce/Ingilizce yerellestirme, mobil guvenlik ve launcher iyilestirmeleri icin merkezi release surum kaynagidir.
 # Bagimli Oldugu Katman: Tool
 
-app_version: "2.37.0"
-launcher_version: "2.4.0"
+app_version: "2.38.0"
+launcher_version: "2.5.0"
