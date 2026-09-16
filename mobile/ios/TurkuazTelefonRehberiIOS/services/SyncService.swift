@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/services/SyncService.swift
 // # 📌 Amac: iOS ile masaustu arasindaki iki yonlu rehber senkronizasyonu is kurallarini yonetir.
 // # 📌 Service - Swift
-// # Version: 2.37.1
-// # Aciklama: Kalici sync UUID mappingiyle duplicate-safe pull ve idempotent push akisini Swift 6 actor izolasyonuyla uygular.
+// # Version: 2.37.3
+// # Aciklama: Kalici sync UUID mappingi, duplicate-safe pull, idempotent push ve Keychain yazma hatasi propagasyonunu Swift 6 actor izolasyonuyla uygular.
 // # Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
 import Foundation
 
@@ -24,7 +24,7 @@ final class SyncService {
     func saveConnection(serverUrl: String, token: String) throws {
         if serverUrl.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { throw SyncError.validation(Messages.serverRequired) }
         if token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { throw SyncError.validation(Messages.tokenRequired) }
-        settingsRepository.saveConnection(serverUrl: serverUrl, token: token)
+        try settingsRepository.saveConnection(serverUrl: serverUrl, token: token)
     }
 
     func testConnection() async throws {

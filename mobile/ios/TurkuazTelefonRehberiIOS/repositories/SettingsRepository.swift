@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/repositories/SettingsRepository.swift
 // # 📌 Amac: iOS mobil senkron baglanti ayarlarini, Keychain tokenini ve sync mappinglerini kalici saklar.
 // # 📌 Repository - Swift
-// # Version: 2.37.2
-// # Aciklama: URL/cihaz/mapping verisini UserDefaults'ta, tokeni Keychain'de tutar; Swift 6 actor izolasyonu uygular.
+// # Version: 2.37.3
+// # Aciklama: URL/cihaz/mapping verisini UserDefaults'ta, tokeni ThisDeviceOnly Keychain'de tutar; token yazma hatalarini Service katmanina iletir.
 // # Bagimli Oldugu Katman: Repository | Config | Tool
 import Foundation
 
@@ -11,9 +11,10 @@ final class SettingsRepository {
     private let defaults = UserDefaults.standard
     private let keychain = KeychainTokenTool()
 
-    func saveConnection(serverUrl: String, token: String) {
+    func saveConnection(serverUrl: String, token: String) throws {
+        let normalizedToken = token.trimmingCharacters(in: .whitespacesAndNewlines)
+        try keychain.save(normalizedToken)
         defaults.set(normalizeUrl(serverUrl), forKey: MobileConfig.preferencesServerUrl)
-        keychain.save(token.trimmingCharacters(in: .whitespacesAndNewlines))
         defaults.removeObject(forKey: MobileConfig.preferencesTokenLegacy)
     }
 
@@ -24,8 +25,12 @@ final class SettingsRepository {
         if !secure.isEmpty { return secure }
         let legacy = defaults.string(forKey: MobileConfig.preferencesTokenLegacy) ?? ""
         if !legacy.isEmpty {
-            keychain.save(legacy)
-            defaults.removeObject(forKey: MobileConfig.preferencesTokenLegacy)
+            do {
+                try keychain.save(legacy)
+                defaults.removeObject(forKey: MobileConfig.preferencesTokenLegacy)
+            } catch {
+                return legacy
+            }
         }
         return legacy
     }

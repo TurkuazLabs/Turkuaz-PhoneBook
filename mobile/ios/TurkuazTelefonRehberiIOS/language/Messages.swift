@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/language/Messages.swift
 // # 📌 Amac: iOS mobil istemcide gorunen mesajlari tercih edilen uygulama/sistem diline gore merkezi olarak tutar.
 // # 📌 Language - Swift
-// # Version: 1.4.1
-// # Aciklama: Turkce tercih edilen UI dilinde Turkce, diger dillerde Ingilizce ekran, baglanti, izin ve senkron metinleri kullanir.
+// # Version: 1.5.0
+// # Aciklama: Turkce tercih edilen UI dilinde Turkce, diger dillerde Ingilizce ekran, baglanti, izin, Keychain ve senkron metinleri kullanir.
 // # Bagimli Oldugu Katman: Language
 import Foundation
 
@@ -31,6 +31,9 @@ enum Messages {
     static var connectionOk: String { text("PC baglantisi basarili.", "PC connection successful.") }
     static var serverRequired: String { text("PC adresi bos olamaz.", "PC address cannot be empty.") }
     static var tokenRequired: String { text("Senkron tokeni bos olamaz.", "Sync token cannot be empty.") }
+    static var secureTokenStoreFailed: String {
+        text("Senkron tokeni Keychain'e guvenli kaydedilemedi.", "Sync token could not be saved securely to Keychain.")
+    }
     static var contactsPermissionRequired: String {
         text("Rehber izni verilmeden senkron yapilamaz.", "Contacts permission is required for sync.")
     }
