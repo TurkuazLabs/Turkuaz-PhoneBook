@@ -1,9 +1,9 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.4.5
-# Aciklama: Java quality gate, Windows Inno Setup smoke test ve cross-platform update manifestiyle release uretir.
-# Bagimli Oldugu Katman: Tool | Config
+# Version: 2.4.6
+# Aciklama: Java quality gate, Android LAN endpoint quality gate, Windows Inno Setup smoke test ve Turkuaz PhoneBook global release kimligiyle cross-platform release uretir.
+# Bagimli Oldugu Katman: Tool | Config | Language
 
 name: Release
 
@@ -121,6 +121,10 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Run Android endpoint quality gate
+        shell: bash
+        run: bash ./tools/test-android-endpoint.sh
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
         with:
@@ -145,13 +149,13 @@ jobs:
         shell: bash
         run: |
           cp mobile/android/app/build/outputs/apk/debug/app-debug.apk \
-            "TurkuazTelefonRehberi-Android-${GITHUB_REF_NAME}-debug.apk"
+            "Turkuaz-PhoneBook-Android-${GITHUB_REF_NAME}-debug.apk"
 
       - name: Upload Android artifact
         uses: actions/upload-artifact@v7
         with:
           name: android-release-asset
-          path: TurkuazTelefonRehberi-Android-*-debug.apk
+          path: Turkuaz-PhoneBook-Android-*-debug.apk
           if-no-files-found: error
 
   ios-source-build:
@@ -220,7 +224,7 @@ jobs:
           cp release-assets/windows/TelefonRehberi-Portable-v*-FULL.zip release-assets/publish/
           cp release-assets/windows/TelefonRehberi-Setup-v*.exe release-assets/publish/
           cp release-assets/linux/TelefonRehberi-Linux-v*-FULL.tar.gz release-assets/publish/
-          cp release-assets/android/TurkuazTelefonRehberi-Android-*-debug.apk release-assets/publish/
+          cp release-assets/android/Turkuaz-PhoneBook-Android-*-debug.apk release-assets/publish/
 
           APP_VERSION="${GITHUB_REF_NAME#v}"
           LAUNCHER_VERSION="$(awk -F ':' '/^[[:space:]]*launcher_version[[:space:]]*:/ {gsub(/[ \"\047]/, "", $2); print $2; exit}' config/version.yml)"
@@ -256,7 +260,7 @@ jobs:
             cd release-assets/publish
             sha256sum TelefonRehberi.jar TelefonRehberi.exe TelefonRehberi-linux-amd64 \
               TelefonRehberi-Portable-v*-FULL.zip TelefonRehberi-Setup-v*.exe TelefonRehberi-Linux-v*-FULL.tar.gz \
-              TurkuazTelefonRehberi-Android-*-debug.apk update-manifest.yml > CHECKSUMS.txt
+              Turkuaz-PhoneBook-Android-*-debug.apk update-manifest.yml > CHECKSUMS.txt
           )
 
       - name: Publish GitHub Release
@@ -266,7 +270,7 @@ jobs:
           WINDOWS_ZIP="release-assets/publish/TelefonRehberi-Portable-${GITHUB_REF_NAME}-FULL.zip"
           LINUX_TAR="release-assets/publish/TelefonRehberi-Linux-${GITHUB_REF_NAME}-FULL.tar.gz"
           WINDOWS_SETUP="release-assets/publish/TelefonRehberi-Setup-${GITHUB_REF_NAME}.exe"
-          ANDROID_APK="release-assets/publish/TurkuazTelefonRehberi-Android-${GITHUB_REF_NAME}-debug.apk"
+          ANDROID_APK="release-assets/publish/Turkuaz-PhoneBook-Android-${GITHUB_REF_NAME}-debug.apk"
           gh release create "${GITHUB_REF_NAME}" \
             "release-assets/publish/TelefonRehberi.jar#Application-JAR" \
             "release-assets/publish/TelefonRehberi.exe#Windows-Native-Launcher" \
@@ -279,4 +283,4 @@ jobs:
             "${ANDROID_APK}#Android-Test-APK" \
             --verify-tag \
             --generate-notes \
-            --title "Turkuaz Telefon Rehberi ${GITHUB_REF_NAME}"
+            --title "Turkuaz PhoneBook ${GITHUB_REF_NAME}"
