@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/RuntimeConfig.java
 // # 📌 Amac: config/app.yml dosyasini okuyup tipli masaustu calisma ayarlarina donusturur.
 // # 📌 Config - Java
-// Version: 1.5.0
-// Aciklama: Harici YAML ayarlarini parse eder; AUTO telefon ulke kodunu sistem locale bolgesinden cozer ve eski config fallbacklerini korur.
+// Version: 1.5.1
+// Aciklama: AUTO telefon ulke kodunu sistem locale bolgesinden cozer; katalogda desteklenmeyen bolgelerde Turkce icin TR, diger diller icin US fallback uygular.
 // # Bagimli Oldugu Katman: Config
 package com.turkuazlabs.telefonrehberi.config;
 
@@ -93,7 +93,12 @@ public record RuntimeConfig(
         Locale locale = Locale.getDefault();
         String country = locale.getCountry();
         if (country != null && !country.isBlank()) {
-            return country.toUpperCase(Locale.ROOT);
+            String candidate = country.toUpperCase(Locale.ROOT);
+            boolean supported = PhoneCountryCodeCatalog.values().stream()
+                    .anyMatch(value -> value.isoCode().equals(candidate));
+            if (supported) {
+                return candidate;
+            }
         }
         return "tr".equalsIgnoreCase(locale.getLanguage()) ? "TR" : "US";
     }
