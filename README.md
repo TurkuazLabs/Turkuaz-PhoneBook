@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.md
-# 📌 Amac: Turkuaz PhoneBook projesinin ana GitHub vitrini ve teknik ozetidir
+# 📌 Amac: Turkuaz PhoneBook projesinin uluslararasi GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.4
-# Aciklama: Global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini tek sayfada toplar
+# Version: 2.38.0
+# Aciklama: Global marka kimligi, platform destegi, local-first veri modeli, guvenlik, yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -11,7 +11,9 @@
   <h1>Turkuaz PhoneBook</h1>
 
   <p><strong>Local-first contact management and mobile sync by TurkuazLabs.</strong></p>
-  <p>Turkce arayuz adi: <strong>Turkuaz Telefon Rehberi</strong> · Ana marka: <strong>Turkuaz</strong></p>
+  <p>Turkish product name: <strong>Turkuaz Telefon Rehberi</strong> · Brand: <strong>Turkuaz</strong></p>
+
+  <p><a href="README.tr.md">Turkce README</a></p>
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
@@ -21,167 +23,156 @@
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
     <img src="https://img.shields.io/badge/Linux-supported-FCC624" alt="Linux">
   </p>
-
-  <p>
-    <a href="#marka-ve-urun-adi">Marka</a> •
-    <a href="#neden-turkuaz-phonebook">Neden?</a> •
-    <a href="#temel-ozellikler">Ozellikler</a> •
-    <a href="#platform-durumu">Platformlar</a> •
-    <a href="#dil-ve-yerellestirme">Dil</a> •
-    <a href="#hizli-baslangic">Hizli Baslangic</a> •
-    <a href="#veri-ve-gizlilik">Veri ve Gizlilik</a> •
-    <a href="#mimari">Mimari</a>
-  </p>
 </div>
 
 ---
 
-## Marka ve Urun Adi
+## Overview
 
-Repository ve global urun kimligi **Turkuaz PhoneBook** olarak kullanilir. Dil bagimsiz ana marka ise yalnizca **Turkuaz**'dir.
+**Turkuaz PhoneBook** is a desktop-first contact manager designed around local ownership of personal data. The primary contact database stays on the user's device in SQLite; no TurkuazLabs cloud account or central contact-storage service is required for normal use.
 
-Gorunen urun adi kullanici diline gore yerellestirilir:
+Windows and Linux are the primary desktop platforms. Android and iOS companion clients can synchronize contacts with the desktop application over the same trusted local network.
 
-- Turkce: **Turkuaz Telefon Rehberi**
-- Ingilizce ve diger diller icin fallback: **Turkuaz PhoneBook**
+The project focuses on:
 
-Logo ve ikon kimligi dile bagli degildir. Teknik geriye donuk uyumluluk icin `TelefonRehberi.exe`, Java package adlari, Inno Setup `AppId` ve mevcut kullanici veri klasorleri yeniden adlandirilmaz.
+- local ownership of contact data
+- practical contact organization beyond a basic address book
+- native desktop launchers on Windows and Linux
+- optional two-way LAN synchronization with mobile devices
+- safe backup, migration, import/export and update workflows
+
+## Branding and Product Names
+
+The canonical repository and global product identity are **Turkuaz PhoneBook**. The language-neutral brand is simply **Turkuaz**.
+
+Visible product names are localized:
+
+- Turkish: **Turkuaz Telefon Rehberi**
+- English and fallback: **Turkuaz PhoneBook**
+
+The logo and icon identity are language-neutral. Compatibility-sensitive technical identifiers are intentionally preserved, including `TelefonRehberi.exe`, Java package names, the Inno Setup `AppId`, and existing user-data paths.
 
 Canonical repository:
 
 `https://github.com/TurkuazLabs/Turkuaz-PhoneBook`
 
-## Neden Turkuaz PhoneBook?
+## Features
 
-Turkuaz PhoneBook, kisi verisini bir bulut servisine zorunlu olarak tasimadan yonetmek isteyen kullanicilar icin gelistirilen masaustu odakli bir rehber uygulamasidir.
+### Contact Management
 
-Ana veri SQLite veritabaninda kullanicinin kendi cihazinda tutulur. Windows ve Linux masaustu istemcileri ana calisma ortamini olusturur; Android ve iOS istemcileri ise ayni guvenilir yerel ag uzerinden masaustu uygulamasi ile senkronize olabilir.
+- contacts, phone numbers, email addresses, postal addresses, companies and notes
+- multiple phone numbers and email addresses per contact
+- profile photos
+- favorites
+- groups and colored tags
+- smart lists
+- Trash and restore
 
-Projenin temel hedefleri:
+### History and Bulk Operations
 
-- Kisi verisini kullanicinin kontrolunde tutmak
-- Basit bir telefon rehberinin otesine gecerek grup, etiket, gecmis, hatirlatma ve duplicate yonetimi sunmak
-- Windows ve Linux'ta native launcher ile kolay baslatma saglamak
-- Mobil cihazlarla bulut zorunlulugu olmadan yerel ag senkronu kurmak
-- Yedekleme, veri tasima ve guncelleme akislarini guvenli hale getirmek
+- per-contact activity/history timeline
+- multi-step Undo / Redo for bulk operations
+- history retention controls
+- duplicate candidate scanning
+- lossless contact merging
 
-## Temel Ozellikler
-
-### Kisi Yonetimi
-
-- Kisi, telefon, e-posta, adres, firma ve not yonetimi
-- Bir kisi icin sinirsiz telefon ve e-posta satiri
-- Profil fotografi
-- Favoriler
-- Gruplar ve renkli etiketler
-- Akilli listeler
-- Cop Kutusu ve geri yukleme
-
-### Gecmis ve Toplu Islemler
-
-- Kisi degisiklik zaman cizelgesi
-- Toplu islemler icin cok adimli Undo / Redo
-- History retention kontrolu
-- Duplicate tarama
-- Kayipsiz kisi birlestirme
-
-### Import / Export
+### Import and Export
 
 - VCF 3.0 / 4.0 import
 - vCard 4.0 export
-- UTF-8 CSV import / export
-- Eski portable TSV verilerinden otomatik gecis
+- UTF-8 CSV import/export
+- migration from legacy portable TSV data
 
-### Hatirlatmalar
+### Reminders
 
-- Dogum gunu
-- Yildonumu
-- Ozel tarihler
-- "Iletisimde Kal" takip plani
+- birthdays
+- anniversaries
+- custom important dates
+- keep-in-touch schedules
 
-### Senkronizasyon
+### Mobile Synchronization
 
-- Android / iOS ile iki yonlu LAN senkronu
-- Kalici `sync_uuid` tabanli kisi kimligi
-- Mobil native contact ID <-> sync UUID eslestirmesi
-- Token korumali REST API
-- Ambiguity-safe telefon / e-posta identity fallback
+- two-way Android/iOS LAN synchronization
+- persistent `sync_uuid` identity
+- mobile native-contact-ID to sync-UUID mapping
+- bearer-token protected REST API
+- ambiguity-safe phone/email identity fallback
 
-## Platform Durumu
+## Platform Status
 
-| Platform | Durum | Dagitim / Build | Not |
+| Platform | Status | Distribution / Build | Notes |
 | --- | --- | --- | --- |
-| Windows 10/11 x64 | ✅ Destekleniyor | Inno Setup + Portable | Ana masaustu platformu |
-| Linux x64 | ✅ Destekleniyor | Native ELF + TAR.GZ | Kullanici seviyesinde kurulum desteklenir |
-| Android API 36 | 🧪 Test asamasi | Debug APK | LAN senkron istemcisi |
-| iOS | 🧪 Test asamasi | Simulator build | Gercek cihaz dagitimi henuz release akisinda degil |
+| Windows 10/11 x64 | ✅ Supported | Inno Setup + Portable | Primary desktop platform |
+| Linux x64 | ✅ Supported | Native ELF + TAR.GZ | User-level installation |
+| Android API 36 | 🧪 Testing | Debug APK | LAN sync companion |
+| iOS | 🧪 Testing | Simulator build | Device release distribution is not enabled yet |
 
-GitHub Actions `main` branch uzerinde Windows, Linux, Android API 36 ve iOS simulator buildlerini dogrular.
+GitHub Actions validates Windows, Linux, Android API 36 and iOS simulator builds on `main`.
 
-## Dil ve Yerellestirme
+## Localization
 
-Dagitim katmanlarinda Turkce ve Ingilizce urun adi ayrimi uygulanir:
+The distribution layer supports Turkish and English product identity:
 
-- Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
-- Native Go launcher Windows'ta isletim sistemi UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak Turkce veya Ingilizce splash/durum metinleri secmektedir.
-- Android varsayilan olarak Ingilizce resource kullanir; sistem dili Turkce ise `values-tr` kaynaklari devreye girer.
-- iOS gorunen ad, izin metinleri ve senkron ekran mesajlarini sistem diline gore Turkce veya Ingilizce gosterir.
-- Linux `.desktop` girdisi varsayilan Ingilizce ad/aciklama ile birlikte Turkce `Name[tr]` ve `Comment[tr]` degerlerini tasir.
-- Linux `Kurulum.sh` ve `Kaldir.sh` terminal ciktilari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
-- Ana logo ve splash marka adi yalnizca **Turkuaz** olarak dil bagimsiz tutulur.
+- Windows Inno Setup uses **Turkuaz Telefon Rehberi** or **Turkuaz PhoneBook** according to the selected installer language.
+- The native Go launcher reads the Windows UI language or Linux `LC_ALL` / `LC_MESSAGES` / `LANG` locale and localizes splash/status text.
+- Android uses English default resources and Turkish `values-tr` resources.
+- iOS uses English defaults plus Turkish `InfoPlist.strings`; sync-screen messages also follow the system language.
+- The Linux `.desktop` file includes English defaults and Turkish `Name[tr]` / `Comment[tr]` entries.
+- `Kurulum.sh` and `Kaldir.sh` localize terminal output for Turkish vs. English/fallback locales.
+- The splash brand itself remains simply **Turkuaz**.
 
-Masaustu Swing arayuzunun genis metin katalogu Language katmaninda merkezidir; tam runtime dil secimi mevcut teknik kimlik ve veri yollarini degistirmeden genisletilebilir.
+The large Swing desktop text catalog is already centralized in the Language layer. Full desktop runtime language switching remains a separate localization expansion so it can be introduced without changing technical identities or user-data paths.
 
-## Hizli Baslangic
+## Quick Start
 
-### Windows - Kurulumlu
+### Windows — Installed
 
-Release paketindeki Inno Setup dosyasini calistirin:
+Run the Inno Setup package from a release:
 
 `TelefonRehberi-Setup-vX.Y.Z.exe`
 
-Varsayilan kurulum dizini:
+Default installation directory:
 
 `C:\Program Files\TurkuazLabs\TelefonRehberi`
 
-Kullanici verisi Program Files altinda tutulmaz.
+User data is not stored under Program Files.
 
-### Windows - Portable
+### Windows — Portable
 
-Portable arsivi cikartin ve:
+Extract the portable archive and launch:
 
 `TelefonRehberi.exe`
 
-ile uygulamayi baslatin. Native launcher gerekli runtime ve bagimliliklari paket yapisindan kullanir.
+The native launcher uses the packaged runtime and dependencies.
 
 ### Linux
 
-Linux full paketini cikarttiktan sonra `Kurulum.sh` ile kullanici hesabina kurulum yapilabilir. Paket native ELF launcher ve masaustu `.desktop` girisi icerir. Kurulum ve kaldirma terminal mesajlari Turkce locale icin Turkce, diger diller icin Ingilizce gosterilir.
+Extract the full Linux package and run `Kurulum.sh` for a user-level installation. The package includes the native ELF launcher and a desktop entry.
 
-### Kaynaktan Gelistirme
+### Development Requirements
 
-Temel masaustu gereksinimleri:
+Primary desktop requirements:
 
 - Java 17
 - Go 1.23.x
 - SQLite JDBC
 - FlatLaf
 
-Release ve kalite scriptleri `tools/` klasorundedir. GitHub Actions ayni kalite kapilarini otomatik olarak calistirir.
+Build, test and release helpers live under `tools/`.
 
-## Veri ve Gizlilik
+## Data and Privacy
 
-Turkuaz PhoneBook'un ana kisi veritabani yereldir. Uygulamanin calismasi icin zorunlu bir TurkuazLabs bulut hesabi veya merkezi kisi verisi servisi gerekmez.
+Turkuaz PhoneBook stores the primary contact database locally.
 
-### Windows Ana Veri
+### Windows Database
 
 `%USERPROFILE%\Contacts\Turkuaz Telefon Rehberi\Veri\telefon-rehberi.db`
 
-SQLite WAL ve SHM dosyalari ayni `Veri` klasorunde bulunur.
+SQLite WAL and SHM files live next to the database.
 
-### Linux Ana Veri
+### Linux Database
 
-XDG kullaniliyorsa:
+With XDG data configured:
 
 `$XDG_DATA_HOME/turkuazlabs/telefon-rehberi/data/telefon-rehberi.db`
 
@@ -189,7 +180,7 @@ Fallback:
 
 `~/.local/share/turkuazlabs/telefon-rehberi/data/telefon-rehberi.db`
 
-### Kullanici Ayarlari
+### Preferences
 
 Windows:
 
@@ -199,142 +190,127 @@ Linux:
 
 `$XDG_CONFIG_HOME/turkuazlabs/telefon-rehberi/preferences.yml`
 
-veya:
+Fallback:
 
 `~/.config/turkuazlabs/telefon-rehberi/preferences.yml`
 
-### Mobil Senkron Guvenligi
+## Mobile Sync Security
 
-- LAN senkronu varsayilan olarak kapali gelir.
-- Yalniz guvenilir yerel ag icin tasarlanmistir.
-- Android tokeni Android Keystore + AES/GCM ile korunur.
-- iOS tokeni Keychain'de saklanir.
-- HTTP request body varsayilan limiti 2 MiB'dir.
-- Bearer token karsilastirmasi sabit zamanli yapilir.
+- LAN sync is disabled by default.
+- It is intended for trusted local networks only.
+- Android stores the sync token using Android Keystore + AES/GCM.
+- iOS stores the sync token in Keychain.
+- The default HTTP request-body limit is 2 MiB.
+- Bearer-token comparison is constant-time.
 
-Mobil senkron tasarimi icin [docs/MOBILE_SYNC_API.md](./docs/MOBILE_SYNC_API.md) dosyasina bakin.
+See [Mobile Sync API](./docs/MOBILE_SYNC_API.md) for protocol details.
 
-## Yedekleme
+## Backup Safety
 
-SQLite yedekleri ham DB dosyasi kopyalamak yerine transaction-consistent snapshot mantigiyla uretilir:
+SQLite backups are created as transaction-consistent snapshots instead of raw database-file copies:
 
 - `VACUUM INTO`
 - `PRAGMA integrity_check`
-- Gecici `.partial-*` dosyasindan final dosyaya guvenli tasima
+- temporary `.partial-*` snapshot followed by safe final-file replacement
 
-Yedekler kisi verisinin yaninda grup, etiket, gecmis, akilli liste ve Cop Kutusu verilerini de korur.
+Backups preserve contacts as well as groups, tags, history, smart lists and Trash data.
 
-Windows yedek dizini:
+Windows backup directory:
 
 `%USERPROFILE%\Contacts\Turkuaz Telefon Rehberi\Yedekler\`
 
-Linux:
-
-`~/Contacts/Turkuaz Telefon Rehberi/Yedekler/`
-
-veya XDG Documents fallback alani.
-
 ## Portable Runtime
 
-Native launcher, sistem Java kurulumuna bagimli kalmadan uygulama runtime'ini yonetebilir.
+The native launcher can manage the application runtime without modifying the system `JAVA_HOME` or `PATH`.
 
-Paketlenen temel bagimliliklar:
+Packaged dependencies include:
 
 - Eclipse Temurin JRE 17
 - Xerial SQLite JDBC
 - SLF4J API
 - FlatLaf
 
-Sistem `JAVA_HOME` veya `PATH` ayarlari degistirilmez.
+## Architecture
 
-## Mimari
-
-Proje katmanli mimari kullanir:
+The project follows a layered architecture:
 
 `Controller -> Service -> Repository/Model -> Tool -> View -> Language`
 
-| Katman | Sorumluluk |
+| Layer | Responsibility |
 | --- | --- |
-| Controller | GUI event/request alir, Service katmanini cagirir |
-| Service | Is kurallarini ve uygulama akislarini yonetir |
-| Repository / Model | SQLite ve kalici veri islemlerini yonetir |
-| Tool | VCF/CSV, runtime, asset, HTTP ve dis dunya adaptorlerini kapsar |
-| View | Swing / FlatLaf kullanici arayuzudur |
-| Language | Kullaniciya gorunen metinleri merkezilestirir |
-| Config | Teknik varsayilanlar ve merkezi sabitlerdir |
+| Controller | Receives UI/request events and delegates to services |
+| Service | Business rules and application workflows |
+| Repository / Model | SQLite and persistent data operations |
+| Tool | VCF/CSV, runtime, assets, HTTP and external-system adapters |
+| View | Swing / FlatLaf user interface |
+| Language | Central user-visible text catalog |
+| Config | Technical defaults and shared configuration |
 
-## Repository Yapisi
+## Repository Layout
 
-| Yol | Aciklama |
+| Path | Purpose |
 | --- | --- |
-| `src/main/java/` | Java masaustu uygulamasi |
-| `src/test/java/` | Java quality gate testleri |
-| `launcher/native/` | Go tabanli Windows / Linux native launcher |
-| `mobile/android/` | Android istemci |
-| `mobile/ios/` | iOS istemci |
-| `packaging/windows/` | Inno Setup Windows paketleme |
-| `packaging/linux/` | Linux kurulum ve desktop entry dosyalari |
-| `config/` | Merkezi uygulama / launcher konfigurasyonu |
-| `tools/` | Build, test ve release scriptleri |
-| `docs/` | Teknik ve urun dokumantasyonu |
-| `updates/` | Update manifest sablonu |
-| `.github/workflows/` | CI ve release otomasyonu |
+| `src/main/java/` | Java desktop application |
+| `src/test/java/` | Java quality-gate tests |
+| `launcher/native/` | Go-based Windows/Linux native launcher |
+| `mobile/android/` | Android companion client |
+| `mobile/ios/` | iOS companion client |
+| `packaging/windows/` | Inno Setup packaging |
+| `packaging/linux/` | Linux installer and desktop entry |
+| `config/` | Central application/launcher configuration |
+| `tools/` | Build, test and release scripts |
+| `docs/` | Technical documentation |
+| `updates/` | Update-manifest template |
+| `.github/workflows/` | CI and release automation |
 
-## Build ve Kalite
+## Build and Quality Gates
 
-CI su temel kontrolleri gerceklestirir:
+CI validates:
 
-- Java 17 compile ve SQLite runtime quality gate
-- WAL-safe backup testi
-- `sync_uuid` ve mobile identity idempotency testleri
-- History retention testi
-- Request body limit testi
-- Kullanici preference round-trip testi
-- Go launcher testleri ve native build
-- Windows Inno Setup gercek silent install / uninstall smoke testi
+- Java 17 compilation and SQLite runtime quality gate
+- WAL-safe backup behavior
+- `sync_uuid` and mobile identity idempotency
+- history retention
+- request-body limits
+- user-preference round trips
+- Go launcher/native builds
+- real Windows Inno Setup silent install/uninstall smoke tests
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
 
-Build durumu GitHub Actions rozetinden takip edilebilir.
+## v2.37.0 Highlights
 
-## v2.37.0 Ozet
+v2.37.0 focuses on data safety, synchronization identity, performance and release quality:
 
-v2.37.0 veri guvenligi, senkron kimligi, performans ve release kalite altyapisina odaklanan surumdur.
-
-One cikan degisiklikler:
-
-- WAL-guvenli SQLite backup
-- Kalici `sync_uuid`
-- Android Keystore ve iOS Keychain token korumasi
-- Duplicate scan performans iyilestirmesi
-- Repository child data batch loading
-- EDT disi agir islemler
-- Schema version altyapisi
+- WAL-safe SQLite backup
+- persistent `sync_uuid`
+- Android Keystore and iOS Keychain token protection
+- duplicate-scan performance improvements
+- repository child-data batch loading
+- heavy Swing operations moved off the EDT
+- schema-version infrastructure
 - Java quality gate
-- Windows installer smoke testi
-- Cross-platform GitHub Actions dogrulamasi
+- Windows installer smoke testing
+- cross-platform GitHub Actions validation
 
-Tum surum gecmisi icin [CHANGELOG.md](./CHANGELOG.md) dosyasina bakin.
+See [CHANGELOG.md](./CHANGELOG.md) for the full release history.
 
-## Dokumantasyon
+## Documentation
 
-- [CHANGELOG](./CHANGELOG.md) - Surum gecmisi
-- [Windows Installer](./docs/WINDOWS_INSTALLER.md) - Kurulum ve auto-update
-- [User Data Storage](./docs/USER_DATA_STORAGE.md) - Veri konumlari
-- [Mobile Sync API](./docs/MOBILE_SYNC_API.md) - Mobil LAN senkron protokolu
-- [Security](./SECURITY.md) - Guvenlik bildirimleri
-- [Third Party Notices](./THIRD_PARTY_NOTICES.md) - Ucuncu taraf bagimliliklar
-- [GitHub / Release Setup](./GITHUB_SETUP.md) - Build ve release akisi
+- [Turkce README](./README.tr.md)
+- [CHANGELOG](./CHANGELOG.md)
+- [Windows Installer](./docs/WINDOWS_INSTALLER.md)
+- [User Data Storage](./docs/USER_DATA_STORAGE.md)
+- [Mobile Sync API](./docs/MOBILE_SYNC_API.md)
+- [Security](./SECURITY.md)
+- [Third Party Notices](./THIRD_PARTY_NOTICES.md)
+- [GitHub / Release Setup](./GITHUB_SETUP.md)
 
-## Guvenlik
+## License
 
-Bir guvenlik acigi bildirmek icin repository'deki [SECURITY.md](./SECURITY.md) talimatlarini kullanin. Hassas guvenlik konularini herkese acik issue olarak paylasmayin.
-
-## Lisans
-
-Bu repository public olsa da kod otomatik olarak acik kaynak lisansli degildir. Kullanim, kopyalama, degistirme ve dagitim kosullari repository kokundeki [LICENSE](./LICENSE) dosyasinda tanimlanir.
+This repository is public, but public visibility does **not** automatically make the code open source. Usage, copying, modification and redistribution are governed by [LICENSE](./LICENSE).
 
 ## TurkuazLabs
 
-Bu proje [TurkuazLabs](https://github.com/TurkuazLabs) tarafindan gelistirilmektedir.
+Developed by [TurkuazLabs](https://github.com/TurkuazLabs).
