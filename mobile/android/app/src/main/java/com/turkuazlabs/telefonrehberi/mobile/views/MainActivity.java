@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/views/MainActivity.java
 // # 📌 Amac: Android mobil senkron kullanici arayuzunu sunar.
 // # 📌 View - Java
-// # Version: 1.0.0
-// # Aciklama: PC adresi/token alanlarini, senkron butonlarini ve durum mesajini gosterir.
+// Version: 1.0.1
+// # Aciklama: PC adresi/token alanlarini, senkron butonlarini ve Tool bagimliligi enjekte edilen senkron akislarini gosterir.
 // # Bagimli Oldugu Katman: View | Controller | Service | Repository | Tool
 package com.turkuazlabs.telefonrehberi.mobile.views;
 
@@ -18,6 +18,7 @@ import com.turkuazlabs.telefonrehberi.mobile.repositories.DeviceContactRepositor
 import com.turkuazlabs.telefonrehberi.mobile.repositories.SettingsRepository;
 import com.turkuazlabs.telefonrehberi.mobile.services.SyncService;
 import com.turkuazlabs.telefonrehberi.mobile.tools.DesktopApiTool;
+import com.turkuazlabs.telefonrehberi.mobile.tools.LanEndpointTool;
 
 public final class MainActivity extends Activity {
     private EditText serverUrlField;
@@ -41,7 +42,8 @@ public final class MainActivity extends Activity {
         SyncService service = new SyncService(
                 new DeviceContactRepository(this),
                 settingsRepository,
-                new DesktopApiTool()
+                new DesktopApiTool(),
+                new LanEndpointTool()
         );
         controller = new MainController(this, service);
         testButton.setOnClickListener(view -> controller.testConnection());

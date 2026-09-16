@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/language/Messages.java
 // # 📌 Amac: Android mobil istemcide kullanilan kullanici mesajlarini sistem diline gore merkezi olarak tutar.
 // # 📌 Language - Java
-// # Version: 1.4.0
-// # Aciklama: Turkce sistemlerde Turkce, diger sistemlerde Ingilizce senkron, HTTP, JSON ve ag hata mesajlari kullanir.
+// Version: 1.5.0
+// # Aciklama: Turkce sistemlerde Turkce, diger sistemlerde Ingilizce senkron, endpoint, HTTP, JSON ve ag hata mesajlari kullanir.
 // # Bagimli Oldugu Katman: Language
 package com.turkuazlabs.telefonrehberi.mobile.language;
 
@@ -15,6 +15,14 @@ public final class Messages {
     public static final String WORKING = text("Islem yapiliyor...", "Working...");
     public static final String CONNECTION_OK = text("PC baglantisi basarili.", "PC connection successful.");
     public static final String SERVER_REQUIRED = text("PC adresi bos olamaz.", "PC address cannot be empty.");
+    public static final String SERVER_URL_INVALID = text(
+            "PC adresi http:// veya https:// ile baslayan gecerli bir sunucu adresi olmali.",
+            "PC address must be a valid server URL starting with http:// or https://."
+    );
+    public static final String SERVER_HTTP_LOCAL_ONLY = text(
+            "HTTP senkron adresi yerel veya ozel agdaki bir PC'yi gostermeli. Uzak adresler icin HTTPS kullan.",
+            "HTTP sync address must point to a PC on the local or private network. Use HTTPS for remote hosts."
+    );
     public static final String TOKEN_REQUIRED = text("Senkron tokeni bos olamaz.", "Sync token cannot be empty.");
     public static final String CONTACT_PERMISSION_REQUIRED = text(
             "Rehber izni verilmeden senkron yapilamaz.",

@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/services/SyncService.java
 // # 📌 Amac: Android ile masaustu arasindaki iki yonlu rehber senkronizasyonu is kurallarini yonetir.
 // # 📌 Service - Java
-// # Version: 2.37.0
-// # Aciklama: Kalici sync UUID mappingiyle duplicate-safe pull ve idempotent push akisini uygular.
+// Version: 2.37.1
+// # Aciklama: Kalici sync UUID mappingi, guvenli LAN/HTTPS endpoint dogrulamasi, duplicate-safe pull ve idempotent push akisini uygular.
 // # Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
 package com.turkuazlabs.telefonrehberi.mobile.services;
 
@@ -12,6 +12,7 @@ import com.turkuazlabs.telefonrehberi.mobile.models.PullResult;
 import com.turkuazlabs.telefonrehberi.mobile.repositories.DeviceContactRepository;
 import com.turkuazlabs.telefonrehberi.mobile.repositories.SettingsRepository;
 import com.turkuazlabs.telefonrehberi.mobile.tools.DesktopApiTool;
+import com.turkuazlabs.telefonrehberi.mobile.tools.LanEndpointTool;
 
 import java.util.List;
 
@@ -19,17 +20,24 @@ public final class SyncService {
     private final DeviceContactRepository contactsRepository;
     private final SettingsRepository settingsRepository;
     private final DesktopApiTool desktopApiTool;
+    private final LanEndpointTool lanEndpointTool;
 
-    public SyncService(DeviceContactRepository contactsRepository, SettingsRepository settingsRepository, DesktopApiTool desktopApiTool) {
+    public SyncService(
+            DeviceContactRepository contactsRepository,
+            SettingsRepository settingsRepository,
+            DesktopApiTool desktopApiTool,
+            LanEndpointTool lanEndpointTool
+    ) {
         this.contactsRepository = contactsRepository;
         this.settingsRepository = settingsRepository;
         this.desktopApiTool = desktopApiTool;
+        this.lanEndpointTool = lanEndpointTool;
     }
 
     public void saveConnection(String serverUrl, String token) {
-        if (serverUrl == null || serverUrl.trim().isEmpty()) throw new IllegalArgumentException(Messages.SERVER_REQUIRED);
+        String validatedServerUrl = lanEndpointTool.validateBaseUrl(serverUrl);
         if (token == null || token.trim().isEmpty()) throw new IllegalArgumentException(Messages.TOKEN_REQUIRED);
-        settingsRepository.saveConnection(serverUrl, token);
+        settingsRepository.saveConnection(validatedServerUrl, token);
     }
 
     public String serverUrl() { return settingsRepository.serverUrl(); }
