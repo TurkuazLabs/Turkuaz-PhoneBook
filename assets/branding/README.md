@@ -1,21 +1,25 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/assets/branding/README.md
-# 📌 Amac: Turkuaz marka ikon ve logo kurallarini belgeler.
+# 📌 Amac: Turkuaz marka ikon ve logo kurallarini uluslararasi ana dokuman olarak tanimlar.
 # 📌 View - Markdown
-# Version: 1.1.0
-# Aciklama: Logo dil bagimsiz Turkuaz markasini tasir; urun adi arayuz ve kurulum diline gore yerellestirilir.
+# Version: 1.2.0
+# Aciklama: Dil bagimsiz Turkuaz marka kimligi, logo kullanimi ve yerellestirilmis urun adi kurallarini Ingilizce olarak belgeler.
 # Bagimli Oldugu Katman: View | Tool | Language
 
-# Turkuaz Marka Kurali
+# Turkuaz Branding Rules
 
-Ana marka adi **Turkuaz**'dir.
+The primary brand name is **Turkuaz**.
 
-`app-logo.png` icinde `Telefon Rehberi`, `PhoneBook`, `Contacts` veya baska bir dile ait urun tanimi bulunmamalidir. Logo yalnizca Turkuaz markasini ve marka sembolunu tasir.
+`app-logo.png` must not contain a language-specific product descriptor such as `Telefon Rehberi`, `PhoneBook`, `Contacts`, or an equivalent phrase in another language. Product naming belongs to the application and installer localization layers, not to the bitmap brand asset.
 
-Gorunen urun adi uygulama/kurulum dili tarafindan belirlenir:
+Visible product names are localized as follows:
 
-- Turkce: `Turkuaz Telefon Rehberi`
-- Ingilizce: `Turkuaz PhoneBook`
+- Turkish: `Turkuaz Telefon Rehberi`
+- English and fallback: `Turkuaz PhoneBook`
 
-Teknik kimlikler geriye donuk uyumluluk icin marka degisikliginden bagimsiz tutulur. `TelefonRehberi.exe`, Java package adlari, Inno Setup `AppId`, mevcut veri klasorleri ve SQLite dosya yolu yeniden adlandirilmaz.
+The current `app-logo.png` intentionally uses the same language-neutral artwork as the canonical `app-icon.png`. A dedicated Turkuaz wordmark may replace it later, but it must remain language-neutral and must not embed the localized product descriptor.
 
-PNG ve ICO uygulama ikonlari Swing pencere, portable paket, Windows kisayollari ve kurulum paketinde ortak kullanilir.
+Compatibility-sensitive technical identifiers are intentionally preserved. `TelefonRehberi.exe`, Java package names, the Inno Setup `AppId`, existing user-data directories, and the SQLite database path are not renamed as part of branding changes.
+
+PNG and ICO application icons are shared by the Swing window, portable packages, Windows shortcuts, Linux desktop integration, and installer assets.
+
+Turkce surum: [README.tr.md](./README.tr.md)
