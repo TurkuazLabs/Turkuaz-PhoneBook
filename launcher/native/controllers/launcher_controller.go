@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/controllers/launcher_controller.go
 // 📌 Amac: Native launcher komut satiri girisini alir ve servisi cagirir.
 // 📌 Modul - Go
-// Version: 2.2.0
-// Aciklama: Turkuaz-PhoneBook launcher akisinda kullaniciya gosterilen controller hatalarini Language katmanindan yerellestirir.
+// Version: 2.3.0
+// Aciklama: Turkuaz-PhoneBook launcher akisinda kullaniciya gosterilen tum controller/service hata detaylarini Language katmanindan yerellestirir.
 // Bagimli Oldugu Katman: Controller | Service | Tool | View | Language
 
 package controllers
@@ -22,7 +22,8 @@ type LauncherController struct{}
 func (LauncherController) Run(args []string) (exitCode int) {
 	defer func() {
 		if recovered := recover(); recovered != nil {
-			views.ShowError(language.ErrorTitle, fmt.Sprintf(language.LauncherErrorFormat, recovered))
+			detail := language.LocalizeError(fmt.Sprint(recovered))
+			views.ShowError(language.ErrorTitle, fmt.Sprintf(language.LauncherErrorFormat, detail))
 			exitCode = 1
 		}
 	}()
@@ -31,7 +32,7 @@ func (LauncherController) Run(args []string) (exitCode int) {
 		root := args[4]
 		service := services.NewLauncherService(root, views.NewSilentSplash())
 		if err := service.ApplyLauncherUpdate(args[2], args[3], root); err != nil {
-			views.ShowError(language.ErrorTitle, err.Error())
+			views.ShowError(language.ErrorTitle, language.LocalizeError(err.Error()))
 			return 1
 		}
 		return 0
@@ -39,19 +40,20 @@ func (LauncherController) Run(args []string) (exitCode int) {
 
 	root, err := tools.ExecutableRoot()
 	if err != nil {
-		views.ShowError(language.ErrorTitle, err.Error())
+		views.ShowError(language.ErrorTitle, language.LocalizeError(err.Error()))
 		return 1
 	}
 	currentExe, err := os.Executable()
 	if err != nil {
-		views.ShowError(language.ErrorTitle, err.Error())
+		views.ShowError(language.ErrorTitle, language.LocalizeError(err.Error()))
 		return 1
 	}
 	pending := services.PendingLauncher(root)
 	if !tools.IsInstalledDistribution(root) {
 		if _, err := os.Stat(pending); err == nil {
 			if err := services.PrepareLauncherUpdateHelper(root, currentExe, pending); err != nil {
-				views.ShowError(language.ErrorTitle, fmt.Sprintf(language.LauncherUpdateError, err))
+				detail := language.LocalizeError(err.Error())
+				views.ShowError(language.ErrorTitle, fmt.Sprintf(language.LauncherUpdateError, detail))
 				return 1
 			}
 			return 0
@@ -62,7 +64,7 @@ func (LauncherController) Run(args []string) (exitCode int) {
 	service := services.NewLauncherService(root, splash)
 	if err := service.Run(); err != nil {
 		splash.Close()
-		views.ShowError(language.ErrorTitle, err.Error())
+		views.ShowError(language.ErrorTitle, language.LocalizeError(err.Error()))
 		return 1
 	}
 	splash.Close()
