@@ -1,11 +1,11 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/launcher.yml
 # 📌 Amac: Portable Java, SQLite JDBC, FlatLaf ve GitHub Releases update ayarlarini merkezi olarak tutar.
 # 📌 Config - YAML
-# Version: 2.4.1
-# Aciklama: Portable/installed runtime, sabitlenmis JDBC-SLF4J bagimliliklari ve Turkuaz-PhoneBook GitHub auto-update ayarlaridir.
-# Bagimli Oldugu Katman: Tool
+# Version: 2.4.2
+# Aciklama: Global Turkuaz PhoneBook fallback adi, portable/installed runtime, sabitlenmis JDBC-SLF4J bagimliliklari ve GitHub auto-update ayarlaridir.
+# Bagimli Oldugu Katman: Tool | Language
 
-app_name: "Turkuaz Telefon Rehberi"
+app_name: "Turkuaz PhoneBook"
 app_jar: "app/TelefonRehberi.jar"
 app_main_class: "com.turkuazlabs.telefonrehberi.Main"
 java_major: "17"
