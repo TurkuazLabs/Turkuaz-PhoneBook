@@ -2,8 +2,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-linux-release.sh
 # 📌 Amac: Java 17 JAR, native Linux launcher ve Linux portable TAR.GZ paketini uretir.
 # 📌 Tool - Shell
-# Version: 1.1.0
-# Aciklama: v2.37.0 icin Linux amd64 native launcher, portable paket ve SHA-256 dosyalarini olusturur.
+# Version: 1.2.0
+# Aciklama: v2.38.0 icin Linux amd64 native launcher, portable paket ve SHA-256 dosyalarini olusturur.
 # Bagimli Oldugu Katman: Tool | Config
 
 set -euo pipefail
@@ -50,7 +50,7 @@ cat > "${DIST}/update-manifest.yml" <<MANIFEST
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml
 # 📌 Amac: Linux release update metadata ve SHA-256 degerlerini tanimlar.
 # 📌 Modul - YAML
-# Version: 2.2.0
+# Version: 2.4.0
 # Aciklama: v${APP_VERSION} Linux native launcher release metadata dosyasidir.
 # Bagimli Oldugu Katman: Tool
 
@@ -85,7 +85,7 @@ cat > "${PACKAGE}/config/state.yml" <<STATE
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/state.yml
 # 📌 Amac: Kurulu uygulama ve native launcher surum durumunu tutar.
 # 📌 Modul - YAML
-# Version: 2.2.0
+# Version: 2.4.0
 # Aciklama: Linux native launcher yerel surum bilgisidir.
 # Bagimli Oldugu Katman: Repository
 
@@ -97,7 +97,7 @@ cat > "${PACKAGE}/CHECKSUMS.txt" <<CHECKSUMS
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHECKSUMS.txt
 # 📌 Amac: Linux portable paketteki kritik release dosyalarinin SHA-256 degerlerini listeler.
 # 📌 Modul - Text
-# Version: 1.0.0
+# Version: 1.1.0
 # Aciklama: Native Linux launcher ve JAR butunluk kontroludur.
 # Bagimli Oldugu Katman: Tool
 
@@ -112,7 +112,7 @@ cat > "${DIST}/CHECKSUMS-LINUX.txt" <<CHECKSUMS
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/dist-linux/CHECKSUMS-LINUX.txt
 # 📌 Amac: Linux GitHub Release asset SHA-256 degerlerini listeler.
 # 📌 Modul - Text
-# Version: 1.0.0
+# Version: 1.1.0
 # Aciklama: Linux launcher ve portable TAR.GZ butunluk kontroludur.
 # Bagimli Oldugu Katman: Tool
 
