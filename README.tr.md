@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.tr.md
 # 📌 Amac: Turkuaz PhoneBook projesinin Turkce GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.37.5
-# Aciklama: Global marka kimligi, Turkce/Ingilizce masaustu yerellestirmesi, platform durumu, hizli baslangic, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
+# Version: 2.38.0
+# Aciklama: v2.38.0 global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -17,7 +17,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.37.0-0aa6a6" alt="Version 2.37.0">
+    <img src="https://img.shields.io/badge/version-2.38.0-0aa6a6" alt="Version 2.38.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -133,8 +133,10 @@ Windows preferences:
 
 - LAN senkronu varsayilan kapali gelir.
 - Yalniz guvenilir yerel ag icin tasarlanmistir.
-- Android tokeni Android Keystore + AES/GCM ile korunur.
-- iOS tokeni Keychain'de saklanir.
+- Android tokeni Android Keystore + AES/GCM ile korunur ve giris alaninda maskelenir.
+- Android cleartext senkron trafigi yerel ag hedefleriyle sinirlanir; sync kimligi/credential tercihleri Auto Backup'a dahil edilmez.
+- iOS tokeni Keychain'de saklanir; Keychain yazma hatalari sessizce yutulmaz.
+- Masaustu sync token dosyasi POSIX sistemlerde owner-only izinlerle korunur ve tamamlanmamis icerik gorunurlugu olmadan yayinlanir.
 - HTTP request body varsayilan limiti 2 MiB'dir.
 - Bearer token karsilastirmasi sabit zamanli yapilir.
 
@@ -175,6 +177,21 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.38.0 Ozeti
+
+v2.38.0, v2.37.0 veri guvenligi temelini uluslararasi marka, Turkce/Ingilizce yerellestirme ve ek mobil/desktop guvenlik sertlestirmeleriyle genisletir:
+
+- global urun/repository kimligi **Turkuaz PhoneBook**, dil bagimsiz ana marka **Turkuaz** oldu
+- uygulama logosundaki dile bagli `Telefon Rehberi` yazisi kaldirildi
+- masaustu Swing mesaj katalogu Turkce/Ingilizce sistem locale destegi kazandi
+- contact method ve telefon ulke adlari, kalici veriyi degistirmeden kullanici diline gore gosteriliyor
+- Windows installer, native launcher, Linux kurulum/kaldirma, Android ve iOS gorunen metinleri yerellestirildi
+- telefon ulkesi sistem locale degerinden otomatik ve guvenli fallback ile seciliyor
+- Android LAN cleartext hedef siniri, token maskeleme ve backup exclusion sertlestirmeleri eklendi
+- iOS Keychain yazma hatalari gorunur hale getirildi
+- masaustu sync token izinleri ve dosya yayinlama akisi sertlestirildi
+- native launcher release cizgisi **2.5.0** oldu
 
 ## Dokumantasyon
 
