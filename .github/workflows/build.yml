@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.5.6
-# Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Linux, Android API 36 ve iOS build kontrollerini calistirir.
+# Version: 2.5.7
+# Aciklama: Java SQLite quality gate, native launcher, Inno Setup smoke, Android LAN endpoint quality gate, Linux, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -112,6 +112,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+
+      - name: Run Android endpoint quality gate
+        shell: bash
+        run: bash ./tools/test-android-endpoint.sh
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
