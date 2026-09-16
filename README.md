@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin uluslararasi GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.0
-# Aciklama: Global marka kimligi, platform destegi, local-first veri modeli, guvenlik, yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
+# Version: 2.38.1
+# Aciklama: Global marka kimligi, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce masaustu yerellestirmesi, build ve release akislarini Ingilizce ana README olarak sunar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -111,17 +111,19 @@ GitHub Actions validates Windows, Linux, Android API 36 and iOS simulator builds
 
 ## Localization
 
-The distribution layer supports Turkish and English product identity:
+The application and distribution layers support Turkish and English/fallback product identity:
 
+- The Swing desktop UI reads the JVM/system locale: Turkish (`tr`) uses the Turkish catalog; every other locale currently uses the English fallback catalog.
+- The desktop product title is **Turkuaz Telefon Rehberi** on Turkish systems and **Turkuaz PhoneBook** otherwise.
 - Windows Inno Setup uses **Turkuaz Telefon Rehberi** or **Turkuaz PhoneBook** according to the selected installer language.
-- The native Go launcher reads the Windows UI language or Linux `LC_ALL` / `LC_MESSAGES` / `LANG` locale and localizes splash/status text.
+- The native Go launcher reads the Windows UI language or Linux `LC_ALL` / `LC_MESSAGES` / `LANG` locale and localizes splash, status and user-visible error text.
 - Android uses English default resources and Turkish `values-tr` resources.
-- iOS uses English defaults plus Turkish `InfoPlist.strings`; sync-screen messages also follow the system language.
+- iOS uses English defaults plus Turkish `InfoPlist.strings`; sync-screen messages also follow the preferred UI language.
 - The Linux `.desktop` file includes English defaults and Turkish `Name[tr]` / `Comment[tr]` entries.
 - `Kurulum.sh` and `Kaldir.sh` localize terminal output for Turkish vs. English/fallback locales.
 - The splash brand itself remains simply **Turkuaz**.
 
-The large Swing desktop text catalog is already centralized in the Language layer. Full desktop runtime language switching remains a separate localization expansion so it can be introduced without changing technical identities or user-data paths.
+The desktop localization is intentionally system-locale based for now; changing language interactively while the application is running is not yet exposed as a user setting. Technical identifiers and existing user-data paths remain unchanged.
 
 ## Quick Start
 
@@ -268,6 +270,7 @@ The project follows a layered architecture:
 CI validates:
 
 - Java 17 compilation and SQLite runtime quality gate
+- Turkish/English desktop product-name and core message-catalog localization guards
 - WAL-safe backup behavior
 - `sync_uuid` and mobile identity idempotency
 - history retention
