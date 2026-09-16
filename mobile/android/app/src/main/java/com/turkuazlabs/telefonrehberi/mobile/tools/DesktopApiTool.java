@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/tools/DesktopApiTool.java
 // # 📌 Amac: Android istemcinin masaustu LAN senkron API'siyle HTTP iletisimi yapan adaptorudur.
 // # 📌 Tool - Java
-// # Version: 2.37.1
-// # Aciklama: HTTP ve JSON parse hatalarini Tool katmaninda sarar; kisileri ve sync UUID yanitlarini guvenli sekilde ayrıştırır.
+// # Version: 2.37.2
+// # Aciklama: HTTP, ag ve JSON parse hatalarini Language katmanindan yerellestirerek sarar; kisileri ve sync UUID yanitlarini guvenli sekilde ayrıştırır.
 // # Bagimli Oldugu Katman: Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi.mobile.tools;
 
@@ -120,7 +120,7 @@ public final class DesktopApiTool {
         try {
             return URLEncoder.encode(value == null ? "" : value, StandardCharsets.UTF_8.name());
         } catch (java.io.UnsupportedEncodingException exception) {
-            throw new IllegalStateException(exception);
+            throw new IllegalStateException(Messages.desktopApiRequestFailed(exception.getMessage()), exception);
         }
     }
 
@@ -129,7 +129,7 @@ public final class DesktopApiTool {
     }
 
     private IllegalStateException jsonError(JSONException exception) {
-        return new IllegalStateException("Desktop API JSON yaniti gecersiz: " + exception.getMessage(), exception);
+        return new IllegalStateException(Messages.desktopApiJsonInvalid(exception.getMessage()), exception);
     }
 
     private String request(String url, String token, String method, String body) {
@@ -151,11 +151,13 @@ public final class DesktopApiTool {
                     ? connection.getInputStream() : connection.getErrorStream();
             String response = read(stream);
             if (status < MobileConfig.HTTP_SUCCESS_MIN || status >= MobileConfig.HTTP_SUCCESS_MAX_EXCLUSIVE) {
-                throw new IllegalStateException(Messages.httpError(status, response));
+                throw new ApiRequestException(Messages.httpError(status, response));
             }
             return response;
-        } catch (Exception exception) {
+        } catch (ApiRequestException exception) {
             throw new IllegalStateException(exception.getMessage(), exception);
+        } catch (Exception exception) {
+            throw new IllegalStateException(Messages.desktopApiRequestFailed(exception.getMessage()), exception);
         } finally {
             if (connection != null) connection.disconnect();
         }
@@ -175,7 +177,13 @@ public final class DesktopApiTool {
         try {
             return URLEncoder.encode(key, StandardCharsets.UTF_8.name()) + "=" + URLEncoder.encode(value == null ? "" : value, StandardCharsets.UTF_8.name());
         } catch (java.io.UnsupportedEncodingException exception) {
-            throw new IllegalStateException(exception.getMessage(), exception);
+            throw new IllegalStateException(Messages.desktopApiRequestFailed(exception.getMessage()), exception);
+        }
+    }
+
+    private static final class ApiRequestException extends RuntimeException {
+        private ApiRequestException(String message) {
+            super(message);
         }
     }
 }
