@@ -1,14 +1,16 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/language/Messages.swift
-// # 📌 Amac: iOS mobil istemcide gorunen mesajlari sistem diline gore merkezi olarak tutar.
+// # 📌 Amac: iOS mobil istemcide gorunen mesajlari tercih edilen uygulama/sistem diline gore merkezi olarak tutar.
 // # 📌 Language - Swift
-// # Version: 1.4.0
-// # Aciklama: Turkce sistemlerde Turkce, diger sistemlerde Ingilizce ekran, baglanti, izin ve senkron metinleri kullanir.
+// # Version: 1.4.1
+// # Aciklama: Turkce tercih edilen UI dilinde Turkce, diger dillerde Ingilizce ekran, baglanti, izin ve senkron metinleri kullanir.
 // # Bagimli Oldugu Katman: Language
 import Foundation
 
 enum Messages {
     private static var isTurkish: Bool {
-        Locale.current.language.languageCode?.identifier.lowercased() == "tr"
+        let preferred = Locale.preferredLanguages.first?.lowercased()
+            ?? Locale.current.identifier.lowercased()
+        return preferred == "tr" || preferred.hasPrefix("tr-") || preferred.hasPrefix("tr_")
     }
 
     private static func text(_ turkish: String, _ english: String) -> String {
