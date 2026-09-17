@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/tools/LanEndpointTool.swift
 // # 📌 Amac: iOS mobil senkron sunucu adresini guvenli HTTP/HTTPS ve LAN kurallarina gore dogrular.
 // # 📌 Tool - Swift
-// Version: 1.0.0
-// # 📌 Aciklama: Cleartext HTTP'yi yalniz loopback, private/link-local IP ve yerel hostname hedeflerine sinirlar; uzak hedeflerde HTTPS gerektirir.
+// Version: 1.0.1
+// # 📌 Aciklama: Cleartext HTTP'yi yalniz loopback, private/link-local IP ve yerel hostname hedeflerine sinirlar; port araligini dogrular ve uzak hedeflerde HTTPS gerektirir.
 // # 📌 Bagimli Oldugu Katman: Tool
 import Foundation
 
@@ -20,6 +20,9 @@ struct LanEndpointTool {
         let scheme = (components.scheme ?? "").lowercased()
         guard scheme == "http" || scheme == "https" else { throw LanEndpointError.invalidAddress }
         guard let rawHost = components.host, !rawHost.isEmpty else { throw LanEndpointError.invalidAddress }
+        if let port = components.port, !(1...65535).contains(port) {
+            throw LanEndpointError.invalidAddress
+        }
         guard components.user == nil,
               components.password == nil,
               components.query == nil,
