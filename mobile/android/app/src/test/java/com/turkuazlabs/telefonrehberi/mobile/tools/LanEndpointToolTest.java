@@ -1,9 +1,9 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/test/java/com/turkuazlabs/telefonrehberi/mobile/tools/LanEndpointToolTest.java
 // # 📌 Amac: Android LAN endpoint guvenlik kurallarini harici test frameworku olmadan dogrular.
 // # 📌 Tool - Java
-// Version: 1.0.0
-// # Aciklama: Private/loopback/link-local HTTP hedeflerini ve HTTPS'i kabul; uzak cleartext HTTP ile gecersiz base URL'leri reddetme kurallarini test eder.
-// # Bagimli Oldugu Katman: Tool | Language
+// Version: 1.0.1
+// # 📌 Aciklama: Private/loopback/link-local HTTP hedeflerini ve HTTPS'i kabul; uzak cleartext HTTP, gecersiz port ve gecersiz base URL'leri reddetme kurallarini test eder.
+// # 📌 Bagimli Oldugu Katman: Tool | Language
 package com.turkuazlabs.telefonrehberi.mobile.tools;
 
 public final class LanEndpointToolTest {
@@ -33,6 +33,7 @@ public final class LanEndpointToolTest {
         expectAccepted("http://[::1]:8787", "http://[::1]:8787");
         expectAccepted("http://[fd12::1]:8787", "http://[fd12::1]:8787");
         expectAccepted("http://[fe80::1]:8787", "http://[fe80::1]:8787");
+        expectAccepted("http://192.168.1.10:65535", "http://192.168.1.10:65535");
     }
 
     private void acceptsHttpsTargets() {
@@ -57,6 +58,8 @@ public final class LanEndpointToolTest {
         expectRejected("http://192.168.1.10:8787/api");
         expectRejected("http://192.168.1.10:8787/?token=x");
         expectRejected("http://192.168.1.10:8787/#fragment");
+        expectRejected("http://192.168.1.10:0");
+        expectRejected("http://192.168.1.10:65536");
     }
 
     private void expectAccepted(String input, String expected) {
