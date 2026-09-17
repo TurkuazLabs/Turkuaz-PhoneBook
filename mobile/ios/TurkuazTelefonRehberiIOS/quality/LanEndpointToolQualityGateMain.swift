@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/quality/LanEndpointToolQualityGateMain.swift
-// # 📌 Amac: iOS LAN endpoint dogrulamasinin izin verilen ve reddedilen adres sinirlarini regression gate olarak test eder.
+// # 📌 Amac: iOS LAN endpoint dogrulamasinin izin verilen ve reddedilen ATS uyumlu adres sinirlarini regression gate olarak test eder.
 // # 📌 Tool - Swift
-// Version: 1.0.1
-// # 📌 Aciklama: Private/loopback HTTP ve tum HTTPS hedeflerini kabul eder; public cleartext HTTP, gecersiz port ve hatali URL bicimlerini reddeder.
+// Version: 1.0.2
+// # 📌 Aciklama: Private/loopback HTTP, unqualified/.local host ve HTTPS hedeflerini kabul eder; public/custom-domain cleartext HTTP, gecersiz port ve hatali URL bicimlerini reddeder.
 // # 📌 Bagimli Oldugu Katman: Tool
 import Foundation
 
@@ -22,12 +22,17 @@ enum LanEndpointToolQualityGateMain {
         try expectSuccess(tool, "http://[fd00::1]:8787")
         try expectSuccess(tool, "http://192.168.1.10:65535")
         try expectSuccess(tool, "https://example.com")
+        try expectSuccess(tool, "https://desktop.lan:8787")
+        try expectSuccess(tool, "https://router.home.arpa:8787")
 
         try expectFailure(tool, "")
         try expectFailure(tool, "ftp://192.168.1.10")
         try expectFailure(tool, "http://8.8.8.8:8787")
         try expectFailure(tool, "http://example.com:8787")
-        try expectFailure(tool, "http://user@example.local:8787")
+        try expectFailure(tool, "http://desktop.lan:8787")
+        try expectFailure(tool, "http://router.home.arpa:8787")
+        try expectFailure(tool, "http://localhost.localdomain:8787")
+        try expectFailure(tool, "http://user@desktop.local:8787")
         try expectFailure(tool, "http://192.168.1.10:8787/api")
         try expectFailure(tool, "http://192.168.1.10:8787?x=1")
         try expectFailure(tool, "http://192.168.1.10:0")
