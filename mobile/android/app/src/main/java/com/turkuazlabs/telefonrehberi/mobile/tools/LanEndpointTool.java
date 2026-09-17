@@ -1,9 +1,9 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/android/app/src/main/java/com/turkuazlabs/telefonrehberi/mobile/tools/LanEndpointTool.java
 // # 📌 Amac: Android mobil senkron sunucu adresini guvenli HTTP/HTTPS ve LAN kurallarina gore dogrular.
 // # 📌 Tool - Java
-// Version: 1.0.0
-// Aciklama: Cleartext HTTP'yi yalniz loopback, private/link-local IP ve yerel hostname hedeflerine sinirlar; uzak hedeflerde HTTPS gerektirir.
-// Bagimli Oldugu Katman: Tool | Language
+// Version: 1.0.1
+// # 📌 Aciklama: Cleartext HTTP'yi yalniz loopback, private/link-local IP ve yerel hostname hedeflerine sinirlar; port araligini dogrular ve uzak hedeflerde HTTPS gerektirir.
+// # 📌 Bagimli Oldugu Katman: Tool | Language
 package com.turkuazlabs.telefonrehberi.mobile.tools;
 
 import com.turkuazlabs.telefonrehberi.mobile.language.Messages;
@@ -30,8 +30,10 @@ public final class LanEndpointTool {
 
         String scheme = safeLower(uri.getScheme());
         String host = uri.getHost();
+        int port = uri.getPort();
         if ((!"http".equals(scheme) && !"https".equals(scheme))
                 || host == null || host.isBlank()
+                || port == 0 || port > 65535
                 || uri.getUserInfo() != null
                 || uri.getQuery() != null
                 || uri.getFragment() != null
