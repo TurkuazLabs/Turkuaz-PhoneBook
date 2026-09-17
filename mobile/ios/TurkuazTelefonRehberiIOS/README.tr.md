@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/README.tr.md
 # 📌 Amac: iOS SwiftUI istemcisinin XcodeGen, signing, izin ve senkron kullanimini Turkce aciklar.
 # 📌 Documentation - Markdown
-# Version: 2.37.1
-# Aciklama: iOS 18+ Contacts framework istemcisini simulator veya gercek cihaz icin hazirlama, yerellestirme ve guvenilir LAN senkron adimlarini Turkce tanimlar.
+# Version: 2.38.1
+# Aciklama: iOS 18+ Contacts framework istemcisini simulator veya gercek cihaz icin hazirlama, yerellestirme, endpoint dogrulama ve guvenilir LAN senkron adimlarini Turkce tanimlar.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 # Turkuaz Telefon Rehberi — iOS Mobil Istemci
@@ -48,4 +48,6 @@ Varsayilan/fallback urun ve izin dili Ingilizcedir. Turkce urun/izin metinleri `
 
 ## Guvenlik
 
-Local Network ve Contacts izin aciklamalari `Info.plist` icindedir. v2.37.0 local HTTP kullandigi icin yalnizca guvenilir LAN/Wi-Fi aginda kullanilmalidir.
+Local Network ve Contacts izin aciklamalari `Info.plist` icindedir. HTTP senkron adresleri yalniz loopback, private/link-local IP araliklari ve `.local`, `.lan`, `.home.arpa` gibi yerel LAN hostname hedefleri icin kabul edilir; public/uzak hedeflerde HTTPS zorunludur. Ayni endpoint politikasi Build ve Release CI icinde `tools/test-ios-endpoint.sh` ile regression gate olarak test edilir.
+
+LAN senkronunu yalniz bilgisayar ve iPhone'un ayni guvenilir Wi-Fi/LAN aginda oldugu durumda kullanin ve masaustu senkron portunu dogrudan Internet'e acmayin.
