@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/tools/SyncTokenStore.java
 // # 📌 Amac: Mobil senkron API erisim anahtarini guvenli rastgele olarak olusturur ve yerelde saklar.
 // # 📌 Tool - Java
-// Version: 1.2.0
-// # Aciklama: 256-bit token uretir; POSIX sistemlerde 0600 gecici dosyaya tam yazip ayni dizinde no-replace move ile yayinlar, mevcut dosya izinlerini sikilastirir ve eszamanli ilk-olusturma yarisinda kazanan tokeni korur.
+// Version: 1.3.0
+// # Aciklama: Token hedefinin kendi parent dizinini hazirlar; test edilebilir hedef/token boyutu enjeksiyonu, POSIX 0600 izinleri ve race-safe yayinlama uygular.
 // # Bagimli Oldugu Katman: Tool | Config | Language
 package com.turkuazlabs.telefonrehberi.tools;
 
@@ -30,13 +30,30 @@ public final class SyncTokenStore {
             PosixFilePermission.OWNER_WRITE
     );
 
-    private final SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom;
+    private final Path target;
+    private final int tokenBytes;
+
+    public SyncTokenStore() {
+        this(AppConfig.SYNC_TOKEN_FILE, AppConfig.SYNC_TOKEN_BYTES);
+    }
+
+    public SyncTokenStore(Path target, int tokenBytes) {
+        if (target == null || target.getParent() == null) {
+            throw new IllegalArgumentException("Sync token target path must have a parent directory.");
+        }
+        if (tokenBytes < 16) {
+            throw new IllegalArgumentException("Sync token size must be at least 16 bytes.");
+        }
+        this.target = target.toAbsolutePath().normalize();
+        this.tokenBytes = tokenBytes;
+        this.secureRandom = new SecureRandom();
+    }
 
     public synchronized String getOrCreate() {
-        Path target = AppConfig.SYNC_TOKEN_FILE;
         Path temporary = null;
         try {
-            Files.createDirectories(AppConfig.DATA_PATH);
+            Files.createDirectories(target.getParent());
             boolean targetExisted = Files.exists(target);
             if (targetExisted) {
                 String existing = readExistingToken(target);
@@ -86,7 +103,7 @@ public final class SyncTokenStore {
     }
 
     private String createToken() {
-        byte[] bytes = new byte[AppConfig.SYNC_TOKEN_BYTES];
+        byte[] bytes = new byte[tokenBytes];
         secureRandom.nextBytes(bytes);
         return HexFormat.of().formatHex(bytes);
     }
