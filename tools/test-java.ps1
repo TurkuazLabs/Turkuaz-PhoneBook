@@ -1,9 +1,9 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/test-java.ps1
 # 📌 Amac: Windows Java 17 release quality gate testlerini SQLite JDBC ile derleyip calistirir.
 # 📌 Tool - PowerShell
-# Version: 1.1.0
-# Aciklama: Launcher YAML'daki sabitlenmis SQLite JDBC surum ve SHA-256 degerini kullanarak test runtimeini hazirlar.
-# Bagimli Oldugu Katman: Tool | Config | Repository | Service
+# Version: 1.2.0
+# Aciklama: Genel Java quality gate ile sync-token dizin/izin regresyon testini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
+# Bagimli Oldugu Katman: Tool | Config | Repository | Service | Language
 
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -47,5 +47,10 @@ if ($Slf4jActualSha -ne $Slf4jExpectedSha) { throw 'SLF4J API SHA-256 uyusmuyor.
 $Sources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'src\main\java'), (Join-Path $Root 'src\test\java') -Filter '*.java' -File -Recurse | Sort-Object FullName | ForEach-Object FullName)
 & javac '--release' '17' '--add-modules' 'jdk.httpserver' '-encoding' 'UTF-8' '-d' $Classes @Sources
 if ($LASTEXITCODE -ne 0) { throw "Java test compile basarisiz. ExitCode=$LASTEXITCODE" }
-& java '--add-modules' 'jdk.httpserver' '-cp' "$Classes;$Jar;$Slf4jJar" 'com.turkuazlabs.telefonrehberi.QualityGateTest'
+
+$ClassPath = "$Classes;$Jar;$Slf4jJar"
+& java '--add-modules' 'jdk.httpserver' '-cp' $ClassPath 'com.turkuazlabs.telefonrehberi.QualityGateTest'
 if ($LASTEXITCODE -ne 0) { throw "Java quality gate basarisiz. ExitCode=$LASTEXITCODE" }
+
+& java '--add-modules' 'jdk.httpserver' '-cp' $ClassPath 'com.turkuazlabs.telefonrehberi.SyncTokenStoreQualityGateTest'
+if ($LASTEXITCODE -ne 0) { throw "Sync token quality gate basarisiz. ExitCode=$LASTEXITCODE" }
