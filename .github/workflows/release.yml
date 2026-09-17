@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.5.0
-# Aciklama: Version consistency, Java quality gate, Android LAN endpoint quality gate, Windows Inno Setup smoke test ve Turkuaz PhoneBook global release kimligiyle cross-platform release uretir.
+# Version: 2.5.1
+# Aciklama: Version consistency, Java quality gate, Android/iOS LAN endpoint quality gate, Windows Inno Setup smoke test ve Turkuaz PhoneBook global release kimligiyle cross-platform release uretir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 name: Release
@@ -168,6 +168,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Run iOS endpoint quality gate
+        shell: bash
+        run: bash ./tools/test-ios-endpoint.sh
 
       - name: Install XcodeGen
         run: brew install xcodegen
