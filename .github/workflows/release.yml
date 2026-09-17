@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.4.6
-# Aciklama: Java quality gate, Android LAN endpoint quality gate, Windows Inno Setup smoke test ve Turkuaz PhoneBook global release kimligiyle cross-platform release uretir.
+# Version: 2.5.0
+# Aciklama: Version consistency, Java quality gate, Android LAN endpoint quality gate, Windows Inno Setup smoke test ve Turkuaz PhoneBook global release kimligiyle cross-platform release uretir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 name: Release
@@ -34,6 +34,10 @@ jobs:
         with:
           go-version: '1.23.x'
           cache-dependency-path: launcher/native/go.mod
+
+      - name: Verify release version consistency
+        shell: powershell
+        run: .\tools\check-version-consistency.ps1
 
       - name: Run Java quality gate
         shell: powershell
@@ -238,8 +242,8 @@ jobs:
           # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml
           # 📌 Amac: GitHub Release cross-platform update metadata ve SHA-256 degerlerini tanimlar.
           # 📌 Modul - YAML
-          # Version: 2.2.0
-          # Aciklama: Portable launcher ve Windows Inno Setup auto-update assetlerini sunar.
+          # Version: 2.4.0
+          # Aciklama: Turkuaz PhoneBook cross-platform portable launcher ve Windows Inno Setup auto-update assetlerini sunar.
           # Bagimli Oldugu Katman: Tool
 
           app_version: "${APP_VERSION}"

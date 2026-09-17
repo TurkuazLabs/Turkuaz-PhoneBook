@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-release.ps1
 # 📌 Amac: Java 17 JAR, native Windows EXE launcher ve GitHub release paketini uretir.
 # 📌 Modul - PowerShell
-# Version: 2.4.0
-# Aciklama: v2.37.0 quality gate uyumlu JAR, EXE, platform update manifesti ve portable ZIP uretir.
+# Version: 2.5.0
+# Aciklama: v2.38.0 quality gate uyumlu JAR, EXE, platform update manifesti ve portable ZIP uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 [CmdletBinding()]
@@ -59,7 +59,7 @@ function Write-StateFile {
         '# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/config/state.yml',
         '# 📌 Amac: Kurulu uygulama ve native launcher surum durumunu tutar.',
         '# 📌 Modul - YAML',
-        '# Version: 2.3.0',
+        '# Version: 2.4.0',
         '# Aciklama: GitHub updater tarafindan yonetilen yerel surum bilgisidir.',
         '# Bagimli Oldugu Katman: Repository',
         '',
@@ -132,8 +132,8 @@ $updateManifest = @(
     '# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml',
     '# 📌 Amac: GitHub Release asset update metadata ve SHA-256 degerlerini tanimlar.',
     '# 📌 Modul - YAML',
-    '# Version: 2.3.0',
-    '# Aciklama: v2.37.0 Windows/Linux platform launcher ve Setup auto-update release metadata dosyasidir.',
+    '# Version: 2.4.0',
+    '# Aciklama: v2.38.0 Windows/Linux platform launcher ve Setup auto-update release metadata dosyasidir.',
     '# Bagimli Oldugu Katman: Tool',
     '',
     ('app_version: "{0}"' -f $appVersion),
@@ -176,7 +176,7 @@ $internalChecksums = @(
     '# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHECKSUMS.txt',
     '# 📌 Amac: Portable paketteki kritik release dosyalarinin SHA-256 degerlerini listeler.',
     '# 📌 Modul - Text',
-    '# Version: 2.3.0',
+    '# Version: 2.4.0',
     '# Aciklama: Native launcher ve JAR manuel butunluk kontroludur.',
     '# Bagimli Oldugu Katman: Tool',
     '',
@@ -195,7 +195,7 @@ $distChecksums = @(
     '# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/dist/CHECKSUMS.txt',
     '# 📌 Amac: GitHub Release asset SHA-256 degerlerini listeler.',
     '# 📌 Modul - Text',
-    '# Version: 2.3.0',
+    '# Version: 2.4.0',
     '# Aciklama: JAR, native EXE, manifest ve portable ZIP butunluk kontroludur.',
     '# Bagimli Oldugu Katman: Tool',
     '',

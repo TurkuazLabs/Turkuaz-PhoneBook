@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin uluslararasi GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.1
-# Aciklama: Global marka kimligi, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce masaustu yerellestirmesi, build ve release akislarini Ingilizce ana README olarak sunar
+# Version: 2.38.2
+# Aciklama: v2.38.0 global marka kimligi, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -17,7 +17,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.37.0-0aa6a6" alt="Version 2.37.0">
+    <img src="https://img.shields.io/badge/version-2.38.0-0aa6a6" alt="Version 2.38.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -202,6 +202,9 @@ Fallback:
 - It is intended for trusted local networks only.
 - Android stores the sync token using Android Keystore + AES/GCM.
 - iOS stores the sync token in Keychain.
+- Android cleartext sync traffic is restricted to local-network endpoints.
+- Android backup rules exclude sync identity and credential preferences.
+- Desktop sync-token creation uses owner-only permissions on POSIX systems and publishes completed token files without a partial-content exposure window.
 - The default HTTP request-body limit is 2 MiB.
 - Bearer-token comparison is constant-time.
 
@@ -282,20 +285,20 @@ CI validates:
 - Android API 36 debug APK build
 - iOS simulator build
 
-## v2.37.0 Highlights
+## v2.38.0 Highlights
 
-v2.37.0 focuses on data safety, synchronization identity, performance and release quality:
+v2.38.0 expands Turkuaz PhoneBook from the v2.37 data-safety foundation into a bilingual, internationally presented release line:
 
-- WAL-safe SQLite backup
-- persistent `sync_uuid`
-- Android Keystore and iOS Keychain token protection
-- duplicate-scan performance improvements
-- repository child-data batch loading
-- heavy Swing operations moved off the EDT
-- schema-version infrastructure
-- Java quality gate
-- Windows installer smoke testing
-- cross-platform GitHub Actions validation
+- repository/global product identity moved to **Turkuaz PhoneBook** while preserving technical compatibility identifiers
+- language-neutral **Turkuaz** branding and text-free application logo
+- Turkish/English system-locale desktop message catalog
+- localized contact-method and phone-country display without changing stored contact data
+- localized Windows installer, native launcher, Linux desktop/install scripts, Android and iOS companion UI
+- automatic phone-country default derived safely from the system locale
+- Android LAN endpoint restrictions, credential masking and backup exclusions
+- iOS Keychain write failures surfaced instead of being silently ignored
+- desktop sync-token file permission and publication hardening
+- launcher release line advanced to **2.5.0**
 
 See [CHANGELOG.md](./CHANGELOG.md) for the full release history.
 
