@@ -1,9 +1,9 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/language/Messages.swift
 // # 📌 Amac: iOS mobil istemcide gorunen mesajlari tercih edilen uygulama/sistem diline gore merkezi olarak tutar.
 // # 📌 Language - Swift
-// # Version: 1.5.0
-// # Aciklama: Turkce tercih edilen UI dilinde Turkce, diger dillerde Ingilizce ekran, baglanti, izin, Keychain ve senkron metinleri kullanir.
-// # Bagimli Oldugu Katman: Language
+// Version: 1.6.0
+// # 📌 Aciklama: Turkce tercih edilen UI dilinde Turkce, diger dillerde Ingilizce ekran, baglanti, endpoint guvenligi, izin, Keychain ve senkron metinleri kullanir.
+// # 📌 Bagimli Oldugu Katman: Language
 import Foundation
 
 enum Messages {
@@ -30,6 +30,18 @@ enum Messages {
     static var working: String { text("Islem yapiliyor...", "Working...") }
     static var connectionOk: String { text("PC baglantisi basarili.", "PC connection successful.") }
     static var serverRequired: String { text("PC adresi bos olamaz.", "PC address cannot be empty.") }
+    static var serverUrlInvalid: String {
+        text(
+            "PC adresi gecerli bir http:// veya https:// kok adresi olmali.",
+            "PC address must be a valid http:// or https:// base URL."
+        )
+    }
+    static var serverHttpLocalOnly: String {
+        text(
+            "HTTP yalniz ayni guvenilir yerel agdaki PC icin kullanilabilir. Uzak/public hedeflerde HTTPS kullanin.",
+            "HTTP is allowed only for a PC on the same trusted local network. Use HTTPS for remote/public endpoints."
+        )
+    }
     static var tokenRequired: String { text("Senkron tokeni bos olamaz.", "Sync token cannot be empty.") }
     static var secureTokenStoreFailed: String {
         text("Senkron tokeni Keychain'e guvenli kaydedilemedi.", "Sync token could not be saved securely to Keychain.")
