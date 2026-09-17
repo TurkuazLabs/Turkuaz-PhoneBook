@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/test-java.sh
-# 📌 Amac: Java 17 release quality gate testlerini SQLite JDBC ile derleyip calistirir.
+# 📌 Amac: Linux Java 17 release quality gate testlerini SQLite JDBC ile derleyip calistirir.
 # 📌 Tool - Shell
-# Version: 1.1.0
-# Aciklama: Launcher YAML'daki sabitlenmis SQLite JDBC surum ve SHA-256 degerini kullanarak test runtimeini hazirlar.
-# Bagimli Oldugu Katman: Tool | Config | Repository | Service
+# Version: 1.2.0
+# Aciklama: Genel Java quality gate ile POSIX sync-token dizin/0600 izin regresyon testini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
+# Bagimli Oldugu Katman: Tool | Config | Repository | Service | Language
 
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -40,4 +40,6 @@ SLF4J_ACTUAL_SHA="$(sha256sum "${SLF4J_JAR}" | awk '{print $1}')"
 
 mapfile -t SOURCES < <(find "${ROOT}/src/main/java" "${ROOT}/src/test/java" -name '*.java' -type f | sort)
 javac --release 17 --add-modules jdk.httpserver -encoding UTF-8 -d "${CLASSES}" "${SOURCES[@]}"
-java --add-modules jdk.httpserver -cp "${CLASSES}:${JAR}:${SLF4J_JAR}" com.turkuazlabs.telefonrehberi.QualityGateTest
+CLASS_PATH="${CLASSES}:${JAR}:${SLF4J_JAR}"
+java --add-modules jdk.httpserver -cp "${CLASS_PATH}" com.turkuazlabs.telefonrehberi.QualityGateTest
+java --add-modules jdk.httpserver -cp "${CLASS_PATH}" com.turkuazlabs.telefonrehberi.SyncTokenStoreQualityGateTest
