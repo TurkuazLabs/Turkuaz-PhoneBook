@@ -1,9 +1,9 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/services/SyncService.swift
 // # 📌 Amac: iOS ile masaustu arasindaki iki yonlu rehber senkronizasyonu is kurallarini yonetir.
 // # 📌 Service - Swift
-// # Version: 2.37.3
-// # Aciklama: Kalici sync UUID mappingi, duplicate-safe pull, idempotent push ve Keychain yazma hatasi propagasyonunu Swift 6 actor izolasyonuyla uygular.
-// # Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
+// Version: 2.38.0
+// # 📌 Aciklama: Kalici sync UUID mappingi, duplicate-safe pull, idempotent push, Keychain hata propagasyonu ve guvenli LAN endpoint dogrulamasini uygular.
+// # 📌 Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
 import Foundation
 
 @MainActor
@@ -11,20 +11,38 @@ final class SyncService {
     private let contactsRepository: DeviceContactRepository
     private let settingsRepository: SettingsRepository
     private let desktopApiTool: DesktopApiTool
+    private let lanEndpointTool: LanEndpointTool
 
-    init(contactsRepository: DeviceContactRepository, settingsRepository: SettingsRepository, desktopApiTool: DesktopApiTool) {
+    init(
+        contactsRepository: DeviceContactRepository,
+        settingsRepository: SettingsRepository,
+        desktopApiTool: DesktopApiTool,
+        lanEndpointTool: LanEndpointTool = LanEndpointTool()
+    ) {
         self.contactsRepository = contactsRepository
         self.settingsRepository = settingsRepository
         self.desktopApiTool = desktopApiTool
+        self.lanEndpointTool = lanEndpointTool
     }
 
     func serverUrl() -> String { settingsRepository.serverUrl() }
     func token() -> String { settingsRepository.token() }
 
     func saveConnection(serverUrl: String, token: String) throws {
-        if serverUrl.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { throw SyncError.validation(Messages.serverRequired) }
-        if token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { throw SyncError.validation(Messages.tokenRequired) }
-        try settingsRepository.saveConnection(serverUrl: serverUrl, token: token)
+        let normalizedUrl: String
+        do {
+            normalizedUrl = try lanEndpointTool.normalizeBaseUrl(serverUrl)
+        } catch LanEndpointError.required {
+            throw SyncError.validation(Messages.serverRequired)
+        } catch LanEndpointError.cleartextLocalOnly {
+            throw SyncError.validation(Messages.trustedLanHint)
+        } catch {
+            throw SyncError.validation(Messages.invalidPcAddress)
+        }
+        if token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            throw SyncError.validation(Messages.tokenRequired)
+        }
+        try settingsRepository.saveConnection(serverUrl: normalizedUrl, token: token)
     }
 
     func testConnection() async throws {

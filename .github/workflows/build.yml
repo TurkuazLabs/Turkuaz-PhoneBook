@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.6.1
-# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android LAN endpoint, Android API 36 ve iOS build kontrollerini calistirir.
+# Version: 2.6.2
+# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android ve iOS LAN endpoint gate, Android API 36 ve iOS build kontrollerini calistirir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -151,6 +151,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Run iOS endpoint quality gate
+        shell: bash
+        run: bash ./tools/test-ios-endpoint.sh
 
       - name: Install XcodeGen
         run: brew install xcodegen

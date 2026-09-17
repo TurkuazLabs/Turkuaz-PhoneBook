@@ -19,6 +19,7 @@
 - Android varsayilan Ingilizce resource ve Turkce `values-tr` kaynaklarina ayrildi; manifest uygulama adi `@string/app_name` uzerinden yerellestirildi ve API/transport hata metinleri Language katmanina tasindi.
 - Android sync token girisi maskelendi; sync kimligi/credential tercihleri Auto Backup'tan haric tutuldu; cleartext LAN senkronu yerel ag endpointleriyle sinirlandi ve CI kontrolu eklendi.
 - iOS varsayilan Ingilizce ad/izin metinleri ile Turkce `InfoPlist.strings` kaynaklarini kullanir; senkron ekran metinleri yerellestirildi ve Keychain token yazma hatalari sessizce yutulmaz.
+- iOS senkron endpoint dogrulamasi Android ile hizalandi; cleartext HTTP yalniz loopback/private/link-local/yerel LAN hedeflerinde kabul edilir, public hedeflerde HTTPS zorunludur ve bu kural macOS Swift CI quality gate ile test edilir.
 - Masaustu sync token dosyasi POSIX sistemlerde owner-only izinlerle korunur; token tamamlanmis gecici dosyadan ayni dizinde yayinlanarak kismi icerik gorunurlugu engellenir ve eszamanli ilk-olusturma yarisi guvenli yonetilir.
 - Release surumleri **app 2.38.0**, **launcher 2.5.0**, **Android versionCode 580** ve **iOS build 580** olarak hizalandi.
 - Windows/Linux build scriptleri ve generated release metadata v2.38.0 cizgisine tasindi; checked-in `updates/update-manifest.yml` gercek yeni binary hashleri uretilene kadar son yayinlanmis v2.37 referansi olarak acikca isaretlendi.
