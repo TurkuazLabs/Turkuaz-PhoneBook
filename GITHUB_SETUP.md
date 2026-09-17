@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
 # 📌 Amac: TurkuazLabs GitHub repository, quality gate, yerellestirme ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.5.0
-# Aciklama: Turkuaz-PhoneBook repository adi, v2.38.0 Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build ve Turkce/Ingilizce dagitim kimligi akisidir.
+# Version: 2.5.1
+# Aciklama: Turkuaz-PhoneBook repository adi, v2.38.0 Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build, endpoint security gate ve Turkce/Ingilizce dagitim kimligi akisidir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 # Repository
@@ -69,8 +69,10 @@ Updater release assetlerini `https://github.com/TurkuazLabs/Turkuaz-PhoneBook` r
 
 ## Quality gate
 
-- `tools/test-java.ps1` / `tools/test-java.sh`: WAL backup, sync UUID idempotency, history retention, request limiti, preferences round-trip ve masaustu yerellestirme regression testleri.
+- `tools/test-java.ps1` / `tools/test-java.sh`: WAL backup, sync UUID idempotency, history retention, request limiti, preferences round-trip, token dosya guvenligi ve masaustu yerellestirme regression testleri.
 - `go test ./...` ve `go vet ./...`: native launcher.
 - Windows CI: Inno Setup silent install payload smoke testi.
-- Android: API 36 debug APK build ve LAN endpoint guvenlik kontrolu.
-- iOS: simulator build, code signing kapali.
+- Android: `tools/test-android-endpoint.sh` ile LAN endpoint guvenlik kontrolu + API 36 debug APK build.
+- iOS: `tools/test-ios-endpoint.sh` ile LAN endpoint guvenlik kontrolu + XcodeGen simulator build, code signing kapali.
+
+Android ve iOS endpoint gate'leri cleartext `http://` senkronu yalniz loopback/private/link-local/yerel LAN hedeflerinde kabul eder; public/uzak hedeflerde HTTPS zorunludur.
