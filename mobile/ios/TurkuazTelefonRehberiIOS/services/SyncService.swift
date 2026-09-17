@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/services/SyncService.swift
 // # 📌 Amac: iOS ile masaustu arasindaki iki yonlu rehber senkronizasyonu is kurallarini yonetir.
 // # 📌 Service - Swift
-// Version: 2.38.0
-// # 📌 Aciklama: Kalici sync UUID mappingi, duplicate-safe pull, idempotent push, Keychain hata propagasyonu ve guvenli LAN endpoint dogrulamasini uygular.
+// Version: 2.38.1
+// # 📌 Aciklama: Kalici sync UUID mappingi, duplicate-safe pull, idempotent push, Keychain hata propagasyonu ve acik hata mesajli guvenli LAN endpoint dogrulamasini uygular.
 // # 📌 Bagimli Oldugu Katman: Service | Repository | Tool | Model | Language
 import Foundation
 
@@ -35,9 +35,9 @@ final class SyncService {
         } catch LanEndpointError.required {
             throw SyncError.validation(Messages.serverRequired)
         } catch LanEndpointError.cleartextLocalOnly {
-            throw SyncError.validation(Messages.trustedLanHint)
+            throw SyncError.validation(Messages.serverHttpLocalOnly)
         } catch {
-            throw SyncError.validation(Messages.invalidPcAddress)
+            throw SyncError.validation(Messages.serverUrlInvalid)
         }
         if token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             throw SyncError.validation(Messages.tokenRequired)
