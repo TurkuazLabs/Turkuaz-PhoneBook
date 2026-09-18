@@ -29,7 +29,7 @@ Kaynak dosyalari repository kokune yerlestir.
    - `TelefonRehberi-Linux-v2.38.0-FULL.tar.gz`
    - Android test APK
 
-Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kurulur. Portable kullanici `TelefonRehberi.exe`, Linux kullanicisi `TelefonRehberi` native launcher ile baslatir.
+Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kurulur ve JRE/JDBC/SLF4J/FlatLaf bagimliliklarini Setup icinde tasir. Portable Windows ve Linux paketleri bootstrap dagitimidir; ilk acilista native launcher eksik runtime/bagimliliklari indirip hash dogrulamasi yapar. Portable kullanici `TelefonRehberi.exe`, Linux kullanicisi `TelefonRehberi` native launcher ile baslatir.
 
 ## Marka ve urun adi
 

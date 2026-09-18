@@ -15,6 +15,7 @@
 - Android API 36 debug APK ve iOS simulator build gecmeli.
 - Main Build artefactlari `windows-main-build`, `linux-main-build`, `android-main-debug` olarak olusmali.
 - Windows portable ZIP ve Linux TAR.GZ archive integrity kontrolunden gecmeli.
+- Portable paketlerin bootstrap dagitimi oldugu ve ilk acilista internet uzerinden runtime/bagimlilik indirdigi dokumantasyonda acikca belirtilmeli; Windows Setup ise offline runtime/bagimlilik payloadini tasimali.
 - Paketlerde kullaniciya ait `telefon-rehberi.db`, `preferences.yml`, sync token, WAL veya SHM dosyasi bulunmamali.
 - Teknik surumler `app 2.38.0`, `launcher 2.5.1`, Android/iOS build 580 ile version consistency gate'i gecmeli.
 - `updates/update-manifest.yml` main branchte son yayinlanmis release referansi olarak kalabilir; gercek v2.38.0 cross-platform manifesti tag-triggered Release workflow tarafindan release assetlerinin gercek SHA-256 degerleriyle uretilir.
@@ -46,7 +47,7 @@ Asagidaki assetler release'te bulunmali:
 - Release `update-manifest.yml` icinde `app_version: "2.38.0"` ve `launcher_version: "2.5.1"` oldugunu dogrula.
 - Windows Setup SHA-256 degerinin manifestteki `windows_setup_sha256` ile ayni oldugunu dogrula.
 - Temiz Windows sisteminde Setup kurulumunu ve uygulama acilisini kontrol et.
-- Portable Windows paketinin mevcut kullanici verisini paket icine yazmadan acildigini kontrol et.
+- Portable Windows paketinin mevcut kullanici verisini paket icine yazmadan acildigini ve temiz sistemde ilk acilista runtime/bagimlilik bootstrap akisini basariyla tamamladigini kontrol et.
 - Linux full pakette `Kurulum.sh`, native launcher ve masaustu girdisini kontrol et.
 - Turkce ve English masaustu dil tercihlerinin kaydedilip yeniden baslatma sonrasi uygulandigini kontrol et.
 - Launcher latest release kontrolunun v2.38.0 manifestini gordugunu dogrula.

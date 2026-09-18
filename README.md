@@ -145,7 +145,7 @@ Extract the portable archive and launch:
 
 `TelefonRehberi.exe`
 
-The native launcher uses the packaged runtime and dependencies.
+The portable archive is a bootstrap distribution: on first launch, the native launcher downloads Temurin JRE 17, SQLite JDBC, SLF4J API and FlatLaf, verifies the available checksums, and then starts the application. The first portable launch therefore requires internet access. The Windows Setup package, by contrast, bundles the runtime and dependencies.
 
 ### Linux
 

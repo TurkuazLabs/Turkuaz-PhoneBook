@@ -99,7 +99,7 @@ Kullanici verisi Program Files altinda tutulmaz.
 
 ### Windows - Portable
 
-Portable arsivi cikartip `TelefonRehberi.exe` dosyasini calistirin. Native launcher gerekli runtime ve bagimliliklari paket yapisindan kullanir.
+Portable arsivi cikartip `TelefonRehberi.exe` dosyasini calistirin. Portable paket bootstrap dagitimidir: ilk acilista native launcher Temurin JRE 17, SQLite JDBC, SLF4J API ve FlatLaf bagimliliklarini indirir, mevcut SHA-256 dogrulamalarini yapar ve uygulamayi baslatir. Bu nedenle ilk portable acilisinda internet gerekir. Windows Setup paketi ise runtime ve bagimliliklari kendi icinde tasir.
 
 ### Linux
 
