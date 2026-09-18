@@ -2,7 +2,7 @@
 // # 📌 Amac: Tum kullaniciya acik ayarlari yazilabilir OS kullanici config alaninda saklar.
 // # 📌 Repository - Java
 // # Version: 3.1.0
-// # Aciklama: Tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir.
+// # Aciklama: Dil, tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir.
 // # Bagimli Oldugu Katman: Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.repositories;
 
@@ -83,9 +83,9 @@ public final class UserPreferencesRepository {
             Files.createDirectories(preferencesFile.getParent());
             List<String> lines = List.of(
                     "# 📄 Dosya Yolu: C:/Users/<kullanici>/AppData/Roaming/TurkuazLabs/TelefonRehberi/config/preferences.yml",
-                    "# 📌 Amac: Kullanici arayuz, yedekleme, senkron ve update tercihlerini kalici tutar.",
+                    "# 📌 Amac: Kullanici dil, arayuz, yedekleme, senkron ve update tercihlerini kalici tutar.",
                     "# 📌 Config - YAML",
-                    "# Version: 3.0.0",
+                    "# Version: 3.1.0",
                     "# Aciklama: Program Files altindaki salt-okunur teknik configden bagimsiz kullanici tercihleridir.",
                     "# Bagimli Oldugu Katman: Repository | View | Service",
                     "",

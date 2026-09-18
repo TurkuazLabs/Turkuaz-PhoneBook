@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: /README.tr.md
 # 📌 Amac: Turkuaz PhoneBook projesinin Turkce GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.0
+# Version: 2.38.1
 # Aciklama: v2.38.0 global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
@@ -75,7 +75,7 @@ Temel hedefler:
 
 ## Dil ve Yerellestirme
 
-- Masaustu Swing arayuzu JVM/sistem locale degerini kullanir: `tr` icin Turkce katalog, diger diller icin Ingilizce fallback katalog kullanilir.
+- Masaustu Swing arayuzu varsayilan olarak JVM/sistem locale degerini kullanir; Ayarlar > Genel bolumunden `Sistem Dilini Kullan`, `Turkce` veya `English` tercihi kalici olarak secilebilir.
 - Masaustu urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger sistemlerde **Turkuaz PhoneBook** olarak gorunur.
 - Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
 - Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak splash, durum ve kullaniciya gosterilen hata metinlerini yerellestirir.
@@ -85,7 +85,7 @@ Temel hedefler:
 - `Kurulum.sh` ve `Kaldir.sh` terminal mesajlari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
 - Ana logo ve splash marka adi yalnizca **Turkuaz** olarak kalir.
 
-Masaustu yerellestirmesi simdilik sistem diline gore uygulama acilisinda belirlenir. Uygulama calisirken Ayarlar ekranindan dili anlik degistirme secenegi henuz sunulmaz. Teknik kimlikler ve mevcut kullanici veri yollari degismez.
+Masaustu dil tercihi `preferences.yml` icinde kalici tutulur. Language katalogu uygulama acilisinda olusturuldugu icin dil degisikligi uygulama yeniden baslatildiginda tum arayuze uygulanir. Teknik kimlikler ve mevcut kullanici veri yollari degismez.
 
 ## Hizli Baslangic
 

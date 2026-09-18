@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin uluslararasi GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.2
+# Version: 2.38.3
 # Aciklama: v2.38.0 global marka kimligi, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
@@ -113,7 +113,7 @@ GitHub Actions validates Windows, Linux, Android API 36 and iOS simulator builds
 
 The application and distribution layers support Turkish and English/fallback product identity:
 
-- The Swing desktop UI reads the JVM/system locale: Turkish (`tr`) uses the Turkish catalog; every other locale currently uses the English fallback catalog.
+- The Swing desktop UI defaults to the JVM/system locale, and Settings > General can persist `System`, `Turkce` or `English` as the application language.
 - The desktop product title is **Turkuaz Telefon Rehberi** on Turkish systems and **Turkuaz PhoneBook** otherwise.
 - Windows Inno Setup uses **Turkuaz Telefon Rehberi** or **Turkuaz PhoneBook** according to the selected installer language.
 - The native Go launcher reads the Windows UI language or Linux `LC_ALL` / `LC_MESSAGES` / `LANG` locale and localizes splash, status and user-visible error text.
@@ -123,7 +123,7 @@ The application and distribution layers support Turkish and English/fallback pro
 - `Kurulum.sh` and `Kaldir.sh` localize terminal output for Turkish vs. English/fallback locales.
 - The splash brand itself remains simply **Turkuaz**.
 
-The desktop localization is intentionally system-locale based for now; changing language interactively while the application is running is not yet exposed as a user setting. Technical identifiers and existing user-data paths remain unchanged.
+Desktop language selection is persisted in `preferences.yml`. A language change takes effect after restarting the application because the Language catalog is initialized during startup. Technical identifiers and existing user-data paths remain unchanged.
 
 ## Quick Start
 

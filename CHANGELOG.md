@@ -11,6 +11,7 @@
 - Dil bagimsiz ana marka **Turkuaz** olarak sabitlendi; uygulama logosundaki `Telefon Rehberi` gibi dile bagli metinler kaldirildi.
 - Ana GitHub vitrini Ingilizce `README.md`, Turkce dokumantasyon ise `README.tr.md` olarak ayrildi.
 - Masaustu Swing mesaj katalogu sistem/JVM locale degerine gore Turkce veya Ingilizce fallback kullanacak sekilde yerellestirildi.
+- Ayarlar > Genel bolumune kalici uygulama dili secimi eklendi; `system`, `tr` ve `en` tercihleri `preferences.yml` icinde saklanir ve yeniden baslatmada Language katmanina uygulanir.
 - Masaustu gorunen urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger dillerde **Turkuaz PhoneBook** olarak merkezi Language katmanindan secilir.
 - Contact method etiketleri kalici veriyi degistirmeden locale'e gore gosterilir; telefon ulke adlari ve varsayilan telefon ulkesi sistem locale degerine gore yerellestirilir ve guvenli fallback uygular.
 - Native Go launcher modul yolu `github.com/turkuazlabs/turkuaz-phonebook/launcher/native` olarak yenilendi; Windows UI dili ve Linux locale degerlerine gore splash, durum ve hata metinleri yerellestirildi.
