@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.4.1
+// Version: 1.5.0
 // Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve destekli/desteksiz sistem bolgelerinde telefon ulke fallback davranisini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
@@ -9,6 +9,7 @@ package com.turkuazlabs.telefonrehberi;
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
 import com.turkuazlabs.telefonrehberi.config.PhoneCountryCodeCatalog;
 import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
+import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.language.PhoneCountryCodeText;
 import com.turkuazlabs.telefonrehberi.language.ProductText;
@@ -23,6 +24,7 @@ import com.turkuazlabs.telefonrehberi.repositories.SimpleYamlRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserPreferencesRepository;
 import com.turkuazlabs.telefonrehberi.tools.ContactMethodCodec;
 import com.turkuazlabs.telefonrehberi.tools.FormCodec;
+import com.turkuazlabs.telefonrehberi.tools.LanguagePreferenceTool;
 import com.turkuazlabs.telefonrehberi.tools.MobileSyncFormTool;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteBackupTool;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteConnectionProvider;
@@ -240,12 +242,15 @@ public final class QualityGateTest {
         Path preferences = root.resolve("preferences.yml");
         UserPreferencesRepository repository = new UserPreferencesRepository(new SimpleYamlRepository(), preferences);
         AppSettings expected = new AppSettings(
-                ThemeMode.DARK, "contacts", true, 1280, 800, true, true,
+                ThemeMode.DARK, LocaleText.LANGUAGE_ENGLISH_CODE, "contacts", true, 1280, 800, true, true,
                 true, 14, true, 18787, false
         );
         repository.save(expected);
         AppSettings actual = repository.load();
         check(actual.theme() == expected.theme(), "Tema preference round-trip hatali.");
+        check(LocaleText.LANGUAGE_ENGLISH_CODE.equals(actual.languageCode()), "Dil preference round-trip hatali.");
+        check(new LanguagePreferenceTool().readLanguageCode(preferences, root.resolve("legacy-preferences.yml"))
+                .equals(LocaleText.LANGUAGE_ENGLISH_CODE), "Bootstrap dil tercihi okunamadi.");
         check(actual.mobileSyncEnabled(), "Mobile sync preference saklanmadi.");
         check(actual.mobileSyncPort() == 18787, "Mobile sync port preference saklanmadi.");
         check(!actual.updateEnabled(), "Update preference saklanmadi.");

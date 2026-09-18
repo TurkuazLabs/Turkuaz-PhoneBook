@@ -1,12 +1,13 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/services/SettingsService.java
 // # 📌 Amac: Kullanici ayarlari is kurallarini ve runtime degisiklik kontrolunu yonetir.
 // # 📌 Service - Java
-// # Version: 2.0.0
+// # Version: 2.1.0
 // # Aciklama: Tum kullanici tercihlerini yazilabilir UserPreferencesRepository uzerinden saklar; Program Files configine yazmaz.
 // # Bagimli Oldugu Katman: Service | Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.services;
 
 import com.turkuazlabs.telefonrehberi.config.UiConfig;
+import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.SettingsSaveResult;
@@ -25,6 +26,7 @@ public final class SettingsService {
         AppSettings preferences = preferencesRepository.load();
         return new AppSettings(
                 preferences.theme(),
+                LocaleText.normalizeLanguageCode(preferences.languageCode()),
                 UiConfig.isKnownPage(preferences.startupPage()) ? preferences.startupPage() : UiConfig.PAGE_DASHBOARD,
                 preferences.rememberWindow(),
                 Math.max(UiConfig.WINDOW_MIN_WIDTH, preferences.windowWidth()),
@@ -44,13 +46,17 @@ public final class SettingsService {
         AppSettings before = loadSettings();
         preferencesRepository.save(input);
         themeService.setTheme(input.theme());
-        boolean restartRequired = before.mobileSyncEnabled() != input.mobileSyncEnabled()
+        boolean restartRequired = !before.languageCode().equals(LocaleText.normalizeLanguageCode(input.languageCode()))
+                || before.mobileSyncEnabled() != input.mobileSyncEnabled()
                 || before.mobileSyncPort() != input.mobileSyncPort();
         return new SettingsSaveResult(restartRequired);
     }
 
     private void validate(AppSettings settings) {
         if (settings == null) throw new IllegalArgumentException(Messages.ERROR_SETTINGS_REQUIRED);
+        if (!LocaleText.isSupportedLanguageCode(settings.languageCode())) {
+            throw new IllegalArgumentException(Messages.ERROR_LANGUAGE_CODE);
+        }
         if (!UiConfig.isKnownPage(settings.startupPage())) throw new IllegalArgumentException(Messages.ERROR_STARTUP_PAGE);
         if (settings.mobileSyncPort() < 1024 || settings.mobileSyncPort() > 65535) {
             throw new IllegalArgumentException(Messages.ERROR_SYNC_PORT_RANGE);

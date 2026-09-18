@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.37.0
+// # Version: 2.38.0
 // # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
@@ -9,6 +9,7 @@ package com.turkuazlabs.telefonrehberi.views;
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
 import com.turkuazlabs.telefonrehberi.config.UiConfig;
 import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
+import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.language.ContactSortText;
 import com.turkuazlabs.telefonrehberi.language.ReminderText;
@@ -312,6 +313,9 @@ public final class PhoneBookFrame extends JFrame {
     private final JLabel trashDetailCategoryLabel = managementValueLabel();
 
 
+    private final JComboBox<String> languageCombo = new JComboBox<>(new String[] {
+            Messages.LANGUAGE_SYSTEM, Messages.LANGUAGE_TURKISH, Messages.LANGUAGE_ENGLISH
+    });
     private final JComboBox<String> startupPageCombo = new JComboBox<>(new String[] {
             Messages.STARTUP_DASHBOARD, Messages.STARTUP_CONTACTS
     });
@@ -517,6 +521,7 @@ public final class PhoneBookFrame extends JFrame {
                 ? UiConfig.PAGE_CONTACTS : UiConfig.PAGE_DASHBOARD;
         return new AppSettings(
                 theme,
+                selectedLanguageCode(),
                 startupPage,
                 rememberWindowCheckBox.isSelected(),
                 getWidth(),
@@ -529,6 +534,21 @@ public final class PhoneBookFrame extends JFrame {
                 ((Number) syncPortSpinner.getValue()).intValue(),
                 updateEnabledCheckBox.isSelected()
         );
+    }
+
+    private String selectedLanguageCode() {
+        Object selected = languageCombo.getSelectedItem();
+        if (Messages.LANGUAGE_TURKISH.equals(selected)) return LocaleText.LANGUAGE_TURKISH_CODE;
+        if (Messages.LANGUAGE_ENGLISH.equals(selected)) return LocaleText.LANGUAGE_ENGLISH_CODE;
+        return LocaleText.LANGUAGE_SYSTEM_CODE;
+    }
+
+    private String languageLabel(String languageCode) {
+        return switch (LocaleText.normalizeLanguageCode(languageCode)) {
+            case LocaleText.LANGUAGE_TURKISH_CODE -> Messages.LANGUAGE_TURKISH;
+            case LocaleText.LANGUAGE_ENGLISH_CODE -> Messages.LANGUAGE_ENGLISH;
+            default -> Messages.LANGUAGE_SYSTEM;
+        };
     }
 
     public long requireSelectedContactId() {
@@ -1003,6 +1023,7 @@ public final class PhoneBookFrame extends JFrame {
     public void applySettings(AppSettings settings) {
         activeSettings = settings;
         themeCombo.setSelectedItem(settings.theme() == ThemeMode.DARK ? Messages.THEME_DARK : Messages.THEME_LIGHT);
+        languageCombo.setSelectedItem(languageLabel(settings.languageCode()));
         startupPageCombo.setSelectedItem(UiConfig.PAGE_CONTACTS.equals(settings.startupPage())
                 ? Messages.STARTUP_CONTACTS : Messages.STARTUP_DASHBOARD);
         rememberWindowCheckBox.setSelected(settings.rememberWindow());
@@ -3501,9 +3522,15 @@ public final class PhoneBookFrame extends JFrame {
 
     private JPanel settingsGeneralPanel() {
         ResponsiveFormPanel behaviorForm = new ResponsiveFormPanel();
+        behaviorForm.addField(Messages.LANGUAGE_LABEL, languageCombo);
         behaviorForm.addField(Messages.STARTUP_PAGE_LABEL, startupPageCombo);
         behaviorForm.addFullComponent(rememberWindowCheckBox);
         behaviorForm.addFullComponent(confirmDeleteCheckBox);
+
+        JLabel languageHint = new JLabel("<html><div style='width:620px;'>" + Messages.LANGUAGE_RESTART_HINT + "</div></html>");
+        languageHint.setForeground(ModernThemePalette.textSecondary());
+        languageHint.setFont(languageHint.getFont().deriveFont(Font.PLAIN, 12f));
+        behaviorForm.addFullComponent(languageHint);
 
         JPanel behavior = settingsSectionCard(
                 Messages.SETTINGS_GENERAL_CARD_TITLE,

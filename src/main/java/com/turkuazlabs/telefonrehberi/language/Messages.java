@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/language/Messages.java
 // # 📌 Amac: Masaustu uygulamasinda gorunen sabit metinleri Turkce/Ingilizce merkezi olarak sunar.
 // # 📌 Language - Java
-// Version: 2.38.0
+// Version: 2.38.1
 // Aciklama: Turkce locale icin mevcut Turkce metinleri, diger locale degerleri icin Ingilizce fallback metinlerini kullanir.
 // Bagimli Oldugu Katman: Language
 package com.turkuazlabs.telefonrehberi.language;
@@ -379,6 +379,11 @@ public final class Messages {
     public static final String SETTINGS_TAB_BACKUP = t("Yedekleme", "Backup");
     public static final String SETTINGS_TAB_SYNC = t("Senkron", "Sync");
     public static final String SETTINGS_TAB_UPDATE = t("Guncelleme", "Updates");
+    public static final String LANGUAGE_LABEL = t("Uygulama Dili", "Application Language");
+    public static final String LANGUAGE_SYSTEM = t("Sistem Dilini Kullan", "Use System Language");
+    public static final String LANGUAGE_TURKISH = "Turkce";
+    public static final String LANGUAGE_ENGLISH = "English";
+    public static final String LANGUAGE_RESTART_HINT = t("Dil degisikligi uygulama yeniden baslatildiginda tum arayuze uygulanir.", "Language changes are applied across the interface after restarting the application.");
     public static final String STARTUP_PAGE_LABEL = t("Acilis Sayfasi", "Startup Page");
     public static final String STARTUP_DASHBOARD = t("Ana Sayfa", "Home");
     public static final String STARTUP_CONTACTS = t("Kisiler", "Contacts");
@@ -396,11 +401,11 @@ public final class Messages {
     public static final String UPDATE_ENABLED_LABEL = t("GitHub otomatik guncelleme kontrolu", "Check GitHub automatically for updates");
     public static final String SAVE_SETTINGS_BUTTON = t("Ayarlari Kaydet", "Save Settings");
     public static final String SETTINGS_SAVED = t("Ayarlar kaydedildi.", "Settings saved.");
-    public static final String SETTINGS_SAVED_RESTART = t("Ayarlar kaydedildi. Mobil senkron ayari icin uygulamayi yeniden baslat.", "Settings saved. Restart the application to apply the mobile-sync setting.");
+    public static final String SETTINGS_SAVED_RESTART = t("Ayarlar kaydedildi. Dil veya mobil senkron degisikligini uygulamak icin uygulamayi yeniden baslat.", "Settings saved. Restart the application to apply language or mobile-sync changes.");
     public static final String DATA_FILE_LABEL = t("Veritabani", "Database");
     public static final String BACKUP_FOLDER_LABEL = t("Yedek Klasoru", "Backup Folder");
     public static final String SETTINGS_GENERAL_CARD_TITLE = t("Baslangic ve Pencere", "Startup and Window");
-    public static final String SETTINGS_GENERAL_CARD_DESC = t("Uygulamanin nasil acilacagini ve temel masaustu davranislarini belirleyin.", "Choose how the application opens and behaves on the desktop.");
+    public static final String SETTINGS_GENERAL_CARD_DESC = t("Uygulama dili, acilis sayfasi ve temel masaustu davranislarini belirleyin.", "Choose the application language, startup page and core desktop behavior.");
     public static final String SETTINGS_DATA_CARD_TITLE = t("Veri Konumlari", "Data Locations");
     public static final String SETTINGS_DATA_CARD_DESC = t("Rehber verisi ve yerel yedeklerin kullanildigi klasorleri goruntuleyin.", "View the folders used for contact data and local backups.");
     public static final String SETTINGS_APPEARANCE_CARD_TITLE = t("Gorunum Tercihleri", "Appearance Preferences");
@@ -516,6 +521,7 @@ public final class Messages {
     public static final String ERROR_SETTINGS_READ = t("Ayarlar okunamadi.", "Settings could not be read.");
     public static final String ERROR_SETTINGS_WRITE = t("Ayarlar kaydedilemedi.", "Settings could not be saved.");
     public static final String ERROR_SETTINGS_REQUIRED = t("Ayar bilgisi bos olamaz.", "Settings data cannot be empty.");
+    public static final String ERROR_LANGUAGE_CODE = t("Gecersiz uygulama dili.", "Invalid application language.");
     public static final String ERROR_STARTUP_PAGE = t("Gecersiz acilis sayfasi.", "Invalid startup page.");
     public static final String ERROR_SYNC_PORT_RANGE = t("Mobil senkron portu 1024 ile 65535 arasinda olmalidir.", "Mobile sync port must be between 1024 and 65535.");
     public static final String ERROR_BACKUP_RETENTION_RANGE = t("Yedek saklama sayisi 1 ile 365 arasinda olmalidir.", "Backup retention count must be between 1 and 365.");

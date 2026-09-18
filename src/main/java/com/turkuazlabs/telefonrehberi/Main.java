@@ -1,14 +1,16 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/Main.java
 // # 📌 Amac: Uygulama katmanlarini olusturur ve tum servis/repository/tool bagimliliklarini baslatir.
 // # 📌 Bootstrap - Java
-// # Version: 2.37.0
+// # Version: 2.38.0
 // # Aciklama: XDG/Contacts platform yerlesimi, SQLite, hatirlatmalar, mobil API ve GUI wiring islemlerini yapar.
 // # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View
 package com.turkuazlabs.telefonrehberi;
 
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
+import com.turkuazlabs.telefonrehberi.config.UserDataPathResolver;
 import com.turkuazlabs.telefonrehberi.controllers.MobileSyncController;
 import com.turkuazlabs.telefonrehberi.controllers.PhoneBookController;
+import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.SyncServerInfo;
 import com.turkuazlabs.telefonrehberi.repositories.BackupRepository;
@@ -47,6 +49,7 @@ import com.turkuazlabs.telefonrehberi.tools.ContactMethodCodec;
 import com.turkuazlabs.telefonrehberi.tools.MobileSyncFormTool;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteBackupTool;
 import com.turkuazlabs.telefonrehberi.tools.LanAddressTool;
+import com.turkuazlabs.telefonrehberi.tools.LanguagePreferenceTool;
 import com.turkuazlabs.telefonrehberi.tools.LegacyTsvReader;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteConnectionProvider;
 import com.turkuazlabs.telefonrehberi.tools.SyncTokenStore;
@@ -62,6 +65,12 @@ public final class Main {
     }
 
     public static void main(String[] args) {
+        LanguagePreferenceTool languagePreferenceTool = new LanguagePreferenceTool();
+        LocaleText.applyLanguage(languagePreferenceTool.readLanguageCode(
+                UserDataPathResolver.resolveConfigRoot().resolve("preferences.yml"),
+                UserDataPathResolver.resolveDataRoot().resolve("config").resolve("preferences.yml")
+        ));
+
         UserDataMigrationService userDataMigrationService = new UserDataMigrationService(new UserDataMigrationRepository());
         userDataMigrationService.migratePortableUserDataIfNeeded();
 

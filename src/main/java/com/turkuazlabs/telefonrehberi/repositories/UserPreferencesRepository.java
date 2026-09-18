@@ -1,13 +1,14 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/repositories/UserPreferencesRepository.java
 // # 📌 Amac: Tum kullaniciya acik ayarlari yazilabilir OS kullanici config alaninda saklar.
 // # 📌 Repository - Java
-// # Version: 3.0.0
+// # Version: 3.1.0
 // # Aciklama: Tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir.
 // # Bagimli Oldugu Katman: Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.repositories;
 
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
 import com.turkuazlabs.telefonrehberi.config.UiConfig;
+import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 public final class UserPreferencesRepository {
     private static final String THEME_KEY = "theme";
+    private static final String LANGUAGE_KEY = LocaleText.LANGUAGE_PREFERENCE_KEY;
     private static final String STARTUP_PAGE_KEY = "startup_page";
     private static final String REMEMBER_WINDOW_KEY = "remember_window";
     private static final String WINDOW_WIDTH_KEY = "window_width";
@@ -52,6 +54,7 @@ public final class UserPreferencesRepository {
         Map<String, String> values = yamlRepository.read(preferencesFile);
         return new AppSettings(
                 ThemeMode.fromPersistedValue(values.getOrDefault(THEME_KEY, ThemeMode.LIGHT.persistedValue())),
+                LocaleText.normalizeLanguageCode(values.getOrDefault(LANGUAGE_KEY, LocaleText.LANGUAGE_SYSTEM_CODE)),
                 values.getOrDefault(STARTUP_PAGE_KEY, UiConfig.PAGE_DASHBOARD),
                 bool(values.get(REMEMBER_WINDOW_KEY), true),
                 integer(values.get(WINDOW_WIDTH_KEY), UiConfig.WINDOW_WIDTH),
@@ -69,7 +72,7 @@ public final class UserPreferencesRepository {
     public void saveTheme(ThemeMode mode) {
         AppSettings current = load();
         save(new AppSettings(
-                mode, current.startupPage(), current.rememberWindow(), current.windowWidth(), current.windowHeight(),
+                mode, current.languageCode(), current.startupPage(), current.rememberWindow(), current.windowWidth(), current.windowHeight(),
                 current.compactMode(), current.confirmDelete(), current.autoBackup(), current.backupRetention(),
                 current.mobileSyncEnabled(), current.mobileSyncPort(), current.updateEnabled()
         ));
@@ -87,6 +90,7 @@ public final class UserPreferencesRepository {
                     "# Bagimli Oldugu Katman: Repository | View | Service",
                     "",
                     THEME_KEY + ": \"" + settings.theme().persistedValue() + "\"",
+                    LANGUAGE_KEY + ": \"" + LocaleText.normalizeLanguageCode(settings.languageCode()) + "\"",
                     STARTUP_PAGE_KEY + ": \"" + safePage(settings.startupPage()) + "\"",
                     REMEMBER_WINDOW_KEY + ": \"" + settings.rememberWindow() + "\"",
                     WINDOW_WIDTH_KEY + ": \"" + settings.windowWidth() + "\"",
