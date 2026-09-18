@@ -14,6 +14,7 @@
 - Masaustu gorunen urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger dillerde **Turkuaz PhoneBook** olarak merkezi Language katmanindan secilir.
 - Contact method etiketleri kalici veriyi degistirmeden locale'e gore gosterilir; telefon ulke adlari ve varsayilan telefon ulkesi sistem locale degerine gore yerellestirilir ve guvenli fallback uygular.
 - Native Go launcher modul yolu `github.com/turkuazlabs/turkuaz-phonebook/launcher/native` olarak yenilendi; Windows UI dili ve Linux locale degerlerine gore splash, durum ve hata metinleri yerellestirildi.
+- Launcher hata fallback kapsami arsiv guvenligi, SHA-256, elevated process ve Java runtime eksikligi icin genisletildi; Ingilizce sistemlerde Turkce teknik hata sizmasi engellendi.
 - Windows Inno Setup Turkce kurulumda **Turkuaz Telefon Rehberi**, Ingilizce kurulumda **Turkuaz PhoneBook** gorunen adini kullanir.
 - Linux `.desktop`, `Kurulum.sh` ve `Kaldir.sh` Ingilizce fallback + Turkce locale destegi kazandi.
 - Android varsayilan Ingilizce resource ve Turkce `values-tr` kaynaklarina ayrildi; manifest uygulama adi `@string/app_name` uzerinden yerellestirildi ve API/transport hata metinleri Language katmanina tasindi.
@@ -21,7 +22,7 @@
 - iOS varsayilan Ingilizce ad/izin metinleri ile Turkce `InfoPlist.strings` kaynaklarini kullanir; senkron ekran metinleri yerellestirildi ve Keychain token yazma hatalari sessizce yutulmaz.
 - iOS senkron endpoint dogrulamasi Android ile hizalandi; cleartext HTTP yalniz loopback/private/link-local/yerel LAN hedeflerinde kabul edilir, public hedeflerde HTTPS zorunludur ve bu kural macOS Swift CI quality gate ile test edilir.
 - Masaustu sync token dosyasi POSIX sistemlerde owner-only izinlerle korunur; token tamamlanmis gecici dosyadan ayni dizinde yayinlanarak kismi icerik gorunurlugu engellenir ve eszamanli ilk-olusturma yarisi guvenli yonetilir.
-- Release surumleri **app 2.38.0**, **launcher 2.5.0**, **Android versionCode 580** ve **iOS build 580** olarak hizalandi.
+- Release surumleri **app 2.38.0**, **launcher 2.5.1**, **Android versionCode 580** ve **iOS build 580** olarak hizalandi.
 - Windows/Linux build scriptleri ve generated release metadata v2.38.0 cizgisine tasindi; checked-in `updates/update-manifest.yml` gercek yeni binary hashleri uretilene kadar son yayinlanmis v2.37 referansi olarak acikca isaretlendi.
 
 ## v2.37.0
