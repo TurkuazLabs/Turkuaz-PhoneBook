@@ -1,52 +1,43 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/language/messages_test.go
-// 📌 Amac: Native launcher hata ceviri tablosunun dinamik detaylari bozmadan Ingilizce fallback urettigini dogrular.
-// 📌 Language - Go Test
+// 📌 Amac: Native launcher hata yerellestirmesinin Turkce kaynak hatalari Ingilizce fallback'e eksiksiz cevirdigini dogrular.
+// 📌 Tool - Go Test
 // Version: 1.0.0
-// Aciklama: Kritik Java, JDBC, JAR ve config hata metinlerinin Ingilizce karsiliklarini regresyona karsi test eder.
+// Aciklama: Arsiv, SHA-256, elevated process ve Java runtime hata metinlerinde Ingilizce fallback regresyonlarini engeller.
 // Bagimli Oldugu Katman: Language
 
 package language
 
 import "testing"
 
-func TestEnglishErrorReplacerPreservesDetails(t *testing.T) {
-	tests := []struct {
-		name string
-		in   string
-		want string
-	}{
-		{
-			name: "launcher config",
-			in:   "launcher config okunamadi: access denied",
-			want: "launcher config could not be read: access denied",
-		},
-		{
-			name: "installed Java runtime",
-			in:   "kurulum Java runtime dosyasi eksik; Telefon Rehberi Setup ile Onar/Kur islemi yapin",
-			want: "the installed Java runtime is missing; repair or reinstall Turkuaz PhoneBook",
-		},
-		{
-			name: "sqlite download",
-			in:   "SQLite JDBC indirilemedi: timeout",
-			want: "SQLite JDBC could not be downloaded: timeout",
-		},
-		{
-			name: "application jar",
-			in:   "uygulama JAR bulunamadi: C:/Program Files/TurkuazLabs/TelefonRehberi/app/TelefonRehberi.jar",
-			want: "application JAR was not found: C:/Program Files/TurkuazLabs/TelefonRehberi/app/TelefonRehberi.jar",
-		},
-		{
-			name: "missing setting",
-			in:   "eksik ayar: github_repo",
-			want: "missing setting: github_repo",
-		},
+func TestLocalizeErrorEnglishFallback(t *testing.T) {
+	tests := map[string]string{
+		"guvensiz ZIP girdisi: ../evil": "unsafe ZIP entry: ../evil",
+		"guvensiz TAR girdisi: ../evil": "unsafe TAR entry: ../evil",
+		"guvensiz TAR symlink girdisi: link": "unsafe TAR symlink entry: link",
+		"SHA-256 dogrulama hatasi: package.bin": "SHA-256 verification error: package.bin",
+		"gecersiz SHA-256 checksum": "invalid SHA-256 checksum",
+		"yonetici yetkili setup guncellemesi bu platformda desteklenmiyor": "elevated setup update is not supported on this platform",
+		"yonetici yetkili process baslatilamadi: ShellExecute kodu 5": "elevated process could not be started: ShellExecute code 5",
+		"indirilen Java paketinde javaw.exe bulunamadi": "downloaded Java package does not contain javaw.exe",
+		"indirilen Java paketinde java bulunamadi": "downloaded Java package does not contain java",
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if got := englishErrorReplacer.Replace(test.in); got != test.want {
-				t.Fatalf("translation mismatch\nwant: %q\n got: %q", test.want, got)
-			}
-		})
+	for input, expected := range tests {
+		if actual := localizeError(input, false); actual != expected {
+			t.Fatalf("localizeError(%q) = %q, expected %q", input, actual, expected)
+		}
+	}
+}
+
+func TestLocalizeErrorKeepsTurkishSource(t *testing.T) {
+	input := "gecersiz SHA-256 checksum"
+	if actual := localizeError(input, true); actual != input {
+		t.Fatalf("Turkce locale kaynak metni degisti: %q", actual)
+	}
+}
+
+func TestLocalizeErrorKeepsEmptyMessage(t *testing.T) {
+	if actual := localizeError("   ", false); actual != "   " {
+		t.Fatalf("Bos hata metni degisti: %q", actual)
 	}
 }

@@ -1,8 +1,8 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/language/messages.go
 // 📌 Amac: Native launcher kullanici mesajlarini merkezi ve yerellestirilebilir olarak tutar.
 // 📌 Language - Go
-// Version: 2.3.0
-// Aciklama: Turkce sistemlerde Turkuaz Telefon Rehberi, diger dillerde Turkuaz PhoneBook marka, durum ve hata metinlerini kullanir.
+// Version: 2.3.1
+// Aciklama: Turkce sistemlerde Turkce, diger dillerde Ingilizce marka, durum ve launcher/tool hata metinlerini kullanir.
 // Bagimli Oldugu Katman: Language
 
 package language
@@ -47,6 +47,16 @@ var englishErrorReplacer = strings.NewReplacer(
 	"uygulama JAR bulunamadi", "application JAR was not found",
 	"bekleyen launcher bulunamadi", "pending launcher was not found",
 	"launcher dosyasi guncelleme icin serbest birakilmadi", "launcher file was not released for update",
+	"guvensiz ZIP girdisi", "unsafe ZIP entry",
+	"guvensiz TAR symlink girdisi", "unsafe TAR symlink entry",
+	"guvensiz TAR girdisi", "unsafe TAR entry",
+	"SHA-256 dogrulama hatasi", "SHA-256 verification error",
+	"gecersiz SHA-256 checksum", "invalid SHA-256 checksum",
+	"yonetici yetkili setup guncellemesi bu platformda desteklenmiyor", "elevated setup update is not supported on this platform",
+	"yonetici yetkili process baslatilamadi", "elevated process could not be started",
+	"ShellExecute kodu", "ShellExecute code",
+	"indirilen Java paketinde javaw.exe bulunamadi", "downloaded Java package does not contain javaw.exe",
+	"indirilen Java paketinde java bulunamadi", "downloaded Java package does not contain java",
 	"eksik ayar", "missing setting",
 	"dosya bulunamadi", "file was not found",
 	"dosya eksik", "file is missing",
@@ -60,7 +70,11 @@ var englishErrorReplacer = strings.NewReplacer(
 )
 
 func LocalizeError(message string) string {
-	if isTurkishLocale() || strings.TrimSpace(message) == "" {
+	return localizeError(message, isTurkishLocale())
+}
+
+func localizeError(message string, turkish bool) string {
+	if turkish || strings.TrimSpace(message) == "" {
 		return message
 	}
 	return englishErrorReplacer.Replace(message)
