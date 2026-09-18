@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.8.0
+# Version: 2.8.1
 # Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri, main artefactlari ve v2.38.0 icin green-build sonrasi tek kullanimlik release tag kapisini yonetir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -203,7 +203,7 @@ jobs:
 
 
   release-tag-v2-38:
-    if: github.event_name == 'push' && github.event.head_commit.message == 'chore(release): tag v2.38.0 after green build'
+    if: github.event_name == 'push' && github.event.head_commit.message == 'tag v2.38.0 after green build'
     needs:
       - desktop-java-17
       - linux-native
