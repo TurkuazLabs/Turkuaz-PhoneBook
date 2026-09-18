@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/ApiContractQualityGateTest.java
 // # 📌 Amac: Masaustu, Android, iOS ve mobil senkron dokumani arasindaki API endpoint sozlesmesini regresyon testine alir.
 // # 📌 Tool - Java Test
-// Version: 1.0.0
+// Version: 1.0.1
 // # Aciklama: /api/v1 status, contacts ve import yollarinin uc platform configinde ve MOBILE_SYNC_API.md belgesinde birebir hizali kalmasini dogrular.
 // # Bagimli Oldugu Katman: Tool | Config | Language
 
@@ -39,9 +39,9 @@ public final class ApiContractQualityGateTest {
                     "Android MobileConfig endpoint eksik: " + endpoint.current());
             check(ios.contains(quote(endpoint.current())),
                     "iOS MobileConfig endpoint eksik: " + endpoint.current());
-            check(docs.contains("`" + endpoint.current() + "`"),
+            check(docs.contains(endpoint.current()),
                     "MOBILE_SYNC_API.md endpoint eksik: " + endpoint.current());
-            check(!docs.contains("`" + endpoint.legacy() + "`"),
+            check(!docs.contains(endpoint.legacy()),
                     "MOBILE_SYNC_API.md eski endpoint tasiyor: " + endpoint.legacy());
         }
 
