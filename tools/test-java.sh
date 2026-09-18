@@ -2,8 +2,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/test-java.sh
 # 📌 Amac: Linux Java 17 release quality gate testlerini SQLite JDBC ile derleyip calistirir.
 # 📌 Tool - Shell
-# Version: 1.2.0
-# Aciklama: Genel Java quality gate ile POSIX sync-token dizin/0600 izin regresyon testini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
+# Version: 1.3.0
+# Aciklama: Genel Java, POSIX sync-token ve cross-platform mobil API endpoint sozlesmesi quality gate testlerini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
 # Bagimli Oldugu Katman: Tool | Config | Repository | Service | Language
 
 set -euo pipefail
@@ -43,3 +43,4 @@ javac --release 17 --add-modules jdk.httpserver -encoding UTF-8 -d "${CLASSES}" 
 CLASS_PATH="${CLASSES}:${JAR}:${SLF4J_JAR}"
 java --add-modules jdk.httpserver -cp "${CLASS_PATH}" com.turkuazlabs.telefonrehberi.QualityGateTest
 java --add-modules jdk.httpserver -cp "${CLASS_PATH}" com.turkuazlabs.telefonrehberi.SyncTokenStoreQualityGateTest
+java --add-modules jdk.httpserver -cp "${CLASS_PATH}" com.turkuazlabs.telefonrehberi.ApiContractQualityGateTest "${ROOT}"

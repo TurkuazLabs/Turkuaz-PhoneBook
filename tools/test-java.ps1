@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/test-java.ps1
 # 📌 Amac: Windows Java 17 release quality gate testlerini SQLite JDBC ile derleyip calistirir.
 # 📌 Tool - PowerShell
-# Version: 1.2.0
-# Aciklama: Genel Java quality gate ile sync-token dizin/izin regresyon testini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
+# Version: 1.3.0
+# Aciklama: Genel Java, sync-token ve cross-platform mobil API endpoint sozlesmesi quality gate testlerini sabitlenmis SQLite JDBC ve SLF4J bagimliliklariyla calistirir.
 # Bagimli Oldugu Katman: Tool | Config | Repository | Service | Language
 
 $ErrorActionPreference = 'Stop'
@@ -54,3 +54,6 @@ if ($LASTEXITCODE -ne 0) { throw "Java quality gate basarisiz. ExitCode=$LASTEXI
 
 & java '--add-modules' 'jdk.httpserver' '-cp' $ClassPath 'com.turkuazlabs.telefonrehberi.SyncTokenStoreQualityGateTest'
 if ($LASTEXITCODE -ne 0) { throw "Sync token quality gate basarisiz. ExitCode=$LASTEXITCODE" }
+
+& java '--add-modules' 'jdk.httpserver' '-cp' $ClassPath 'com.turkuazlabs.telefonrehberi.ApiContractQualityGateTest' $Root
+if ($LASTEXITCODE -ne 0) { throw "API contract quality gate basarisiz. ExitCode=$LASTEXITCODE" }
