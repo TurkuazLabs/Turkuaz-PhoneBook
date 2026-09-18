@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/WINDOWS_INSTALLER.md
-# 📌 Amac: v2.37.0 Inno Setup Program Files kurulumu ve auto-update davranisini belgeler.
+# 📌 Amac: v2.38.0 Inno Setup Program Files kurulumu, yerellestirilmis urun adi ve auto-update davranisini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.0.0
-# Aciklama: Installed/portable ayrimi, writable launcher alani, uninstall ve Setup auto-update akisidir.
+# Version: 2.1.0
+# Aciklama: Installed/portable ayrimi, Turkce/Ingilizce gorunen urun adi, writable launcher alani, uninstall ve Setup auto-update akisidir.
 # Bagimli Oldugu Katman: Tool | Config
 
 ## Kurulum
@@ -11,7 +11,7 @@ Varsayilan dizin:
 
 `C:\Program Files\TurkuazLabs\TelefonRehberi`
 
-Setup native launcher, uygulama JAR'i, Temurin JRE 17, SQLite JDBC, FlatLaf ve branding assetlerini birlikte kurar. `config/installed.mode` installed dagitimi portable'dan ayirir.
+Setup native launcher, uygulama JAR'i, Temurin JRE 17, SQLite JDBC, FlatLaf ve branding assetlerini birlikte kurar. Kurulum dili Turkce ise gorunen urun adi **Turkuaz Telefon Rehberi**, Ingilizce ise **Turkuaz PhoneBook** olur. Teknik kurulum dizini ve `TelefonRehberi.exe` geriye donuk uyumluluk icin degismez. `config/installed.mode` installed dagitimi portable'dan ayirir.
 
 ## Yazilabilir launcher alani
 

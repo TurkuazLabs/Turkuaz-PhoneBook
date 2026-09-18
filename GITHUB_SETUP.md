@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
 # 📌 Amac: TurkuazLabs GitHub repository, quality gate, yerellestirme ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.5.1
-# Aciklama: Turkuaz-PhoneBook repository adi, v2.38.0 Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build, endpoint security gate ve Turkce/Ingilizce dagitim kimligi akisidir.
+# Version: 2.6.0
+# Aciklama: Turkuaz-PhoneBook v2.38.0 build artefactlari, release checklist, Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build ve Turkce/Ingilizce dagitim akisidir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 # Repository
@@ -15,9 +15,10 @@ Kaynak dosyalari repository kokune yerlestir.
 
 1. Kaynaklari `main` branch'e push et.
 2. GitHub Actions `Build` sonucunda Java quality gate, Windows installer smoke, Linux, Android ve iOS kontrollerinin gectigini dogrula.
-3. `v2.38.0` tag olustur.
-4. Tag'i GitHub'a push et.
-5. `Release` workflow su assetleri olusturur:
+3. Main push Build kosusunun 7 gun saklanan `windows-main-build`, `linux-main-build` ve `android-main-debug` artefactlarini indirip release oncesi paket kontrolu yap.
+4. `v2.38.0` tag olustur.
+5. Tag'i GitHub'a push et.
+6. `Release` workflow su assetleri olusturur:
    - `TelefonRehberi.jar`
    - `TelefonRehberi.exe`
    - `TelefonRehberi-linux-amd64`
@@ -41,7 +42,7 @@ Gorunen uygulama adi kurulum/arayuz diline gore yerellestirilebilir:
 
 Dagitim katmanlari:
 
-- Masaustu Swing UI sistem/JVM locale degerine gore Turkce veya Ingilizce fallback katalog kullanir.
+- Masaustu Swing UI varsayilan olarak sistem/JVM locale degerini kullanir; Ayarlar > Genel bolumundeki kalici `system` / `tr` / `en` tercihi yeniden baslatmada bu secimi override eder.
 - Windows Inno Setup, secilen kurulum diline gore urun adini yerellestirir.
 - Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL` / `LC_MESSAGES` / `LANG` degerlerini kullanarak Turkce veya Ingilizce splash/durum/hata metinleri secmektedir.
 - Android varsayilan Ingilizce `values` kaynaklarini, Turkce sistemlerde `values-tr` kaynaklarini kullanir.
@@ -76,3 +77,8 @@ Updater release assetlerini `https://github.com/TurkuazLabs/Turkuaz-PhoneBook` r
 - iOS: `tools/test-ios-endpoint.sh` ile LAN endpoint guvenlik kontrolu + XcodeGen simulator build, code signing kapali.
 
 Android ve iOS endpoint gate'leri cleartext `http://` senkronu yalniz loopback/private/link-local/yerel LAN hedeflerinde kabul eder; public/uzak hedeflerde HTTPS zorunludur.
+
+
+## Release checklist
+
+Ayrintili v2.38.0 yayin oncesi ve yayin sonrasi kontrol listesi icin [docs/RELEASE_CHECKLIST.md](./docs/RELEASE_CHECKLIST.md) dosyasini kullan.
