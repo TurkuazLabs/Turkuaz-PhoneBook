@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.6.2
-# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android ve iOS LAN endpoint gate, Android API 36 ve iOS build kontrollerini calistirir.
+# Version: 2.7.0
+# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri ve main pushlarda 7 gunluk test artefactlari uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -81,6 +81,15 @@ jobs:
             if ($uninstallProcess.ExitCode -ne 0) { throw "Setup smoke uninstall basarisiz: $($uninstallProcess.ExitCode)" }
           }
 
+      - name: Upload Windows main-build artifacts
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-main-build
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
   linux-native:
     runs-on: ubuntu-latest
 
@@ -107,6 +116,15 @@ jobs:
       - name: Build Linux native release
         shell: bash
         run: bash ./tools/build-linux-release.sh
+
+      - name: Upload Linux main-build artifacts
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-main-build
+          path: dist-linux/
+          if-no-files-found: error
+          retention-days: 7
 
   android-api-36:
     runs-on: ubuntu-latest
@@ -144,6 +162,15 @@ jobs:
       - name: Build Android debug APK
         working-directory: mobile/android
         run: gradle :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Upload Android main-build APK
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-main-debug
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
 
   ios-simulator:
     runs-on: macos-latest
