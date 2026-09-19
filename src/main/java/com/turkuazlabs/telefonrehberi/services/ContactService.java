@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/services/ContactService.java
 // # 📌 Amac: Telefon rehberi is kurallarini, dogrulamalari, aramayi, gecmisi ve cop kutusunu yonetir.
 // # 📌 Service - Java
-// # Version: 2.37.1
-// # Aciklama: CRUD, history, profil aktivitesi, onemli tarih dogrulamasi ve iletisimde kal hatirlatma kurallarini uygular.
+// # Version: 2.38.0
+// # Aciklama: CRUD, history, profil aktivitesi, onemli tarih kurallari ve masaustu bildirimleri icin aktif hatirlatma kisi secimini uygular.
 // # Bagimli Oldugu Katman: Service | Repository | Model | Tool | Language
 package com.turkuazlabs.telefonrehberi.services;
 
@@ -67,6 +67,13 @@ public final class ContactService {
 
     public List<Contact> listContacts() {
         return repository.findAll();
+    }
+
+    public List<Contact> listDueReminderContacts() {
+        LocalDate today = LocalDate.now();
+        return repository.findAll().stream()
+                .filter(contact -> hasDueReminder(contact, today))
+                .toList();
     }
 
     public List<Contact> listTrash() {
