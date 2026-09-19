@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.6.0
-// Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve destekli/desteksiz sistem bolgelerinde telefon ulke fallback davranisini dogrular.
+// Version: 1.7.0
+// Aciklama: Java 17 release quality gate; haftalik yedek/retention, legacy preference clamp, masaustu metinleri ve veri guvenligi davranislarini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
@@ -275,17 +275,22 @@ public final class QualityGateTest {
         UserPreferencesRepository repository = new UserPreferencesRepository(new SimpleYamlRepository(), preferences);
         AppSettings expected = new AppSettings(
                 ThemeMode.DARK, LocaleText.LANGUAGE_ENGLISH_CODE, "contacts", true, 1280, 800, true, true,
-                true, 14, true, 18787, false
+                true, 5, true, 18787, false
         );
         repository.save(expected);
         AppSettings actual = repository.load();
         check(actual.theme() == expected.theme(), "Tema preference round-trip hatali.");
+        check(actual.backupRetention() == 5, "Yedek retention preference 5 olmadi.");
         check(LocaleText.LANGUAGE_ENGLISH_CODE.equals(actual.languageCode()), "Dil preference round-trip hatali.");
         check(new LanguagePreferenceTool().readLanguageCode(preferences, root.resolve("legacy-preferences.yml"))
                 .equals(LocaleText.LANGUAGE_ENGLISH_CODE), "Bootstrap dil tercihi okunamadi.");
         check(actual.mobileSyncEnabled(), "Mobile sync preference saklanmadi.");
         check(actual.mobileSyncPort() == 18787, "Mobile sync port preference saklanmadi.");
         check(!actual.updateEnabled(), "Update preference saklanmadi.");
+
+        Files.writeString(preferences, "backup_retention: \"14\"\n", StandardCharsets.UTF_8);
+        AppSettings legacy = repository.load();
+        check(legacy.backupRetention() == 5, "Legacy backup_retention 14 degeri 5'e clamp edilmedi.");
     }
 
     private static ContactDraft draft(String name, String phone, String email) {

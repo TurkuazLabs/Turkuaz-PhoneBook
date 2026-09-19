@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/repositories/UserPreferencesRepository.java
 // # 📌 Amac: Tum kullaniciya acik ayarlari yazilabilir OS kullanici config alaninda saklar.
 // # 📌 Repository - Java
-// # Version: 3.1.0
-// # Aciklama: Dil, tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir.
+// # Version: 3.2.0
+// # Aciklama: Dil, tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir; eski backup retention degerlerini 1..5 araligina migrate eder.
 // # Bagimli Oldugu Katman: Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.repositories;
 
@@ -62,7 +62,7 @@ public final class UserPreferencesRepository {
                 bool(values.get(COMPACT_MODE_KEY), false),
                 bool(values.get(CONFIRM_DELETE_KEY), true),
                 bool(values.get(AUTO_BACKUP_KEY), true),
-                integer(values.get(BACKUP_RETENTION_KEY), UiConfig.DEFAULT_BACKUP_RETENTION),
+                clampBackupRetention(integer(values.get(BACKUP_RETENTION_KEY), UiConfig.DEFAULT_BACKUP_RETENTION)),
                 bool(values.get(MOBILE_SYNC_ENABLED_KEY), AppConfig.MOBILE_SYNC_ENABLED),
                 integer(values.get(MOBILE_SYNC_PORT_KEY), AppConfig.MOBILE_SYNC_PORT),
                 bool(values.get(UPDATE_ENABLED_KEY), true)
@@ -85,7 +85,7 @@ public final class UserPreferencesRepository {
                     "# 📄 Dosya Yolu: C:/Users/<kullanici>/AppData/Roaming/TurkuazLabs/TelefonRehberi/config/preferences.yml",
                     "# 📌 Amac: Kullanici dil, arayuz, yedekleme, senkron ve update tercihlerini kalici tutar.",
                     "# 📌 Config - YAML",
-                    "# Version: 3.1.0",
+                    "# Version: 3.2.0",
                     "# Aciklama: Program Files altindaki salt-okunur teknik configden bagimsiz kullanici tercihleridir.",
                     "# Bagimli Oldugu Katman: Repository | View | Service",
                     "",
@@ -107,6 +107,10 @@ public final class UserPreferencesRepository {
         } catch (IOException exception) {
             throw new IllegalStateException(Messages.ERROR_SETTINGS_WRITE, exception);
         }
+    }
+
+    private int clampBackupRetention(int value) {
+        return Math.max(1, Math.min(UiConfig.MAX_BACKUP_RETENTION, value));
     }
 
     private boolean bool(String value, boolean fallback) {
