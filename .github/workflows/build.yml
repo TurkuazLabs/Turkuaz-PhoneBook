@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.12.1
-# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri, main artefactlari ve v2.38.4 green-build release kapisini yonetir.
+# Version: 2.13.0
+# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri, main artefactlari ve config/version.yml merkezli dinamik release kapisini yonetir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -202,8 +202,8 @@ jobs:
             build
 
 
-  release-v2-38-3:
-    if: github.event_name == 'push' && github.event.head_commit.message == 'publish v2.38.4 release'
+  release-current-version:
+    if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'publish v') && endsWith(github.event.head_commit.message, ' release')
     needs:
       - desktop-java-17
       - linux-native
@@ -220,30 +220,39 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify v2.38.4 release target
+      - name: Verify release target
         shell: bash
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           set -euo pipefail
-          APP_VERSION="$(awk -F ':' '/^[[:space:]]*app_version[[:space:]]*:/ {gsub(/[ \"\047]/, "", $2); print $2; exit}' config/version.yml)"
-          if [ "$APP_VERSION" != "2.38.4" ]; then
-            echo "app_version v2.38.4 degil: $APP_VERSION" >&2
+          APP_VERSION="$(awk -F ':' '/^[[:space:]]*app_version[[:space:]]*:/ {gsub(/[ "\047]/, "", $2); print $2; exit}' config/version.yml)"
+          if [ -z "$APP_VERSION" ]; then
+            echo "config/version.yml app_version bos." >&2
             exit 1
           fi
-          if git ls-remote --exit-code --tags origin refs/tags/v2.38.4 >/dev/null 2>&1; then
-            echo "v2.38.4 tag zaten mevcut." >&2
+          EXPECTED_MESSAGE="publish v${APP_VERSION} release"
+          if [ "$COMMIT_MESSAGE" != "$EXPECTED_MESSAGE" ]; then
+            echo "Release commit mesaji uyusmuyor. Beklenen: $EXPECTED_MESSAGE" >&2
             exit 1
           fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v${APP_VERSION}" >/dev/null 2>&1; then
+            echo "v${APP_VERSION} tag zaten mevcut." >&2
+            exit 1
+          fi
+          echo "APP_VERSION=$APP_VERSION" >> "$GITHUB_ENV"
 
-      - name: Create annotated v2.38.4 tag
+      - name: Create annotated release tag
         shell: bash
         run: |
           set -euo pipefail
+          TAG="v${APP_VERSION}"
           git config user.name "TurkuazLabs Release Bot"
           git config user.email "actions@users.noreply.github.com"
-          git tag -a v2.38.4 "$GITHUB_SHA" -m "Turkuaz PhoneBook v2.38.4"
-          git push origin refs/tags/v2.38.4
+          git tag -a "$TAG" "$GITHUB_SHA" -m "Turkuaz PhoneBook $TAG"
+          git push origin "refs/tags/$TAG"
 
-      - name: Dispatch v2.38.4 release workflow
+      - name: Dispatch release workflow
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -251,4 +260,4 @@ jobs:
           set -euo pipefail
           gh api --method POST \
             "repos/${GITHUB_REPOSITORY}/actions/workflows/release.yml/dispatches" \
-            -f ref='v2.38.4'
+            -f ref="v${APP_VERSION}"
