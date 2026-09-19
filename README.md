@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.3-0aa6a6" alt="Version 2.38.3">
+    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -171,9 +171,9 @@ CI su kontrolleri gerceklestirir:
 - Android API 36 debug APK build
 - iOS simulator build
 
-## v2.38.3 Yama Ozeti
+## v2.38.4 Yama Ozeti
 
-v2.38.3 yedekleme politikasini sadelestirir: otomatik SQLite yedegi artik her gun yerine **7 gunde bir** alinir, uygulama en fazla **5 yedek** saklar ve fazladan eski yedekleri otomatik temizler. Yedekleme ekranina ayrica **Eski Yedekleri Temizle** dugmesi eklendi.
+v2.38.4, v2.38.3 sonrasinda bulunan legacy tercih uyumlulugu acigini kapatir: `preferences.yml` icinde kalmis 5'ten buyuk yedek saklama degerleri yuklenirken otomatik olarak **5'e clamp edilir**. Haftalik otomatik yedekleme ve en fazla 5 kopya politikasi degismez; quality gate bu legacy senaryoyu da dogrular.
 
 ## v2.38.2 Yama Ozeti
 
