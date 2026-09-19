@@ -1,8 +1,8 @@
 ; 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/windows/TelefonRehberi.iss
 ; 📌 Amac: Turkuaz Windows Program Files kurulum paketini ve dil bazli urun adini tanimlar.
 ; 📌 Tool - InnoSetup
-; Version: 1.3.0
-; Aciklama: v2.38.0 fallback surumuyle Turkce kurulumda Turkuaz Telefon Rehberi, Ingilizce kurulumda Turkuaz PhoneBook adini kullanir; teknik kurulum kimlikleri sabit kalir.
+; Version: 1.3.1
+; Aciklama: Turkce/English urun adini ve build-installer tarafindan padding'i kirpilip buyutulen cok-cozunurluklu Windows kisayol ikonunu kullanir; teknik kurulum kimlikleri sabit kalir.
 ; Bagimli Oldugu Katman: Tool | Config | Language
 
 #ifndef AppVersion
