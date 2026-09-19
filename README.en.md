@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.3-0aa6a6" alt="Version 2.38.3">
+    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -278,9 +278,9 @@ CI validates:
 - Android API 36 debug APK build
 - iOS simulator build
 
-## v2.38.3 Patch
+## v2.38.4 Patch
 
-v2.38.3 simplifies backup retention: automatic SQLite backups now run every **7 days** instead of daily, at most **5 backups** are retained, excess older backups are pruned automatically, and the Backup page includes a manual **Clean Up Old Backups** action.
+v2.38.4 closes a legacy-preference compatibility gap found after v2.38.3: backup retention values greater than **5** that remain in `preferences.yml` are clamped to **5** when loaded. Weekly automatic backups and the five-copy retention policy stay unchanged, with quality-gate coverage for the legacy case.
 
 ## v2.38.2 Patch
 
