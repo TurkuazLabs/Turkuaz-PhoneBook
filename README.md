@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
+    <img src="https://img.shields.io/badge/version-2.39.0-0aa6a6" alt="Version 2.39.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -68,7 +68,7 @@ Temel hedefler:
 
 ## Dil ve Yerellestirme
 
-- Masaustu Swing arayuzu varsayilan olarak JVM/sistem locale degerini kullanir; Ayarlar > Genel bolumunden `Sistem Dilini Kullan`, `Turkce` veya `English` tercihi kalici olarak secilebilir.
+- Masaustu Swing arayuzu varsayilan olarak JVM/sistem locale degerini kullanir; Ayarlar > Genel bolumunden `Sistem Dilini Kullan`, `Turkce` veya `English` tercihi kalici olarak secilebilir ve degisiklik uygulama yeniden baslatilmadan aninda uygulanir.
 - Masaustu urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger sistemlerde **Turkuaz PhoneBook** olarak gorunur.
 - Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
 - Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak splash, durum ve kullaniciya gosterilen hata metinlerini yerellestirir.
@@ -170,6 +170,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.0 Tema ve Canli Dil Ozeti
+
+v2.39.0 arayuz kimligini Turkuaz marka rengine toplar. Acik tema daha ferah zemin ve daha yumusak secim rengi kullanir; koyu tema siyaha yakin WhatsApp kopyasi yerine Turkuaz logonun ayni ana tonu etrafinda teal-charcoal yuzeyler, daha okunakli kontrast ve tutarli vektor ikonlar kullanir. Uygulama dili kaydedildigi anda mevcut pencere icinde yeniden yuklenir; programi kapatip acmak gerekmez.
 
 ## v2.38.4 Yama Ozeti
 
