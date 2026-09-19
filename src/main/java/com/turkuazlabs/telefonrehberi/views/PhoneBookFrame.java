@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.38.0
+// # Version: 2.38.1
 // # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
@@ -39,6 +39,7 @@ import com.turkuazlabs.telefonrehberi.models.TagRecord;
 import com.turkuazlabs.telefonrehberi.models.DashboardSummary;
 import com.turkuazlabs.telefonrehberi.models.SyncServerInfo;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
+import com.turkuazlabs.telefonrehberi.tools.BrandAssetTool;
 import com.turkuazlabs.telefonrehberi.tools.ContactPhotoTool;
 
 import javax.swing.AbstractAction;
@@ -113,6 +114,8 @@ import java.util.Map;
 
 public final class PhoneBookFrame extends JFrame {
     private final Image appIcon;
+    private final Image lightBrandIcon;
+    private final Image darkBrandIcon;
     private final CardLayout pageLayout = new CardLayout();
     private final JPanel pageContainer = new JPanel(pageLayout);
     private final List<JButton> navigationButtons = new ArrayList<>();
@@ -398,6 +401,9 @@ public final class PhoneBookFrame extends JFrame {
     public PhoneBookFrame(Image appIcon) {
         super(String.format(Messages.WINDOW_TITLE_VERSION_FORMAT, AppConfig.APP_NAME, AppConfig.APP_VERSION));
         this.appIcon = appIcon;
+        BrandAssetTool brandAssetTool = new BrandAssetTool();
+        this.lightBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, false);
+        this.darkBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, true);
         configureFrame();
         configureFlatLafProperties();
         configureContactList();
@@ -1276,8 +1282,7 @@ public final class PhoneBookFrame extends JFrame {
         brand.setAlignmentX(Component.LEFT_ALIGNMENT);
         brand.setMaximumSize(new Dimension(Integer.MAX_VALUE, 66));
         if (appIcon != null) {
-            Image scaled = appIcon.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-            brand.add(new JLabel(new ImageIcon(scaled)), BorderLayout.WEST);
+            brand.add(new JLabel(new ThemeBrandIcon(lightBrandIcon, darkBrandIcon, 50)), BorderLayout.WEST);
         }
         JPanel text = new JPanel();
         text.setOpaque(false);
@@ -3732,7 +3737,7 @@ public final class PhoneBookFrame extends JFrame {
         iconPanel.setOpaque(false);
         iconPanel.setBorder(new EmptyBorder(6, 10, 6, 18));
         if (appIcon != null) {
-            JLabel iconLabel = new JLabel(new ImageIcon(appIcon.getScaledInstance(156, 156, Image.SCALE_SMOOTH)));
+            JLabel iconLabel = new JLabel(new ThemeBrandIcon(lightBrandIcon, darkBrandIcon, 156));
             iconPanel.add(iconLabel, BorderLayout.NORTH);
         }
         top.add(iconPanel, BorderLayout.WEST);
@@ -4396,6 +4401,27 @@ public final class PhoneBookFrame extends JFrame {
             } finally {
                 g.dispose();
             }
+        }
+    }
+
+    private static final class ThemeBrandIcon implements Icon {
+        private final Image light;
+        private final Image dark;
+        private final int size;
+
+        private ThemeBrandIcon(Image light, Image dark, int size) {
+            this.light = light;
+            this.dark = dark;
+            this.size = size;
+        }
+
+        @Override public int getIconWidth() { return size; }
+        @Override public int getIconHeight() { return size; }
+
+        @Override
+        public void paintIcon(Component component, Graphics graphics, int x, int y) {
+            Image image = ModernThemePalette.isDark() ? dark : light;
+            if (image != null) graphics.drawImage(image, x, y, size, size, component);
         }
     }
 

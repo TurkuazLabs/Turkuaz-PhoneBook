@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-installer.ps1
 # 📌 Amac: Inno Setup icin tam Windows payload ve Setup EXE uretir.
 # 📌 Tool - PowerShell
-# Version: 1.3.0
+# Version: 1.4.0
 # Aciklama: Auto-update etkin installed payload, buyutulmus cok-cozunurluklu Windows ikonu, JRE/JDBC/SLF4J/FlatLaf ve Inno Setup EXE uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -19,6 +19,7 @@ $payload = Join-Path $stage 'payload'
 $launcherConfig = Join-Path $root 'config\launcher.yml'
 $versionConfig = Join-Path $root 'config\version.yml'
 $iss = Join-Path $root 'packaging\windows\TelefonRehberi.iss'
+. (Join-Path $PSScriptRoot 'windows-branding.ps1')
 
 function Read-SimpleYaml([string]$Path) {
     $result = @{}
@@ -48,109 +49,6 @@ function Download-File([string]$Url, [string]$Destination) {
     Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing
 }
 
-
-function Write-EnlargedWindowsIcon([string]$SourcePng, [string]$DestinationIco) {
-    if (-not (Test-Path -LiteralPath $SourcePng)) {
-        throw "Windows ikon kaynagi bulunamadi: $SourcePng"
-    }
-
-    Add-Type -AssemblyName System.Drawing
-    $source = [System.Drawing.Bitmap]::FromFile($SourcePng)
-    try {
-        $minX = $source.Width
-        $minY = $source.Height
-        $maxX = -1
-        $maxY = -1
-
-        for ($y = 0; $y -lt $source.Height; $y++) {
-            for ($x = 0; $x -lt $source.Width; $x++) {
-                if ($source.GetPixel($x, $y).A -gt 8) {
-                    if ($x -lt $minX) { $minX = $x }
-                    if ($y -lt $minY) { $minY = $y }
-                    if ($x -gt $maxX) { $maxX = $x }
-                    if ($y -gt $maxY) { $maxY = $y }
-                }
-            }
-        }
-
-        if ($maxX -lt $minX -or $maxY -lt $minY) {
-            throw "Windows ikon kaynaginda gorunur piksel bulunamadi: $SourcePng"
-        }
-
-        $cropWidth = $maxX - $minX + 1
-        $cropHeight = $maxY - $minY + 1
-        $sourceRect = [System.Drawing.Rectangle]::new($minX, $minY, $cropWidth, $cropHeight)
-        $sizes = @(16, 24, 32, 48, 64, 128, 256)
-        $frames = @()
-
-        foreach ($size in $sizes) {
-            $canvas = [System.Drawing.Bitmap]::new([int]$size,[int]$size,[System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
-            try {
-                $graphics = [System.Drawing.Graphics]::FromImage($canvas)
-                try {
-                    $graphics.Clear([System.Drawing.Color]::Transparent)
-                    $graphics.CompositingMode = [System.Drawing.Drawing2D.CompositingMode]::SourceCopy
-                    $graphics.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
-                    $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-                    $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-                    $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
-
-                    $margin = [Math]::Max(1, [int][Math]::Round($size * 0.04))
-                    $available = $size - (2 * $margin)
-                    $scale = [Math]::Min([double]$available / [double]$cropWidth,[double]$available / [double]$cropHeight)
-                    $targetWidth = [Math]::Max(1,[int][Math]::Round($cropWidth * $scale))
-                    $targetHeight = [Math]::Max(1,[int][Math]::Round($cropHeight * $scale))
-                    $left = [int][Math]::Floor(($size - $targetWidth) / 2)
-                    $top = [int][Math]::Floor(($size - $targetHeight) / 2)
-                    $targetRect = [System.Drawing.Rectangle]::new($left,$top,$targetWidth,$targetHeight)
-                    $graphics.DrawImage($source,$targetRect,$sourceRect,[System.Drawing.GraphicsUnit]::Pixel)
-                }
-                finally { $graphics.Dispose() }
-
-                $memory = [System.IO.MemoryStream]::new()
-                try {
-                    $canvas.Save($memory,[System.Drawing.Imaging.ImageFormat]::Png)
-                    $frames += ,$memory.ToArray()
-                }
-                finally { $memory.Dispose() }
-            }
-            finally { $canvas.Dispose() }
-        }
-
-        Ensure-Directory (Split-Path -Parent $DestinationIco)
-        $stream = [System.IO.File]::Open($DestinationIco,[System.IO.FileMode]::Create,[System.IO.FileAccess]::Write,[System.IO.FileShare]::None)
-        $writer = [System.IO.BinaryWriter]::new($stream)
-        try {
-            $writer.Write([UInt16]0)
-            $writer.Write([UInt16]1)
-            $writer.Write([UInt16]$sizes.Count)
-
-            $offset = [UInt32](6 + (16 * $sizes.Count))
-            for ($i = 0; $i -lt $sizes.Count; $i++) {
-                $size = [int]$sizes[$i]
-                $frame = [byte[]]$frames[$i]
-                $dimension = if ($size -ge 256) { [byte]0 } else { [byte]$size }
-                $writer.Write($dimension)
-                $writer.Write($dimension)
-                $writer.Write([byte]0)
-                $writer.Write([byte]0)
-                $writer.Write([UInt16]1)
-                $writer.Write([UInt16]32)
-                $writer.Write([UInt32]$frame.Length)
-                $writer.Write([UInt32]$offset)
-                $offset = [UInt32]($offset + $frame.Length)
-            }
-            foreach ($frame in $frames) { $writer.Write([byte[]]$frame) }
-        }
-        finally {
-            $writer.Dispose()
-            $stream.Dispose()
-        }
-
-        Write-Host "[OK] Windows kisayol ikonu buyutuldu: crop=${cropWidth}x${cropHeight}, ICO=16/24/32/48/64/128/256"
-    }
-    finally { $source.Dispose() }
-}
 
 function Find-Iscc {
     if ($env:ISCC_PATH -and (Test-Path -LiteralPath $env:ISCC_PATH)) { return $env:ISCC_PATH }
@@ -191,9 +89,7 @@ foreach ($docName in @('README.md','LICENSE','SECURITY.md','THIRD_PARTY_NOTICES.
 }
 Copy-Item -Path (Join-Path $root 'assets\branding\*') -Destination (Join-Path $payload 'assets\branding') -Recurse -Force
 $installedBranding = Join-Path $payload 'assets\branding'
-Write-EnlargedWindowsIcon `
-    -SourcePng (Join-Path $installedBranding 'app-icon-512.png') `
-    -DestinationIco (Join-Path $installedBranding 'app-icon.ico')
+Write-TurkuazWindowsIconSet -SourcePng (Join-Path $installedBranding 'app-icon-512.png') -DestinationDirectory $installedBranding
 foreach ($name in @('app.yml','launcher.yml','state.yml','version.yml')) {
     Copy-Item -LiteralPath (Join-Path $root "config\$name") -Destination (Join-Path $payload "config\$name") -Force
 }

@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/WINDOWS_INSTALLER.md
 # 📌 Amac: v2.38.0 Inno Setup Program Files kurulumu, yerellestirilmis urun adi ve auto-update davranisini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.2.0
+# Version: 2.3.0
 # Aciklama: Installed/portable ayrimi, Turkce/Ingilizce gorunen urun adi, writable launcher alani, uninstall ve Setup auto-update akisidir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -26,3 +26,8 @@ Launcher GitHub latest release manifestini kontrol eder. Daha yeni surumde Setup
 ## Uninstall
 
 Uninstall Program Files uygulama payloadini kaldirir; `%USERPROFILE%\Contacts\Turkuaz Telefon Rehberi` altindaki rehber DB, export ve backup dosyalarini silmez.
+
+
+## Light / Dark splash
+
+Native Windows launcher, splash acilmadan once kullanicinin `preferences.yml` dosyasindaki `theme` degerini okur. `light` ve `dark` icin arka plan, yazi, progress bar ve Turkuaz marka ikonu ayri palet kullanir. Tema degeri eksik veya gecersizse guvenli fallback `light` olur.

@@ -1,7 +1,7 @@
 // 📄 Dosya Yolu: C:/Projects/TelefonRehberi/launcher/native/controllers/launcher_controller.go
 // 📌 Amac: Native launcher komut satiri girisini alir ve servisi cagirir.
 // 📌 Modul - Go
-// Version: 2.3.0
+// Version: 2.4.0
 // Aciklama: Turkuaz-PhoneBook launcher akisinda kullaniciya gosterilen tum controller/service hata detaylarini Language katmanindan yerellestirir.
 // Bagimli Oldugu Katman: Controller | Service | Tool | View | Language
 
@@ -60,7 +60,7 @@ func (LauncherController) Run(args []string) (exitCode int) {
 		}
 	}
 
-	splash := views.NewSplash()
+	splash := views.NewSplash(tools.UserThemePreference())
 	service := services.NewLauncherService(root, splash)
 	if err := service.Run(); err != nil {
 		splash.Close()

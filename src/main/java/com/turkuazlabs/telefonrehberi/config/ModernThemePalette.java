@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/ModernThemePalette.java
 // # 📌 Amac: WhatsApp esintili modern acik/koyu renk paletini merkezi olarak sunar.
 // # 📌 Config - Java
-// # Version: 2.11.0
+// # Version: 2.12.0
 // # Aciklama: Acik temayi varsayilan tutar; WhatsApp benzeri ferah yesil vurgu, yumusak zemin ve okunakli yuzey renkleri uretir.
 // # Bagimli Oldugu Katman: Config
 package com.turkuazlabs.telefonrehberi.config;
@@ -45,6 +45,10 @@ public final class ModernThemePalette {
 
     private static final Color ACCENT = new Color(18, 140, 126);
     private static final Color ACCENT_STRONG = new Color(17, 117, 104);
+    private static final Color LIGHT_BRAND_ACCENT = new Color(18, 140, 126);
+    private static final Color DARK_BRAND_ACCENT = new Color(0, 168, 132);
+    private static final Color LIGHT_BRAND_GLYPH = new Color(255, 255, 255);
+    private static final Color DARK_BRAND_GLYPH = new Color(236, 253, 250);
 
     public static boolean isDark() {
         return UIManager.getBoolean("laf.dark");
@@ -97,6 +101,18 @@ public final class ModernThemePalette {
 
     public static Color accentSoft() {
         return isDark() ? new Color(17, 68, 61) : new Color(223, 247, 238);
+    }
+
+    public static Color brandAccent() {
+        return brandAccent(isDark());
+    }
+
+    public static Color brandAccent(boolean dark) {
+        return dark ? DARK_BRAND_ACCENT : LIGHT_BRAND_ACCENT;
+    }
+
+    public static Color brandGlyph(boolean dark) {
+        return dark ? DARK_BRAND_GLYPH : LIGHT_BRAND_GLYPH;
     }
 
     public static Color success() {

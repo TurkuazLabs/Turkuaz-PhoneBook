@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-release.ps1
 # 📌 Amac: Java 17 JAR, native Windows EXE launcher ve GitHub release paketini uretir.
 # 📌 Modul - PowerShell
-# Version: 2.5.0
+# Version: 2.6.0
 # Aciklama: v2.38.0 quality gate uyumlu JAR, EXE, platform update manifesti ve portable ZIP uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
@@ -22,6 +22,7 @@ $nativeLauncherPath = Join-Path $rootPath 'launcher\native'
 $jarPath = Join-Path $distPath 'TelefonRehberi.jar'
 $launcherDist = Join-Path $distPath 'TelefonRehberi.exe'
 $manifestDist = Join-Path $distPath 'update-manifest.yml'
+. (Join-Path $PSScriptRoot 'windows-branding.ps1')
 
 function Read-SimpleYaml {
     param([string]$Path)
@@ -160,6 +161,7 @@ foreach ($docName in @('LICENSE','SECURITY.md','THIRD_PARTY_NOTICES.md')) {
     if (Test-Path -LiteralPath $docSource) { Copy-Item -LiteralPath $docSource -Destination $portablePath -Force }
 }
 Copy-DirectoryContent (Join-Path $rootPath 'assets') (Join-Path $portablePath 'assets')
+Write-TurkuazWindowsIconSet -SourcePng (Join-Path $rootPath 'assets\branding\app-icon-512.png') -DestinationDirectory (Join-Path $portablePath 'assets\branding')
 Copy-Item -LiteralPath $jarPath -Destination (Join-Path $portablePath 'app\TelefonRehberi.jar') -Force
 Copy-Item -LiteralPath (Join-Path $rootPath 'config\launcher.yml') -Destination (Join-Path $portablePath 'config\launcher.yml') -Force
 Copy-Item -LiteralPath (Join-Path $rootPath 'config\app.yml') -Destination (Join-Path $portablePath 'config\app.yml') -Force
