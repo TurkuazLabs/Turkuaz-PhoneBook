@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/controllers/PhoneBookController.java
 // # 📌 Amac: GUI kullanici isteklerini alir ve ilgili servis katmanlarina yonlendirir.
 // # 📌 Controller - Java
-// # Version: 2.37.0
-// # Aciklama: GUI eventlerini Service katmanina baglar; uzun I/O ve tarama islemlerini Swing EDT disinda calistirir.
+// # Version: 2.39.0
+// # Aciklama: GUI eventlerini Service katmanina baglar; backup ve masaustu hatirlatma bildirimlerini Swing EDT disinda calistirir.
 // # Bagimli Oldugu Katman: Controller | Service | View | Model | Language
 package com.turkuazlabs.telefonrehberi.controllers;
 
@@ -28,6 +28,7 @@ import com.turkuazlabs.telefonrehberi.services.ImportExportService;
 import com.turkuazlabs.telefonrehberi.services.MaintenanceService;
 import com.turkuazlabs.telefonrehberi.services.SavedContactViewService;
 import com.turkuazlabs.telefonrehberi.services.SettingsService;
+import com.turkuazlabs.telefonrehberi.services.ReminderNotificationService;
 import com.turkuazlabs.telefonrehberi.services.SmartListService;
 import com.turkuazlabs.telefonrehberi.services.TagService;
 import com.turkuazlabs.telefonrehberi.services.ThemeService;
@@ -50,6 +51,7 @@ public final class PhoneBookController {
     private final ExternalLinkService externalLinkService;
     private final ThemeService themeService;
     private final SettingsService settingsService;
+    private final ReminderNotificationService reminderNotificationService;
     private final BackupService backupService;
     private final GroupService groupService;
     private final TagService tagService;
@@ -69,6 +71,7 @@ public final class PhoneBookController {
             ExternalLinkService externalLinkService,
             ThemeService themeService,
             SettingsService settingsService,
+            ReminderNotificationService reminderNotificationService,
             BackupService backupService,
             GroupService groupService,
             TagService tagService,
@@ -87,6 +90,7 @@ public final class PhoneBookController {
         this.externalLinkService = externalLinkService;
         this.themeService = themeService;
         this.settingsService = settingsService;
+        this.reminderNotificationService = reminderNotificationService;
         this.backupService = backupService;
         this.groupService = groupService;
         this.tagService = tagService;
@@ -164,6 +168,11 @@ public final class PhoneBookController {
         refreshAll();
         applyDefaultSavedContactViewAtStartup();
         view.showWindow();
+
+        executeAsync(
+                () -> reminderNotificationService.notifyDueReminders(settings.reminderNotificationsEnabled()),
+                ignored -> { }
+        );
 
         if (migratedContactCount > 0) {
             view.showMessage(String.format(Messages.MIGRATION_FORMAT, migratedContactCount));
