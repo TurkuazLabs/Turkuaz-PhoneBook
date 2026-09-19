@@ -259,10 +259,10 @@ The project follows a layered architecture:
 | `config/` | Central application/launcher configuration |
 | `tools/` | Build, test and release scripts |
 | `docs/` | Technical documentation |
-
-Desktop reminder behavior and privacy rules are documented in [`docs/DESKTOP_REMINDERS.md`](./docs/DESKTOP_REMINDERS.md).
 | `updates/` | Update-manifest template |
 | `.github/workflows/` | CI and release automation |
+
+Desktop reminder behavior and privacy rules are documented in [`docs/DESKTOP_REMINDERS.md`](./docs/DESKTOP_REMINDERS.md).
 
 ## Build and Quality Gates
 
