@@ -671,6 +671,8 @@ public final class PhoneBookController {
             AppSettings saved = settingsService.loadSettings();
             if (result.languageChanged()) {
                 view.refreshLanguage(saved);
+                view.showSyncState(syncServerInfo);
+                refreshAll();
             } else {
                 view.applySettings(saved);
             }
