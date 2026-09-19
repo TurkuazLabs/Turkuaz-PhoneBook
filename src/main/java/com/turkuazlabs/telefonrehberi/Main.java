@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/Main.java
 // # 📌 Amac: Uygulama katmanlarini olusturur ve tum servis/repository/tool bagimliliklarini baslatir.
 // # 📌 Bootstrap - Java
-// # Version: 2.38.4
-// # Aciklama: XDG/Contacts platform yerlesimi, SQLite, hatirlatmalar, mobil API ve GUI wiring islemlerini yapar.
+// # Version: 2.39.0
+// # Aciklama: XDG/Contacts platform yerlesimi, SQLite, masaustu hatirlatma bildirimi, mobil API ve GUI wiring islemlerini yapar.
 // # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View
 package com.turkuazlabs.telefonrehberi;
 
@@ -35,6 +35,7 @@ import com.turkuazlabs.telefonrehberi.services.MigrationService;
 import com.turkuazlabs.telefonrehberi.services.MobileSyncService;
 import com.turkuazlabs.telefonrehberi.services.SavedContactViewService;
 import com.turkuazlabs.telefonrehberi.services.SettingsService;
+import com.turkuazlabs.telefonrehberi.services.ReminderNotificationService;
 import com.turkuazlabs.telefonrehberi.services.SmartListService;
 import com.turkuazlabs.telefonrehberi.services.TagService;
 import com.turkuazlabs.telefonrehberi.services.ThemeService;
@@ -42,6 +43,7 @@ import com.turkuazlabs.telefonrehberi.services.UserDataMigrationService;
 import com.turkuazlabs.telefonrehberi.tools.BrandAssetTool;
 import com.turkuazlabs.telefonrehberi.tools.ContactSnapshotCodec;
 import com.turkuazlabs.telefonrehberi.tools.DesktopActionTool;
+import com.turkuazlabs.telefonrehberi.tools.DesktopNotificationTool;
 import com.turkuazlabs.telefonrehberi.tools.CsvContactTool;
 import com.turkuazlabs.telefonrehberi.tools.FlatLafThemeTool;
 import com.turkuazlabs.telefonrehberi.tools.FormCodec;
@@ -120,9 +122,12 @@ public final class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(mobileSyncController::stop, "telefonrehberi-sync-shutdown"));
         SyncServerInfo syncServerInfo = mobileSyncController.serverInfo();
         Image appIcon = new BrandAssetTool().loadAppIcon().orElse(null);
+        ReminderNotificationService reminderNotificationService = new ReminderNotificationService(
+                contactService, new DesktopNotificationTool(appIcon)
+        );
 
         SwingUtilities.invokeLater(() -> startGui(
-                contactService, bulkUndoService, contactFilterService, savedContactViewService, contactQuickActionService, externalLinkService, themeService, settingsService, backupService, groupService, tagService,
+                contactService, bulkUndoService, contactFilterService, savedContactViewService, contactQuickActionService, externalLinkService, themeService, settingsService, reminderNotificationService, backupService, groupService, tagService,
                 smartListService, maintenanceService, importExportService,
                 syncServerInfo, migratedContactCount, appIcon
         ));
@@ -137,6 +142,7 @@ public final class Main {
             ExternalLinkService externalLinkService,
             ThemeService themeService,
             SettingsService settingsService,
+            ReminderNotificationService reminderNotificationService,
             BackupService backupService,
             GroupService groupService,
             TagService tagService,
@@ -149,7 +155,7 @@ public final class Main {
     ) {
         PhoneBookFrame view = new PhoneBookFrame(appIcon);
         PhoneBookController controller = new PhoneBookController(
-                contactService, bulkUndoService, contactFilterService, savedContactViewService, contactQuickActionService, externalLinkService, themeService, settingsService, backupService,
+                contactService, bulkUndoService, contactFilterService, savedContactViewService, contactQuickActionService, externalLinkService, themeService, settingsService, reminderNotificationService, backupService,
                 groupService, tagService, smartListService, maintenanceService, importExportService,
                 view, syncServerInfo, migratedContactCount
         );
