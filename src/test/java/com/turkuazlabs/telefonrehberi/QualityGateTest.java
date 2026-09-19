@@ -288,16 +288,16 @@ public final class QualityGateTest {
 
         LocalDate today = LocalDate.now();
         service.addContact(new ContactDraft(
-                "Birthday Due", "", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
+                "Birthday Due", "+905550000001", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
                 List.of(), List.of(), null, ReminderLeadTime.SAME_DAY, List.of(), KeepInTouchInterval.DISABLED, ""
         ));
         service.addContact(new ContactDraft(
-                "Keep In Touch Due", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", false,
+                "Keep In Touch Due", "+905550000002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", false,
                 List.of(), List.of(), null, ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.MONTHLY,
                 today.minusDays(31).toString()
         ));
         service.addContact(new ContactDraft(
-                "No Reminder", "", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
+                "No Reminder", "+905550000003", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
                 List.of(), List.of(), null, ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.DISABLED, ""
         ));
 
