@@ -1,11 +1,12 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/tools/FlatLafThemeTool.java
 // # 📌 Amac: FlatLaf tema motorunu Swing arayuzune uygulayan adaptor gorevi gorur.
 // # 📌 Tool - Java
-// # Version: 1.4.0
-// # Aciklama: FlatLaf siniflarini yukler ve avatarli kisi listesi, sekme, input ve scrollbar varsayilanlarini uygular.
+// # Version: 1.5.0
+// # Aciklama: FlatLaf siniflarini yukler; Turkuaz light/dark paletini input, liste, sekme, focus ve scrollbar varsayilanlarina uygular.
 // # Bagimli Oldugu Katman: Tool | Model | Config
 package com.turkuazlabs.telefonrehberi.tools;
 
+import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
 import com.turkuazlabs.telefonrehberi.config.UiConfig;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
 
@@ -60,6 +61,33 @@ public final class FlatLafThemeTool {
         UIManager.put("TabbedPane.showTabSeparators", false);
         UIManager.put("ToolTip.arc", 8);
         UIManager.put("TitlePane.unifiedBackground", true);
+
+        UIManager.put("Panel.background", ModernThemePalette.background());
+        UIManager.put("RootPane.background", ModernThemePalette.background());
+        UIManager.put("Label.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("TextField.background", ModernThemePalette.surface());
+        UIManager.put("TextField.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("TextField.inactiveBackground", ModernThemePalette.surfaceMuted());
+        UIManager.put("TextArea.background", ModernThemePalette.surface());
+        UIManager.put("TextArea.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("ComboBox.background", ModernThemePalette.surface());
+        UIManager.put("ComboBox.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("List.background", ModernThemePalette.surface());
+        UIManager.put("List.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("List.selectionBackground", ModernThemePalette.accentSoft());
+        UIManager.put("List.selectionForeground", ModernThemePalette.textPrimary());
+        UIManager.put("Table.background", ModernThemePalette.surface());
+        UIManager.put("Table.foreground", ModernThemePalette.textPrimary());
+        UIManager.put("Table.selectionBackground", ModernThemePalette.accentSoft());
+        UIManager.put("Table.selectionForeground", ModernThemePalette.textPrimary());
+        UIManager.put("TabbedPane.background", ModernThemePalette.surface());
+        UIManager.put("TabbedPane.selectedBackground", ModernThemePalette.accentSoft());
+        UIManager.put("Separator.foreground", ModernThemePalette.border());
+        UIManager.put("Component.borderColor", ModernThemePalette.border());
+        UIManager.put("Component.focusColor", ModernThemePalette.accent());
+        UIManager.put("Component.focusedBorderColor", ModernThemePalette.accent());
+        UIManager.put("ScrollBar.thumb", ModernThemePalette.border());
+        UIManager.put("ScrollBar.hoverThumbColor", ModernThemePalette.accent());
     }
 
     private void applySystemFallback() {
