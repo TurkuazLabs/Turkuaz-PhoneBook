@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.38.3
-// # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
+// # Version: 2.39.0
+// # Aciklama: Turkuaz uyumlu light/dark tema, tutarli vektor ikonlar ve pencereyi kapatmadan canli dil/tema yenileme sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
 
@@ -11,6 +11,7 @@ import com.turkuazlabs.telefonrehberi.config.UiConfig;
 import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
 import com.turkuazlabs.telefonrehberi.language.LocaleText;
 import com.turkuazlabs.telefonrehberi.language.Messages;
+import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.language.ContactSortText;
 import com.turkuazlabs.telefonrehberi.language.ReminderText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
@@ -125,6 +126,7 @@ public final class PhoneBookFrame extends JFrame {
     private final Map<JButton, CollapsibleNavigationSection> navigationSectionByButton = new HashMap<>();
     private JButton activeNavigationButton;
     private JButton favoritesNavigationButton;
+    private String currentPage = UiConfig.PAGE_DASHBOARD;
 
     private final JTextField searchField = new JTextField(UiConfig.SEARCH_COLUMNS);
     private final JToggleButton favoritesOnlyCheckBox = new JToggleButton(Messages.FAVORITES_ONLY);
@@ -251,6 +253,7 @@ public final class PhoneBookFrame extends JFrame {
     private final JToggleButton activityTransferButton = new JToggleButton();
     private final JToggleButton activityRestoreButton = new JToggleButton();
     private ContactActivityFilter contactActivityFilter = ContactActivityFilter.ALL;
+    private ContactActivityFeed currentActivityFeed = ContactActivityFeed.empty();
     private Map<Long, List<GroupRecord>> groupMemberships = Map.of();
     private Map<Long, List<TagRecord>> tagMemberships = Map.of();
 
@@ -402,7 +405,7 @@ public final class PhoneBookFrame extends JFrame {
     private Runnable contactActivityAction = () -> { };
 
     public PhoneBookFrame(Image appIcon) {
-        super(String.format(Messages.WINDOW_TITLE_VERSION_FORMAT, AppConfig.APP_NAME, AppConfig.APP_VERSION));
+        super(String.format(Messages.WINDOW_TITLE_VERSION_FORMAT, ProductText.APP_NAME, AppConfig.APP_VERSION));
         this.appIcon = appIcon;
         this.lightBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, false);
         this.darkBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, true);
@@ -734,6 +737,7 @@ public final class PhoneBookFrame extends JFrame {
 
     public void showContactActivity(ContactActivityFeed feed) {
         ContactActivityFeed value = feed == null ? ContactActivityFeed.empty() : feed;
+        currentActivityFeed = value;
         activityAllButton.setText(String.format(Messages.ACTIVITY_FILTER_ALL, value.totalCount()));
         activityChangesButton.setText(String.format(Messages.ACTIVITY_FILTER_CHANGES, value.changeCount()));
         activityTransferButton.setText(String.format(Messages.ACTIVITY_FILTER_TRANSFER, value.transferCount()));
@@ -1030,7 +1034,27 @@ public final class PhoneBookFrame extends JFrame {
     }
 
     public void applySettings(AppSettings settings) {
+        ThemeMode previousTheme = activeSettings == null ? settings.theme() : activeSettings.theme();
         activeSettings = settings;
+        applySettingsState(settings);
+        if (previousTheme != settings.theme()) {
+            rebuildRuntimeShell(settings);
+        }
+    }
+
+    public void refreshLanguage(AppSettings settings) {
+        activeSettings = settings;
+        relabelPersistentControls();
+        phoneMethodsPanel.refreshLanguage();
+        emailMethodsPanel.refreshLanguage();
+        importantDatesPanel.refreshLanguage();
+        configureFlatLafProperties();
+        setTitle(String.format(Messages.WINDOW_TITLE_VERSION_FORMAT, ProductText.APP_NAME, AppConfig.APP_VERSION));
+        rebuildRuntimeShell(settings);
+        showContactActivity(currentActivityFeed);
+    }
+
+    private void applySettingsState(AppSettings settings) {
         themeCombo.setSelectedItem(settings.theme() == ThemeMode.DARK ? Messages.THEME_DARK : Messages.THEME_LIGHT);
         languageCombo.setSelectedItem(languageLabel(settings.languageCode()));
         startupPageCombo.setSelectedItem(UiConfig.PAGE_CONTACTS.equals(settings.startupPage())
@@ -1051,6 +1075,108 @@ public final class PhoneBookFrame extends JFrame {
         setThemeMode(settings.theme());
     }
 
+    private void rebuildRuntimeShell(AppSettings settings) {
+        String pageToRestore = currentPage;
+        navigationButtons.clear();
+        navigationByPage.clear();
+        navigationSections.clear();
+        navigationSectionByButton.clear();
+        activeNavigationButton = null;
+        favoritesNavigationButton = null;
+        pageContainer.removeAll();
+
+        relabelPersistentControls();
+        refreshPersistentThemeColors();
+        setContentPane(buildShell());
+        applySettingsState(settings);
+        showPage(pageToRestore);
+        revalidate();
+        repaint();
+    }
+
+    private void relabelPersistentControls() {
+        favoritesOnlyCheckBox.setText(Messages.CONTACT_BROWSER_FAVORITES_BUTTON);
+        saveSavedViewButton.setText(Messages.SAVED_VIEW_SAVE_BUTTON);
+        manageSavedViewButton.setText(Messages.SAVED_VIEW_MANAGE_BUTTON);
+        renameSavedViewMenuItem.setText(Messages.SAVED_VIEW_RENAME_BUTTON);
+        copySavedViewMenuItem.setText(Messages.SAVED_VIEW_COPY_BUTTON);
+        defaultSavedViewMenuItem.setText(Messages.SAVED_VIEW_SET_DEFAULT_BUTTON);
+        deleteSavedViewMenuItem.setText(Messages.SAVED_VIEW_DELETE_BUTTON);
+        filterToggleButton.setText(filterDrawerPanel.isVisible() ? Messages.FILTERS_HIDE_BUTTON : Messages.FILTERS_BUTTON);
+        savedViewPickerButton.setText(Messages.SAVED_VIEW_PICKER_BUTTON);
+        contactBrowserMoreButton.setText(Messages.CONTACT_BROWSER_MORE_BUTTON);
+
+        favoriteCheckBox.setText(Messages.FAVORITE_LABEL);
+        updateContactActionState(selectedContactIdOrZero() > 0L);
+        deleteButton.setText(Messages.DELETE_BUTTON);
+        cancelButton.setText(Messages.CANCEL_BUTTON);
+        clearButton.setText(Messages.CLEAR_BUTTON);
+        refreshButton.setText(Messages.REFRESH_BUTTON);
+        saveSettingsButton.setText(Messages.SAVE_SETTINGS_BUTTON);
+        backupNowButton.setText(Messages.BACKUP_NOW_BUTTON);
+        backupCleanupButton.setText(Messages.BACKUP_CLEANUP_BUTTON);
+        photoActionsButton.setText(Messages.PHOTO_ACTIONS_BUTTON);
+        quickCallButton.setText(Messages.QUICK_CALL_BUTTON);
+        quickWhatsAppButton.setText(Messages.QUICK_WHATSAPP_BUTTON);
+        quickEmailButton.setText(Messages.QUICK_EMAIL_BUTTON);
+        quickCopyButton.setText(Messages.QUICK_COPY_BUTTON);
+        editContactButton.setText(Messages.EDIT_CONTACT_BUTTON);
+
+        bulkCompanyButton.setText(Messages.BULK_COMPANY_BUTTON);
+        bulkCategoryButton.setText(Messages.BULK_CATEGORY_BUTTON);
+        bulkAddGroupButton.setText(Messages.BULK_ADD_GROUP_BUTTON);
+        bulkRemoveGroupButton.setText(Messages.BULK_REMOVE_GROUP_BUTTON);
+        bulkAddTagButton.setText(Messages.BULK_ADD_TAG_BUTTON);
+        bulkRemoveTagButton.setText(Messages.BULK_REMOVE_TAG_BUTTON);
+        bulkFavoriteButton.setText(Messages.BULK_FAVORITE_BUTTON);
+        bulkUnfavoriteButton.setText(Messages.BULK_UNFAVORITE_BUTTON);
+        bulkExportVcfButton.setText(Messages.BULK_EXPORT_VCF_BUTTON);
+        bulkExportCsvButton.setText(Messages.BULK_EXPORT_CSV_BUTTON);
+        bulkTrashButton.setText(Messages.BULK_TRASH_BUTTON);
+        undoNoticeButton.setText(Messages.UNDO_BUTTON);
+        redoNoticeButton.setText(Messages.REDO_BUTTON);
+        detailFavoriteLabel.setText(Messages.FAVORITE_BADGE);
+
+        replaceComboItems(languageCombo, Messages.LANGUAGE_SYSTEM, Messages.LANGUAGE_TURKISH, Messages.LANGUAGE_ENGLISH);
+        replaceComboItems(startupPageCombo, Messages.STARTUP_DASHBOARD, Messages.STARTUP_CONTACTS);
+        replaceComboItems(themeCombo, Messages.THEME_LIGHT, Messages.THEME_DARK);
+        rememberWindowCheckBox.setText(Messages.REMEMBER_WINDOW_LABEL);
+        confirmDeleteCheckBox.setText(Messages.CONFIRM_DELETE_LABEL);
+        compactModeCheckBox.setText(Messages.COMPACT_MODE_LABEL);
+        autoBackupCheckBox.setText(Messages.AUTO_BACKUP_LABEL);
+        syncEnabledCheckBox.setText(Messages.SYNC_ENABLED_LABEL);
+        updateEnabledCheckBox.setText(Messages.UPDATE_ENABLED_LABEL);
+
+        contactList.setToolTipText(Messages.BULK_SELECTION_HINT);
+        clearButton.setToolTipText(Messages.NEW_CONTACT_BUTTON);
+        favoritesOnlyCheckBox.setToolTipText(Messages.FAVORITES_ONLY);
+        savedViewPickerButton.setToolTipText(Messages.SAVED_VIEW_PICKER_TOOLTIP);
+        contactBrowserMoreButton.setToolTipText(Messages.CONTACT_BROWSER_MORE_TOOLTIP);
+        contactCountLabel.setText(String.format(Messages.STATUS_COUNT_FORMAT, contactListModel.size()));
+        if (duplicateCandidates.isEmpty()) {
+            duplicateStatusLabel.setText(Messages.DUPLICATE_NONE);
+        }
+    }
+
+    private void replaceComboItems(JComboBox<String> combo, String... values) {
+        combo.removeAllItems();
+        for (String value : values) {
+            combo.addItem(value);
+        }
+    }
+
+    private void refreshPersistentThemeColors() {
+        contactList.setBackground(ModernThemePalette.surface());
+        contactList.setForeground(ModernThemePalette.textPrimary());
+        contactCountLabel.setForeground(ModernThemePalette.textSecondary());
+        statusLabel.setForeground(ModernThemePalette.textSecondary());
+        syncStatusLabel.setForeground(ModernThemePalette.textSecondary());
+        undoNoticeLabel.setForeground(ModernThemePalette.textPrimary());
+        backupCountLabel.setForeground(ModernThemePalette.textPrimary());
+        backupLastLabel.setForeground(ModernThemePalette.textSecondary());
+        backupList.setBackground(ModernThemePalette.surfaceElevated());
+    }
+
     public void setThemeMode(ThemeMode mode) {
         themeCombo.setSelectedItem(mode == ThemeMode.DARK ? Messages.THEME_DARK : Messages.THEME_LIGHT);
         refreshWindowIcons(mode == ThemeMode.DARK);
@@ -1064,6 +1190,7 @@ public final class PhoneBookFrame extends JFrame {
 
     public void showPage(String page) {
         String resolvedPage = UiConfig.isKnownPage(page) ? page : UiConfig.PAGE_DASHBOARD;
+        currentPage = resolvedPage;
         pageLayout.show(pageContainer, resolvedPage);
         JButton target = UiConfig.PAGE_CONTACTS.equals(resolvedPage) && favoritesOnlyCheckBox.isSelected()
                 ? favoritesNavigationButton
@@ -3885,14 +4012,6 @@ public final class PhoneBookFrame extends JFrame {
         undoNoticePanel.setVisible(false);
         undoNoticeLabel.setForeground(ModernThemePalette.textPrimary());
         undoNoticeLabel.setFont(undoNoticeLabel.getFont().deriveFont(Font.BOLD, 12f));
-        undoNoticeButton.addActionListener(event -> {
-            hideUndoNotice();
-            undoBulkAction.run();
-        });
-        redoNoticeButton.addActionListener(event -> {
-            hideUndoNotice();
-            redoBulkAction.run();
-        });
         undoNoticePanel.add(undoNoticeLabel);
         undoNoticePanel.add(undoNoticeButton);
         undoNoticePanel.add(redoNoticeButton);
@@ -3971,6 +4090,14 @@ public final class PhoneBookFrame extends JFrame {
         bulkExportVcfButton.addActionListener(event -> bulkExportVcfAction.run());
         bulkExportCsvButton.addActionListener(event -> bulkExportCsvAction.run());
         bulkTrashButton.addActionListener(event -> bulkTrashAction.run());
+        undoNoticeButton.addActionListener(event -> {
+            hideUndoNotice();
+            undoBulkAction.run();
+        });
+        redoNoticeButton.addActionListener(event -> {
+            hideUndoNotice();
+            redoBulkAction.run();
+        });
 
         contactList.addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) {
@@ -4513,9 +4640,9 @@ public final class PhoneBookFrame extends JFrame {
                         g.drawLine(x + 9, y + 10, x + 13, y + 12);
                     }
                     case MAINTENANCE -> {
-                        g.drawLine(x + 3, y + 15, x + 14, y + 4);
-                        g.drawOval(x + 11, y + 2, 5, 5);
-                        g.drawRect(x + 2, y + 11, 5, 5);
+                        g.drawArc(x + 9, y + 2, 7, 7, 35, 220);
+                        g.drawLine(x + 11, y + 8, x + 4, y + 15);
+                        g.drawOval(x + 2, y + 13, 4, 4);
                     }
                     case TRANSFER -> {
                         g.drawLine(x + 2, y + 6, x + 15, y + 6);
@@ -4531,16 +4658,28 @@ public final class PhoneBookFrame extends JFrame {
                         g.drawLine(x + 7, y + 2, x + 12, y + 2);
                     }
                     case SYNC -> {
-                        g.drawArc(x + 2, y + 3, 13, 12, 35, 210);
-                        g.drawArc(x + 3, y + 3, 13, 12, 215, 210);
+                        g.drawArc(x + 2, y + 3, 13, 12, 35, 205);
+                        g.drawLine(x + 13, y + 2, x + 16, y + 5);
+                        g.drawLine(x + 16, y + 5, x + 12, y + 6);
+                        g.drawArc(x + 3, y + 3, 13, 12, 215, 205);
+                        g.drawLine(x + 5, y + 16, x + 2, y + 13);
+                        g.drawLine(x + 2, y + 13, x + 6, y + 12);
                     }
                     case BACKUP -> {
-                        g.drawRoundRect(x + 2, y + 3, 14, 12, 4, 4);
-                        g.drawLine(x + 5, y + 8, x + 13, y + 8);
+                        g.drawRoundRect(x + 2, y + 2, 14, 15, 4, 4);
+                        g.drawLine(x + 5, y + 6, x + 13, y + 6);
+                        g.drawLine(x + 9, y + 9, x + 9, y + 14);
+                        g.drawLine(x + 6, y + 12, x + 9, y + 15);
+                        g.drawLine(x + 9, y + 15, x + 12, y + 12);
                     }
                     case SETTINGS -> {
-                        g.drawOval(x + 3, y + 3, 12, 12);
-                        g.drawOval(x + 7, y + 7, 4, 4);
+                        int cx = x + 9, cy = y + 9;
+                        g.drawOval(cx - 5, cy - 5, 10, 10);
+                        g.drawOval(cx - 2, cy - 2, 4, 4);
+                        g.drawLine(cx, y + 1, cx, y + 4);
+                        g.drawLine(cx, y + 14, cx, y + 17);
+                        g.drawLine(x + 1, cy, x + 4, cy);
+                        g.drawLine(x + 14, cy, x + 17, cy);
                     }
                     case INFO -> {
                         g.drawOval(x + 2, y + 2, 14, 14);
