@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
+    <img src="https://img.shields.io/badge/version-2.39.0-0aa6a6" alt="Version 2.39.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -103,6 +103,8 @@ Canonical repository:
 GitHub Actions validates Windows, Linux, Android API 36 and iOS simulator builds on `main`.
 
 ## Localization
+
+Desktop language changes selected in Settings are applied to the current window immediately after saving; restarting the application is no longer required for language changes.
 
 The application and distribution layers support Turkish and English/fallback product identity:
 
@@ -277,6 +279,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.0 Theme and Live Language Update
+
+v2.39.0 unifies the desktop UI around the Turkuaz brand color. The light theme uses brighter surfaces and softer selection states; the dark theme uses teal-charcoal surfaces built around the same core logo hue instead of a near-black WhatsApp-like palette. Navigation glyphs use a more consistent vector style, and language changes hot-reload the current window without restarting the application.
 
 ## v2.38.4 Patch
 
