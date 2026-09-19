@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.10.0
-# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri, main artefactlari ve v2.38.1 green-build release kapisini yonetir.
+# Version: 2.10.1
+# Aciklama: Windows/Linux Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri ve main pushlarda 7 gunluk test artefactlari uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -200,55 +200,3 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
-
-
-  release-v2-38-1:
-    if: github.event_name == 'push' && github.event.head_commit.message == 'publish v2.38.1 release'
-    needs:
-      - desktop-java-17
-      - linux-native
-      - android-api-36
-      - ios-simulator
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Verify v2.38.1 release target
-        shell: bash
-        run: |
-          set -euo pipefail
-          APP_VERSION="$(awk -F ':' '/^[[:space:]]*app_version[[:space:]]*:/ {gsub(/[ \"\047]/, "", $2); print $2; exit}' config/version.yml)"
-          if [ "$APP_VERSION" != "2.38.1" ]; then
-            echo "app_version v2.38.1 degil: $APP_VERSION" >&2
-            exit 1
-          fi
-          if git ls-remote --exit-code --tags origin refs/tags/v2.38.1 >/dev/null 2>&1; then
-            echo "v2.38.1 tag zaten mevcut." >&2
-            exit 1
-          fi
-
-      - name: Create annotated v2.38.1 tag
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "TurkuazLabs Release Bot"
-          git config user.email "actions@users.noreply.github.com"
-          git tag -a v2.38.1 "$GITHUB_SHA" -m "Turkuaz PhoneBook v2.38.1"
-          git push origin refs/tags/v2.38.1
-
-      - name: Dispatch v2.38.1 release workflow
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          gh api --method POST \
-            "repos/${GITHUB_REPOSITORY}/actions/workflows/release.yml/dispatches" \
-            -f ref='v2.38.1'
