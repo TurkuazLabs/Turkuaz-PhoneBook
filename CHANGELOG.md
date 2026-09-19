@@ -1,9 +1,17 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.3
-# Aciklama: v2.38.3 haftalik otomatik yedekleme ve 5 kopyalik retention politikasini getiren patch surumudur.
+# Version: 2.38.4
+# Aciklama: v2.38.4 legacy backup retention tercihlerini 5'e clamp eden release duzeltmesidir.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.38.4
+
+- v2.38.3 sonrasinda bulunan legacy preferences uyumluluk acigi kapatildi.
+- `preferences.yml` icindeki eski `backup_retention_count` degeri 5'ten buyukse Repository katmaninda okunurken **5'e clamp edilir**.
+- Quality gate, legacy retention degerlerinin 5'e indirilmesini ve gecerli daha dusuk degerlerin korunmasini dogrular.
+- Yedek dosya formati, SQLite semasi ve haftalik otomatik yedekleme davranisi degismez.
+- Android/iOS build numarasi 584'e hizalandi.
 
 ## v2.38.3
 
