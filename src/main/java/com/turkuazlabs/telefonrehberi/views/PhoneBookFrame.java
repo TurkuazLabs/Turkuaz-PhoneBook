@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.38.3
-// # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
+// # Version: 2.39.0
+// # Aciklama: Kompakt kisi profili, activity timeline, hatirlatmalar, masaustu bildirim tercihi ve gruplandirilmis navigasyon sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
 
@@ -326,6 +326,7 @@ public final class PhoneBookFrame extends JFrame {
     });
     private final JCheckBox rememberWindowCheckBox = new JCheckBox(Messages.REMEMBER_WINDOW_LABEL);
     private final JCheckBox confirmDeleteCheckBox = new JCheckBox(Messages.CONFIRM_DELETE_LABEL);
+    private final JCheckBox reminderNotificationsCheckBox = new JCheckBox(Messages.REMINDER_NOTIFICATIONS_LABEL);
     private final JComboBox<String> themeCombo = new JComboBox<>(new String[] {
             Messages.THEME_LIGHT, Messages.THEME_DARK
     });
@@ -541,7 +542,8 @@ public final class PhoneBookFrame extends JFrame {
                 ((Number) backupRetentionSpinner.getValue()).intValue(),
                 syncEnabledCheckBox.isSelected(),
                 ((Number) syncPortSpinner.getValue()).intValue(),
-                updateEnabledCheckBox.isSelected()
+                updateEnabledCheckBox.isSelected(),
+                reminderNotificationsCheckBox.isSelected()
         );
     }
 
@@ -1043,6 +1045,7 @@ public final class PhoneBookFrame extends JFrame {
         syncEnabledCheckBox.setSelected(settings.mobileSyncEnabled());
         syncPortSpinner.setValue(settings.mobileSyncPort());
         updateEnabledCheckBox.setSelected(settings.updateEnabled());
+        reminderNotificationsCheckBox.setSelected(settings.reminderNotificationsEnabled());
         contactList.setFixedCellHeight(settings.compactMode() ? UiConfig.CONTACT_LIST_ROW_HEIGHT_COMPACT : UiConfig.CONTACT_LIST_ROW_HEIGHT);
         if (settings.rememberWindow()) {
             setSize(Math.max(UiConfig.WINDOW_MIN_WIDTH, settings.windowWidth()),
@@ -3548,6 +3551,12 @@ public final class PhoneBookFrame extends JFrame {
         behaviorForm.addField(Messages.STARTUP_PAGE_LABEL, startupPageCombo);
         behaviorForm.addFullComponent(rememberWindowCheckBox);
         behaviorForm.addFullComponent(confirmDeleteCheckBox);
+        behaviorForm.addFullComponent(reminderNotificationsCheckBox);
+
+        JLabel reminderHint = new JLabel("<html><div style='width:620px;'>" + Messages.REMINDER_NOTIFICATIONS_HINT + "</div></html>");
+        reminderHint.setForeground(ModernThemePalette.textSecondary());
+        reminderHint.setFont(reminderHint.getFont().deriveFont(Font.PLAIN, 12f));
+        behaviorForm.addFullComponent(reminderHint);
 
         JLabel languageHint = new JLabel("<html><div style='width:620px;'>" + Messages.LANGUAGE_RESTART_HINT + "</div></html>");
         languageHint.setForeground(ModernThemePalette.textSecondary());
