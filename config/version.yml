@@ -2,9 +2,9 @@
 # 📌 Amac: Release pipeline icin uygulama, launcher ve mobil build surumlerini merkezi olarak tutar.
 # 📌 Config - YAML
 # Version: 1.32.0
-# Aciklama: v2.38.1 app, 2.5.2 launcher ve Android/iOS 581 build numarasinin merkezi release surum kaynagidir.
+# Aciklama: v2.38.2 app, 2.5.2 launcher ve Android/iOS 582 build numarasinin merkezi release surum kaynagidir.
 # Bagimli Oldugu Katman: Tool | Config
 
-app_version: "2.38.1"
+app_version: "2.38.2"
 launcher_version: "2.5.2"
-mobile_build: "581"
+mobile_build: "582"

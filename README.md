@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.1-0aa6a6" alt="Version 2.38.1">
+    <img src="https://img.shields.io/badge/version-2.38.2-0aa6a6" alt="Version 2.38.2">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -170,6 +170,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.38.2 Yama Ozeti
+
+v2.38.2 Windows ikon zincirini duzeltir: masaustu ve Baslat menusu kisayollari Windows icon cache'ini kiracak surume ozel ICO yolu kullanir, Uygulamalar ve Ozellikler kaydi gercek Turkuaz ICO'sunu gosterir ve Swing pencere/taskbar ikonlari 512 px kaynaktan 16/20/24/32/40/48/64/128/256 px boyutlarda uretilir.
 
 ## v2.38.1 Yama Ozeti
 

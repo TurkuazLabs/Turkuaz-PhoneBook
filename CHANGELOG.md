@@ -1,9 +1,17 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.1
-# Aciklama: v2.38.1 Light/Dark marka-splash uyumu ve Windows ikon iyilestirmelerini tasiyan patch surumudur.
+# Version: 2.38.2
+# Aciklama: v2.38.2 Windows masaustu, taskbar/pencere ve Uygulamalar ve Ozellikler ikon zincirini duzelten patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.38.2
+
+- Masaustu ve Baslat menusu kisayollari surume ozel `app-icon-v2.38.2.ico` yolunu kullanir; Windows icon cache eski kucuk ikonu tutamaz.
+- Windows `Uygulamalar ve Ozellikler` / uninstall kaydi generic EXE yerine gercek Turkuaz ICO dosyasini kullanir.
+- Swing pencere ve taskbar ikonlari 128 px tek resim yerine 512 px kaynaktan 16/20/24/32/40/48/64/128/256 px coklu ikon listesiyle ayarlanir.
+- Pencere/taskbar ikon seti Light/Dark tema degisiminde yeniden uygulanir.
+- Android/iOS build numarasi 582'ye hizalandi.
 
 ## v2.38.1
 

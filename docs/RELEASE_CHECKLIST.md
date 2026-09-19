@@ -1,11 +1,11 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/RELEASE_CHECKLIST.md
-# 📌 Amac: Turkuaz PhoneBook v2.38.1 release oncesi ve sonrasi dogrulama adimlarini tek yerde tutar.
+# 📌 Amac: Turkuaz PhoneBook v2.38.2 release oncesi ve sonrasi dogrulama adimlarini tek yerde tutar.
 # 📌 Modul - Markdown
-# Version: 1.1.0
+# Version: 1.2.0
 # Aciklama: Main CI artefact preflight, tag, Release workflow, checksum, update-manifest ve dagitim smoke kontrolleridir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
-# Turkuaz PhoneBook v2.38.1 Release Checklist
+# Turkuaz PhoneBook v2.38.2 Release Checklist
 
 ## Release oncesi
 
@@ -17,15 +17,15 @@
 - Windows portable ZIP ve Linux TAR.GZ archive integrity kontrolunden gecmeli.
 - Portable paketlerin bootstrap dagitimi oldugu ve ilk acilista internet uzerinden runtime/bagimlilik indirdigi dokumantasyonda acikca belirtilmeli; Windows Setup ise offline runtime/bagimlilik payloadini tasimali.
 - Paketlerde kullaniciya ait `telefon-rehberi.db`, `preferences.yml`, sync token, WAL veya SHM dosyasi bulunmamali.
-- Teknik surumler `app 2.38.1`, `launcher 2.5.2`, Android/iOS build 581 ile version consistency gate'i gecmeli.
-- `updates/update-manifest.yml` main branchte son yayinlanmis release referansi olarak kalabilir; gercek v2.38.1 cross-platform manifesti tag-triggered Release workflow tarafindan release assetlerinin gercek SHA-256 degerleriyle uretilir.
+- Teknik surumler `app 2.38.2`, `launcher 2.5.2`, Android/iOS build 582 ile version consistency gate'i gecmeli.
+- `updates/update-manifest.yml` main branchte son yayinlanmis release referansi olarak kalabilir; gercek v2.38.2 cross-platform manifesti tag-triggered Release workflow tarafindan release assetlerinin gercek SHA-256 degerleriyle uretilir.
 
 ## Yayin
 
-1. Son yesil `main` commitinde `v2.38.1` tag olustur.
+1. Son yesil `main` commitinde `v2.38.2` tag olustur.
 2. Tag'i GitHub'a push et.
 3. `Release` workflow'un tum joblarinin yesil tamamlanmasini bekle.
-4. GitHub Release basliginin `Turkuaz PhoneBook v2.38.1` oldugunu dogrula.
+4. GitHub Release basliginin `Turkuaz PhoneBook v2.38.2` oldugunu dogrula.
 
 ## Release assetleri
 
@@ -36,18 +36,18 @@ Asagidaki assetler release'te bulunmali:
 - `TelefonRehberi-linux-amd64`
 - `update-manifest.yml`
 - `CHECKSUMS.txt`
-- `TelefonRehberi-Portable-v2.38.1-FULL.zip`
-- `TelefonRehberi-Setup-v2.38.1.exe`
-- `TelefonRehberi-Linux-v2.38.1-FULL.tar.gz`
-- `Turkuaz-PhoneBook-Android-v2.38.1-debug.apk`
+- `TelefonRehberi-Portable-v2.38.2-FULL.zip`
+- `TelefonRehberi-Setup-v2.38.2.exe`
+- `TelefonRehberi-Linux-v2.38.2-FULL.tar.gz`
+- `Turkuaz-PhoneBook-Android-v2.38.2-debug.apk`
 
 ## Release sonrasi
 
 - `CHECKSUMS.txt` ile release assetlerinin SHA-256 degerlerini dogrula.
-- Release `update-manifest.yml` icinde `app_version: "2.38.1"` ve `launcher_version: "2.5.2"` oldugunu dogrula.
+- Release `update-manifest.yml` icinde `app_version: "2.38.2"` ve `launcher_version: "2.5.2"` oldugunu dogrula.
 - Windows Setup SHA-256 degerinin manifestteki `windows_setup_sha256` ile ayni oldugunu dogrula.
 - Temiz Windows sisteminde Setup kurulumunu ve uygulama acilisini kontrol et.
 - Portable Windows paketinin mevcut kullanici verisini paket icine yazmadan acildigini ve temiz sistemde ilk acilista runtime/bagimlilik bootstrap akisini basariyla tamamladigini kontrol et.
 - Linux full pakette `Kurulum.sh`, native launcher ve masaustu girdisini kontrol et.
 - Turkce ve English masaustu dil tercihlerinin kaydedilip yeniden baslatma sonrasi uygulandigini kontrol et.
-- Launcher latest release kontrolunun v2.38.1 manifestini gordugunu dogrula.
+- Launcher latest release kontrolunun v2.38.2 manifestini gordugunu dogrula.
