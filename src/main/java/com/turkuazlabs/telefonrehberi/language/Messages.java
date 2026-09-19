@@ -373,7 +373,7 @@ public final class Messages {
     public static final String MOBILE_SYNC_BUTTON = t("Mobil Senkron", "Mobile Sync");
 
     public static final String SETTINGS_TITLE = t("Ayarlar", "Settings");
-    public static final String SETTINGS_SUBTITLE = t("Gorunum, yedekleme, senkron ve guncelleme davranisini yonet.", "Manage appearance, backup, sync and update behavior.");
+    public static final String SETTINGS_SUBTITLE = t("Gorunum, hatirlatma, yedekleme, senkron ve guncelleme davranisini yonet.", "Manage appearance, reminders, backup, sync and update behavior.");
     public static final String SETTINGS_TAB_GENERAL = t("Genel", "General");
     public static final String SETTINGS_TAB_APPEARANCE = t("Gorunum", "Appearance");
     public static final String SETTINGS_TAB_BACKUP = t("Yedekleme", "Backup");
