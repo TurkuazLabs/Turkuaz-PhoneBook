@@ -1,9 +1,17 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.0
-# Aciklama: v2.38.0 marka, Turkce/Ingilizce yerellestirme, mobil/desktop guvenlik ve release hizalama surumudur.
+# Version: 2.38.1
+# Aciklama: v2.38.1 Light/Dark marka-splash uyumu ve Windows ikon iyilestirmelerini tasiyan patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.38.1
+
+- Uygulama ici Turkuaz marka simgesi Light ve Dark tema paletlerine gore dinamik renklendirilir.
+- Windows native splash, Java baslamadan once `preferences.yml` icindeki `theme` tercihini okuyarak Light/Dark arka plan, yazi, progress ve marka ikonu paletini secer.
+- Windows paketleme `app-icon-light.ico` ve `app-icon-dark.ico` varyantlarini otomatik uretir; masaustu/Baslat menusu ICO'su seffaf padding kirpilmis buyuk gorunumunu korur.
+- Release surumleri **app 2.38.1**, **launcher 2.5.2**, **Android versionCode 581** ve **iOS build 581** olarak hizalandi.
+- Kurulu Windows 2.38.0 istemcileri, otomatik guncelleme aciksa v2.38.1 release manifestini acilista gorup Inno Setup update akisini baslatabilir.
 
 ## v2.38.0
 

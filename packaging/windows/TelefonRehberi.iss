@@ -1,12 +1,12 @@
 ; 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/windows/TelefonRehberi.iss
 ; 📌 Amac: Turkuaz Windows Program Files kurulum paketini ve dil bazli urun adini tanimlar.
 ; 📌 Tool - InnoSetup
-; Version: 1.3.1
+; Version: 1.4.0
 ; Aciklama: Turkce/English urun adini ve build-installer tarafindan padding'i kirpilip buyutulen cok-cozunurluklu Windows kisayol ikonunu kullanir; teknik kurulum kimlikleri sabit kalir.
 ; Bagimli Oldugu Katman: Tool | Config | Language
 
 #ifndef AppVersion
-  #define AppVersion "2.38.0"
+  #define AppVersion "2.38.1"
 #endif
 #ifndef PayloadDir
   #define PayloadDir "..\..\dist-installer\payload"

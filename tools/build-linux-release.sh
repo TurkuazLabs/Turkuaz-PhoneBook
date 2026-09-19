@@ -2,8 +2,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-linux-release.sh
 # 📌 Amac: Java 17 JAR, native Linux launcher ve Linux portable TAR.GZ paketini uretir.
 # 📌 Tool - Shell
-# Version: 1.2.0
-# Aciklama: v2.38.0 icin Linux amd64 native launcher, portable paket ve SHA-256 dosyalarini olusturur.
+# Version: 1.3.0
+# Aciklama: Merkezi version.yml surumune gore Linux amd64 native launcher, portable paket ve SHA-256 dosyalarini olusturur.
 # Bagimli Oldugu Katman: Tool | Config
 
 set -euo pipefail

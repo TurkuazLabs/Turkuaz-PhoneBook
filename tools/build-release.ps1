@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-release.ps1
 # 📌 Amac: Java 17 JAR, native Windows EXE launcher ve GitHub release paketini uretir.
 # 📌 Modul - PowerShell
-# Version: 2.6.0
-# Aciklama: v2.38.0 quality gate uyumlu JAR, EXE, platform update manifesti ve portable ZIP uretir.
+# Version: 2.7.0
+# Aciklama: Merkezi version.yml surumune gore tema-uyumlu Windows ikon seti, JAR, EXE, update manifesti ve portable ZIP uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 [CmdletBinding()]
@@ -134,7 +134,7 @@ $updateManifest = @(
     '# 📌 Amac: GitHub Release asset update metadata ve SHA-256 degerlerini tanimlar.',
     '# 📌 Modul - YAML',
     '# Version: 2.4.0',
-    '# Aciklama: v2.38.0 Windows/Linux platform launcher ve Setup auto-update release metadata dosyasidir.',
+    '# Aciklama: Guncel Windows/Linux platform launcher ve Setup auto-update release metadata dosyasidir.',
     '# Bagimli Oldugu Katman: Tool',
     '',
     ('app_version: "{0}"' -f $appVersion),

@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.md
 # 📌 Amac: Turkuaz PhoneBook projesinin uluslararasi GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.3
-# Aciklama: v2.38.0 global marka kimligi, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
+# Version: 2.38.4
+# Aciklama: v2.38.1 Light/Dark marka ve splash uyumu, platform destegi, local-first veri modeli, guvenlik, Turkce/Ingilizce yerellestirme, build ve release akislarini Ingilizce ana README olarak sunar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -17,7 +17,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.0-0aa6a6" alt="Version 2.38.0">
+    <img src="https://img.shields.io/badge/version-2.38.1-0aa6a6" alt="Version 2.38.1">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -284,6 +284,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.38.1 Patch
+
+v2.38.1 aligns Turkuaz brand visuals with the selected desktop theme. The in-app brand mark follows the Light/Dark palette, the Windows native splash reads the saved theme before Java starts, and Windows packaging generates matching light/dark ICO variants. The enlarged low-padding Windows shortcut icon is also included in this patch.
 
 ## v2.38.0 Highlights
 

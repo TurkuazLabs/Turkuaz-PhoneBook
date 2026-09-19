@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: /README.tr.md
 # 📌 Amac: Turkuaz PhoneBook projesinin Turkce GitHub vitrini ve teknik ozetidir
 # 📌 Modul - Markdown
-# Version: 2.38.1
-# Aciklama: v2.38.0 global marka kimligi, Turkce/Ingilizce yerellestirme, platform durumu, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
+# Version: 2.38.2
+# Aciklama: v2.38.1 Light/Dark marka ve splash uyumu, Turkce/Ingilizce yerellestirme, platform durumu, veri guvenligi, mimari ve release akislarini Turkce olarak toplar
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
 
 <div align="center">
@@ -17,7 +17,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.0-0aa6a6" alt="Version 2.38.0">
+    <img src="https://img.shields.io/badge/version-2.38.1-0aa6a6" alt="Version 2.38.1">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -177,6 +177,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.38.1 Yama Ozeti
+
+v2.38.1, Turkuaz marka gorunusunu secili masaustu temasiyla hizalar. Uygulama ici marka simgesi Light/Dark palete uyum saglar, Windows native splash Java baslamadan once kayitli temayi okur ve Windows paketleme Light/Dark ICO varyantlari uretir. Buyutulmus dusuk-padding Windows kisayol ikonu da bu yamaya dahildir.
 
 ## v2.38.0 Ozeti
 

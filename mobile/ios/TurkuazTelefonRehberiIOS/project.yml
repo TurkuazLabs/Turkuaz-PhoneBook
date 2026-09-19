@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/mobile/ios/TurkuazTelefonRehberiIOS/project.yml
 # 📌 Amac: XcodeGen ile iOS Xcode projesini yeniden uretmek icin proje tanimini tutar.
 # 📌 Config - YAML
-# Version: 1.2.0
-# Aciklama: iOS 18+, Swift 6, Turkuaz PhoneBook 2.38.0 build numarasi ve yerellestirilmis InfoPlist resource'larini tanimlar.
+# Version: 1.3.0
+# Aciklama: iOS 18+, Swift 6, Turkuaz PhoneBook 2.38.1 build numarasi ve yerellestirilmis InfoPlist resource'larini tanimlar.
 # Bagimli Oldugu Katman: Config | Language
 name: TurkuazTelefonRehberiIOS
 options:
@@ -12,7 +12,7 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "18.0"
     SWIFT_VERSION: "6.0"
     MARKETING_VERSION: "2.38.0"
-    CURRENT_PROJECT_VERSION: "580"
+    CURRENT_PROJECT_VERSION: "581"
 targets:
   TurkuazTelefonRehberiIOS:
     type: application
