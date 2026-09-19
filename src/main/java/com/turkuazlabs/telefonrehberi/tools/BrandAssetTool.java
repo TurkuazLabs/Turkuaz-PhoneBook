@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/tools/BrandAssetTool.java
 // # 📌 Amac: Uygulama marka ikonunu yukler ve Light/Dark tema paletine uyumlu marka varyantlari uretir.
 // # 📌 Tool - Java
-// # Version: 1.1.0
-// # Aciklama: JAR/portable PNG fallback yuklemesi yapar; seffaf padding'i kirpip marka rengini tema paletine tasir.
+// # Version: 1.2.0
+// # Aciklama: 512 px kaynagi yukler; seffaf padding'i kirpar, tema varyanti ve Windows baslik/taskbar icin coklu boyut ikon seti uretir.
 // # Bagimli Oldugu Katman: Tool | Config
 package com.turkuazlabs.telefonrehberi.tools;
 
@@ -19,11 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public final class BrandAssetTool {
-    private static final String CLASSPATH_ICON = "/assets/branding/app-icon-128.png";
-    private static final Path FILE_ICON = AppConfig.APP_ROOT.resolve("assets/branding/app-icon-128.png");
+    private static final String CLASSPATH_ICON = "/assets/branding/app-icon-512.png";
+    private static final Path FILE_ICON = AppConfig.APP_ROOT.resolve("assets/branding/app-icon-512.png");
     private static final int THEME_ICON_SIZE = 256;
     private static final int ALPHA_THRESHOLD = 8;
 
@@ -36,6 +38,29 @@ public final class BrandAssetTool {
             catch (IOException ignored) { return Optional.empty(); }
         }
         return Optional.empty();
+    }
+
+    public List<Image> createWindowIconImages(Image source, boolean dark) {
+        Image themed = createThemeVariant(source, dark);
+        if (themed == null) return List.of();
+
+        int[] sizes = {16, 20, 24, 32, 40, 48, 64, 128, 256};
+        List<Image> images = new ArrayList<>(sizes.length);
+        BufferedImage base = toBufferedImage(themed);
+        for (int size : sizes) {
+            BufferedImage target = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = target.createGraphics();
+            try {
+                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+                g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g.drawImage(base, 0, 0, size, size, null);
+            } finally {
+                g.dispose();
+            }
+            images.add(target);
+        }
+        return List.copyOf(images);
     }
 
     public Image createThemeVariant(Image source, boolean dark) {

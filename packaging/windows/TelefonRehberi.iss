@@ -1,8 +1,8 @@
 ; 📄 Dosya Yolu: C:/Projects/TelefonRehberi/packaging/windows/TelefonRehberi.iss
 ; 📌 Amac: Turkuaz Windows Program Files kurulum paketini ve dil bazli urun adini tanimlar.
 ; 📌 Tool - InnoSetup
-; Version: 1.4.0
-; Aciklama: Turkce/English urun adini ve build-installer tarafindan padding'i kirpilip buyutulen cok-cozunurluklu Windows kisayol ikonunu kullanir; teknik kurulum kimlikleri sabit kalir.
+; Version: 1.5.0
+; Aciklama: Surume ozel cache-busting kisayol/uninstall ICO yolu, cok-cozunurluklu Windows ikonu ve Turkce/English urun adini kullanir.
 ; Bagimli Oldugu Katman: Tool | Config | Language
 
 #ifndef AppVersion
@@ -39,7 +39,7 @@ MinVersion=10.0.17763
 OutputDir={#OutputDir}
 OutputBaseFilename=TelefonRehberi-Setup-v{#AppVersion}
 SetupIconFile={#PayloadDir}\assets\branding\app-icon.ico
-UninstallDisplayIcon={app}\{#AppExeName}
+UninstallDisplayIcon={app}\assets\branding\app-icon-v{#AppVersion}.ico
 UninstallDisplayName={cm:ProductName}
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -71,8 +71,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopShortcut}"; GroupDescription
 Source: "{#PayloadDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{autoprograms}\TurkuazLabs\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"
-Name: "{autodesktop}\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon.ico"; Tasks: desktopicon
+Name: "{autoprograms}\TurkuazLabs\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon-v{#AppVersion}.ico"
+Name: "{autodesktop}\{cm:ProductName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\assets\branding\app-icon-v{#AppVersion}.ico"; Tasks: desktopicon
 
 [Registry]
 Root: HKLM; Subkey: "Software\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}"; ValueType: string; ValueName: ""; ValueData: "{app}\{#AppExeName}"; Flags: uninsdeletekey

@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.38.1
+// # Version: 2.38.2
 // # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
@@ -114,6 +114,7 @@ import java.util.Map;
 
 public final class PhoneBookFrame extends JFrame {
     private final Image appIcon;
+    private final BrandAssetTool brandAssetTool = new BrandAssetTool();
     private final Image lightBrandIcon;
     private final Image darkBrandIcon;
     private final CardLayout pageLayout = new CardLayout();
@@ -401,7 +402,6 @@ public final class PhoneBookFrame extends JFrame {
     public PhoneBookFrame(Image appIcon) {
         super(String.format(Messages.WINDOW_TITLE_VERSION_FORMAT, AppConfig.APP_NAME, AppConfig.APP_VERSION));
         this.appIcon = appIcon;
-        BrandAssetTool brandAssetTool = new BrandAssetTool();
         this.lightBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, false);
         this.darkBrandIcon = appIcon == null ? null : brandAssetTool.createThemeVariant(appIcon, true);
         configureFrame();
@@ -1050,6 +1050,13 @@ public final class PhoneBookFrame extends JFrame {
 
     public void setThemeMode(ThemeMode mode) {
         themeCombo.setSelectedItem(mode == ThemeMode.DARK ? Messages.THEME_DARK : Messages.THEME_LIGHT);
+        refreshWindowIcons(mode == ThemeMode.DARK);
+    }
+
+    private void refreshWindowIcons(boolean dark) {
+        if (appIcon == null) return;
+        List<Image> images = brandAssetTool.createWindowIconImages(appIcon, dark);
+        if (!images.isEmpty()) setIconImages(images);
     }
 
     public void showPage(String page) {
@@ -1196,9 +1203,7 @@ public final class PhoneBookFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(UiConfig.WINDOW_SIZE);
         setMinimumSize(UiConfig.WINDOW_MIN_SIZE);
-        if (appIcon != null) {
-            setIconImage(appIcon);
-        }
+        refreshWindowIcons(ModernThemePalette.isDark());
     }
 
     private void configureFlatLafProperties() {

@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-installer.ps1
 # 📌 Amac: Inno Setup icin tam Windows payload ve Setup EXE uretir.
 # 📌 Tool - PowerShell
-# Version: 1.4.0
-# Aciklama: Auto-update etkin installed payload, buyutulmus cok-cozunurluklu Windows ikonu, JRE/JDBC/SLF4J/FlatLaf ve Inno Setup EXE uretir.
+# Version: 1.5.0
+# Aciklama: Cache-busting surumlu Windows kisayol/uninstall ICO'su, tema ikonlari, JRE/JDBC/SLF4J/FlatLaf ve Inno Setup EXE uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 param(
@@ -90,6 +90,8 @@ foreach ($docName in @('README.md','LICENSE','SECURITY.md','THIRD_PARTY_NOTICES.
 Copy-Item -Path (Join-Path $root 'assets\branding\*') -Destination (Join-Path $payload 'assets\branding') -Recurse -Force
 $installedBranding = Join-Path $payload 'assets\branding'
 Write-TurkuazWindowsIconSet -SourcePng (Join-Path $installedBranding 'app-icon-512.png') -DestinationDirectory $installedBranding
+$versionedShellIcon = Join-Path $installedBranding ("app-icon-v{0}.ico" -f $appVersion)
+Copy-Item -LiteralPath (Join-Path $installedBranding 'app-icon.ico') -Destination $versionedShellIcon -Force
 foreach ($name in @('app.yml','launcher.yml','state.yml','version.yml')) {
     Copy-Item -LiteralPath (Join-Path $root "config\$name") -Destination (Join-Path $payload "config\$name") -Force
 }
