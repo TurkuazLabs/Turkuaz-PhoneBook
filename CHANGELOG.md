@@ -1,9 +1,18 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.2
-# Aciklama: v2.38.2 Windows masaustu, taskbar/pencere ve Uygulamalar ve Ozellikler ikon zincirini duzelten patch surumudur.
+# Version: 2.38.3
+# Aciklama: v2.38.3 haftalik otomatik yedekleme ve 5 kopyalik retention politikasini getiren patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.38.3
+
+- Otomatik SQLite yedegi gunluk yerine **7 gunde bir** calisir.
+- Yedek saklama varsayilani ve ust siniri **5** olarak degistirildi; eski preferences dosyasindaki daha yuksek degerler runtime'da 5'e clamp edilir.
+- Uygulama acilisindaki retention kontrolu, otomatik yedek kapali olsa bile 5'i asan en eski uygulama yedeklerini temizler.
+- Yedekleme ekranina **Eski Yedekleri Temizle** islemi eklendi; en yeni 5 yedek korunur.
+- Quality gate, son 7 gun icindeki yedegin yeni otomatik yedegi engelledigini ve 6 yedekten en eski 1 tanesinin silinerek 5 kopya kaldigini dogrular.
+- Android/iOS build numarasi 583'e hizalandi.
 
 ## v2.38.2
 

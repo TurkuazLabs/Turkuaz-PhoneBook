@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.2-0aa6a6" alt="Version 2.38.2">
+    <img src="https://img.shields.io/badge/version-2.38.3-0aa6a6" alt="Version 2.38.3">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -211,7 +211,7 @@ SQLite backups are created as transaction-consistent snapshots instead of raw da
 - `PRAGMA integrity_check`
 - temporary `.partial-*` snapshot followed by safe final-file replacement
 
-Backups preserve contacts as well as groups, tags, history, smart lists and Trash data.
+Backups preserve contacts as well as groups, tags, history, smart lists and Trash data. Automatic backups use a 7-day interval and retain only the newest five application backups.
 
 Windows backup directory:
 
@@ -277,6 +277,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.38.3 Patch
+
+v2.38.3 simplifies backup retention: automatic SQLite backups now run every **7 days** instead of daily, at most **5 backups** are retained, excess older backups are pruned automatically, and the Backup page includes a manual **Clean Up Old Backups** action.
 
 ## v2.38.2 Patch
 
