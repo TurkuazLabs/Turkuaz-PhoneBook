@@ -1,9 +1,23 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.4
-# Aciklama: v2.38.4 legacy backup retention tercihlerini 5'e clamp eden release duzeltmesidir.
+# Version: 2.39.0
+# Aciklama: v2.39.0 Turkuaz tema sistemi, tutarli navigasyon ikonlari ve canli dil degisimi getiren minor surumdur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.39.0
+
+- Acik tema zemini ve secim vurgulari daha ferah, daha acik tonlara tasindi.
+- Koyu tema Turkuaz marka logosunun ana tonu etrafinda teal-charcoal yuzeylerle yeniden tasarlandi; logo ana Turkuaz rengi light/dark modda ayni kalir.
+- Primary aksiyon dolgusu logo renginden ayrilarak beyaz metin kontrasti korunurken selection/focus vurgulari daha parlak Turkuaz tonlariyla gosterilir.
+- FlatLaf global UI varsayilanlari custom Turkuaz paletiyle hizalandi; input, liste, tablo, sekme, focus ve scrollbar renkleri tema degisimine uyar.
+- Sol navigasyondaki Maintenance, Sync, Backup ve Settings ikonlari ayni stroke/vektor diline getirildi.
+- Tema degisiminde pencere kapatilmadan mevcut Swing shell yeniden kurulur; constructor sirasinda sabitlenmis eski light renkleri dark temaya sizmaz.
+- Language katalogu runtime reload destekler; Turkce/English degisikligi kaydedildigi anda mevcut pencerede uygulanir ve programi kapatip acmak gerekmez.
+- Dil degisiminde urun adi, menu/sayfa metinleri, filtreler, iletisim alanlari ve onemli tarih kontrolleri yeniden yerellestirilir.
+- Restart uyarisi artik yalniz mobil senkron servis/port degisiklikleri icin kullanilir.
+- Quality gate canli language reload ve light/dark logo marka rengi tutarliligini dogrular.
+- Android/iOS build numarasi 590'a hizalandi.
 
 ## v2.38.4
 
