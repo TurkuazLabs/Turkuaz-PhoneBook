@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/check-version-consistency.ps1
 # 📌 Amac: Merkezi release surumlerinin masaustu, launcher, Android, iOS ve Windows installer ile birebir uyumunu dogrular.
 # 📌 Tool - PowerShell
-# Version: 1.0.0
-# Aciklama: config/version.yml kaynak degerlerini dagitim katmanlarindaki surum sabitleriyle karsilastirarak version drift durumunda build'i durdurur.
+# Version: 1.1.0
+# Aciklama: config/version.yml kaynak degerlerini dagitim katmanlari ile ana Turkce README ve Ingilizce README surum badge'leriyle karsilastirir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 [CmdletBinding()]
@@ -78,7 +78,7 @@ Assert-ContainsLiteral (Join-Path $root 'launcher\native\services\launcher_servi
 
 Assert-ContainsLiteral (Join-Path $root 'README.md') `
     ("version-$appVersion-") 'README version badge'
-Assert-ContainsLiteral (Join-Path $root 'README.tr.md') `
-    ("version-$appVersion-") 'README.tr version badge'
+Assert-ContainsLiteral (Join-Path $root 'README.en.md') `
+    ("version-$appVersion-") 'README.en version badge'
 
 Write-Host "[OK] Version consistency: App=$appVersion Launcher=$launcherVersion MobileBuild=$mobileBuild"
