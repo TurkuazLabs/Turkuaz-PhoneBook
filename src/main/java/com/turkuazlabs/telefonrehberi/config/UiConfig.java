@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/UiConfig.java
 // # 📌 Amac: Swing ve FlatLaf arayuz sabitlerini merkezi olarak tanimlar.
 // # 📌 Config - Java
-// # Version: 2.33.3
+// # Version: 2.34.0
 // # Aciklama: Responsive dashboard, sade kisi tarayicisi, kompakt profil ve acilir navigasyon olculerini merkezilestirir.
 // # Bagimli Oldugu Katman: Config
 package com.turkuazlabs.telefonrehberi.config;
@@ -195,8 +195,8 @@ public final class UiConfig {
     public static final int SETTINGS_CARD_MIN_HEIGHT = 150;
     public static final int SETTINGS_DATA_CARD_MIN_HEIGHT = 190;
     public static final int SETTINGS_CONTENT_GAP = 14;
-    public static final int DEFAULT_BACKUP_RETENTION = 14;
-    public static final int MAX_BACKUP_RETENTION = 365;
+    public static final int DEFAULT_BACKUP_RETENTION = 5;
+    public static final int MAX_BACKUP_RETENTION = 5;
     public static final int CARD_ARC = 18;
     public static final int CARD_PADDING = 20;
     public static final int NAV_HEIGHT = 42;

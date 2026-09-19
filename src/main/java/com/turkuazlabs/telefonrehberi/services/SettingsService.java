@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/services/SettingsService.java
 // # 📌 Amac: Kullanici ayarlari is kurallarini ve runtime degisiklik kontrolunu yonetir.
 // # 📌 Service - Java
-// # Version: 2.1.0
+// # Version: 2.2.0
 // # Aciklama: Tum kullanici tercihlerini yazilabilir UserPreferencesRepository uzerinden saklar; Program Files configine yazmaz.
 // # Bagimli Oldugu Katman: Service | Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.services;
@@ -34,7 +34,7 @@ public final class SettingsService {
                 preferences.compactMode(),
                 preferences.confirmDelete(),
                 preferences.autoBackup(),
-                Math.max(1, preferences.backupRetention()),
+                Math.max(1, Math.min(UiConfig.MAX_BACKUP_RETENTION, preferences.backupRetention())),
                 preferences.mobileSyncEnabled(),
                 preferences.mobileSyncPort(),
                 preferences.updateEnabled()

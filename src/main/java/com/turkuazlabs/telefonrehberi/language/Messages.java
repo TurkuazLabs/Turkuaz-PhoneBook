@@ -394,7 +394,7 @@ public final class Messages {
     public static final String THEME_LIGHT = t("Acik Tema (Varsayilan)", "Light Theme (Default)");
     public static final String THEME_DARK = t("Koyu Tema", "Dark Theme");
     public static final String COMPACT_MODE_LABEL = t("Kompakt kisi listesi", "Compact contact list");
-    public static final String AUTO_BACKUP_LABEL = t("Gunluk otomatik yedek", "Daily automatic backup");
+    public static final String AUTO_BACKUP_LABEL = t("Haftalik otomatik yedek", "Weekly automatic backup");
     public static final String BACKUP_RETENTION_LABEL = t("Saklanacak yedek sayisi", "Number of backups to keep");
     public static final String SYNC_ENABLED_LABEL = t("Mobil senkron servisi aktif", "Enable mobile sync service");
     public static final String SYNC_PORT_LABEL = t("Mobil senkron portu", "Mobile sync port");
@@ -411,7 +411,7 @@ public final class Messages {
     public static final String SETTINGS_APPEARANCE_CARD_TITLE = t("Gorunum Tercihleri", "Appearance Preferences");
     public static final String SETTINGS_APPEARANCE_CARD_DESC = t("Tema ve kisi listesi yogunlugunu kendi kullanim sekline gore ayarlayin.", "Adjust the theme and contact-list density to suit your workflow.");
     public static final String SETTINGS_BACKUP_CARD_TITLE = t("Otomatik Yedekleme", "Automatic Backup");
-    public static final String SETTINGS_BACKUP_CARD_DESC = t("Gunluk yedeklemeyi ve saklanacak kopya sayisini yonetin.", "Manage daily backups and how many copies are retained.");
+    public static final String SETTINGS_BACKUP_CARD_DESC = t("Her 7 gunde bir otomatik yedeklemeyi ve en fazla 5 kopyayi yonetin.", "Manage automatic backups every 7 days and keep at most 5 copies.");
     public static final String SETTINGS_SYNC_CARD_TITLE = t("Mobil Senkron Servisi", "Mobile Sync Service");
     public static final String SETTINGS_SYNC_CARD_DESC = t("Yerel ag senkron servisinin durumunu ve kullanacagi portu belirleyin.", "Configure the local-network sync service and its port.");
     public static final String SETTINGS_SYNC_RESTART_HINT = t("Senkron servisi veya portu degistirildiginde yeni ayarin uygulanmasi icin uygulamayi yeniden baslatin.", "Restart the application after changing the sync service or port.");
@@ -425,7 +425,7 @@ public final class Messages {
     public static final String BACKUP_LAST_FORMAT = t("Son yedek: %s", "Last backup: %s");
     public static final String BACKUP_NONE = t("Henuz yedek yok.", "No backups yet.");
     public static final String BACKUP_CREATED_FORMAT = t("Yedek olusturuldu: %s", "Backup created: %s");
-    public static final String AUTO_BACKUP_CREATED_FORMAT = t("Gunluk otomatik yedek olusturuldu: %s", "Daily automatic backup created: %s");
+    public static final String AUTO_BACKUP_CREATED_FORMAT = t("Haftalik otomatik yedek olusturuldu: %s", "Weekly automatic backup created: %s");
     public static final String BACKUP_SUMMARY_TITLE = t("Yedek Durumu", "Backup Status");
     public static final String BACKUP_SUMMARY_DESC = t("Rehber verinizin mevcut yerel yedek durumunu tek bakista gorun.", "See the current local backup status at a glance.");
     public static final String BACKUP_HISTORY_TITLE = t("Yedek Gecmisi", "Backup History");
@@ -434,6 +434,9 @@ public final class Messages {
     public static final String BACKUP_ACTION_DESC = t("Mevcut rehber verisini simdi guvenli bir yerel kopyaya alin.", "Create a safe local copy of the current contact data now.");
     public static final String BACKUP_LIST_ITEM_SUBTITLE = t("Yerel rehber yedegi", "Local contact backup");
     public static final String BACKUP_LOCATION_LABEL = t("Konum", "Location");
+    public static final String BACKUP_CLEANUP_BUTTON = t("Eski Yedekleri Temizle", "Clean Up Old Backups");
+    public static final String BACKUP_CLEANUP_HINT = t("En yeni 5 yedegi korur, daha eski uygulama yedeklerini siler.", "Keeps the newest 5 backups and removes older application backups.");
+    public static final String BACKUP_CLEANUP_DONE_FORMAT = t("Yedek temizligi tamamlandi. Silinen eski yedek: %d", "Backup cleanup completed. Old backups removed: %d");
 
     public static final String SYNC_PAGE_TITLE = t("Mobil Senkron", "Mobile Sync");
     public static final String SYNC_PAGE_SUBTITLE = t("Android ve iPhone ile ayni guvenilir Wi-Fi/LAN uzerinden iki yonlu kisi aktarimi.", "Two-way contact transfer with Android and iPhone over the same trusted Wi-Fi/LAN.");
@@ -524,7 +527,7 @@ public final class Messages {
     public static final String ERROR_LANGUAGE_CODE = t("Gecersiz uygulama dili.", "Invalid application language.");
     public static final String ERROR_STARTUP_PAGE = t("Gecersiz acilis sayfasi.", "Invalid startup page.");
     public static final String ERROR_SYNC_PORT_RANGE = t("Mobil senkron portu 1024 ile 65535 arasinda olmalidir.", "Mobile sync port must be between 1024 and 65535.");
-    public static final String ERROR_BACKUP_RETENTION_RANGE = t("Yedek saklama sayisi 1 ile 365 arasinda olmalidir.", "Backup retention count must be between 1 and 365.");
+    public static final String ERROR_BACKUP_RETENTION_RANGE = t("Yedek saklama sayisi 1 ile 5 arasinda olmalidir.", "Backup retention count must be between 1 and 5.");
     public static final String ERROR_BACKUP_DATABASE_MISSING = t("Yedeklenecek SQLite veritabani bulunamadi.", "SQLite database to back up was not found.");
     public static final String ERROR_BACKUP_CREATE = t("SQLite yedegi olusturulamadi.", "SQLite backup could not be created.");
     public static final String ERROR_BACKUP_INTEGRITY = t("Olusturulan SQLite yedegi butunluk kontrolunu gecemedi.", "The created SQLite backup failed its integrity check.");

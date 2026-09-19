@@ -113,6 +113,7 @@ public final class PhoneBookController {
         view.setMobileSyncAction(() -> view.showSyncInfo(syncServerInfo));
         view.setSaveSettingsAction(this::saveSettings);
         view.setBackupAction(this::createBackup);
+        view.setBackupCleanupAction(this::cleanupBackups);
         view.setCreateGroupAction(this::createGroup);
         view.setDeleteGroupAction(this::deleteGroup);
         view.setAddGroupContactAction(this::addContactToGroup);
@@ -680,6 +681,17 @@ public final class PhoneBookController {
                 path -> {
                     view.showBackups(backupService.listBackups());
                     view.showMessage(String.format(Messages.BACKUP_CREATED_FORMAT, path.getFileName()));
+                }
+        );
+    }
+
+    private void cleanupBackups() {
+        AppSettings settings = settingsService.loadSettings();
+        executeAsync(
+                () -> backupService.cleanupExcessBackups(settings.backupRetention()),
+                deleted -> {
+                    view.showBackups(backupService.listBackups());
+                    view.showMessage(String.format(Messages.BACKUP_CLEANUP_DONE_FORMAT, deleted));
                 }
         );
     }

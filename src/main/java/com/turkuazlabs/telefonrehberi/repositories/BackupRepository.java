@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/repositories/BackupRepository.java
 // # 📌 Amac: SQLite rehber yedeklerini olusturur, listeler ve retention uygular.
 // # 📌 Repository - Java
-// # Version: 2.0.1
-// # Aciklama: WAL-guvenli SQLiteBackupTool snapshotlarini kullanicinin Yedekler klasorunde saklar ve retention uygular.
+// # Version: 2.1.0
+// # Aciklama: WAL-guvenli snapshotlari saklar, son yedek yasini kontrol eder ve en yeni N kopyayi koruyarak eski yedekleri temizler.
 // # Bagimli Oldugu Katman: Repository | Tool | Config | Language
 package com.turkuazlabs.telefonrehberi.repositories;
 
@@ -13,7 +13,8 @@ import com.turkuazlabs.telefonrehberi.tools.SQLiteBackupTool;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -50,9 +51,18 @@ public final class BackupRepository {
         }
     }
 
-    public boolean hasBackupToday() {
-        String prefix = PREFIX + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
-        return listBackups().stream().anyMatch(path -> path.getFileName().toString().startsWith(prefix));
+    public boolean hasBackupWithin(Duration interval) {
+        if (interval == null || interval.isNegative() || interval.isZero()) {
+            throw new IllegalArgumentException("Backup interval must be positive.");
+        }
+        List<Path> backups = listBackups();
+        if (backups.isEmpty()) return false;
+        try {
+            Instant newestBackup = Files.getLastModifiedTime(backups.get(0)).toInstant();
+            return newestBackup.isAfter(Instant.now().minus(interval));
+        } catch (IOException exception) {
+            throw new IllegalStateException(Messages.ERROR_BACKUP_LIST, exception);
+        }
     }
 
     public List<Path> listBackups() {
@@ -68,14 +78,17 @@ public final class BackupRepository {
         }
     }
 
-    public void prune(int keepCount) {
+    public int prune(int keepCount) {
+        int safeKeepCount = Math.max(1, keepCount);
         List<Path> backups = listBackups();
-        for (int index = keepCount; index < backups.size(); index++) {
+        int deleted = 0;
+        for (int index = safeKeepCount; index < backups.size(); index++) {
             try {
-                Files.deleteIfExists(backups.get(index));
+                if (Files.deleteIfExists(backups.get(index))) deleted++;
             } catch (IOException exception) {
                 throw new IllegalStateException(Messages.ERROR_BACKUP_PRUNE, exception);
             }
         }
+        return deleted;
     }
 }

@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.38.2
+// # Version: 2.38.3
 // # Aciklama: Kompakt kisi profili, sade kisi tarayicisi, activity timeline, hatirlatmalar ve gruplandirilmis navigasyon sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
@@ -180,6 +180,7 @@ public final class PhoneBookFrame extends JFrame {
     private final JButton refreshButton = secondaryButton(Messages.REFRESH_BUTTON);
     private final JButton saveSettingsButton = primaryButton(Messages.SAVE_SETTINGS_BUTTON);
     private final JButton backupNowButton = primaryButton(Messages.BACKUP_NOW_BUTTON);
+    private final JButton backupCleanupButton = secondaryButton(Messages.BACKUP_CLEANUP_BUTTON);
     private final JButton photoActionsButton = secondaryButton(Messages.PHOTO_ACTIONS_BUTTON);
     private final JButton quickCallButton = quickActionButton(Messages.QUICK_CALL_BUTTON, QuickGlyph.CALL);
     private final JButton quickWhatsAppButton = quickActionButton(Messages.QUICK_WHATSAPP_BUTTON, QuickGlyph.WHATSAPP);
@@ -352,6 +353,7 @@ public final class PhoneBookFrame extends JFrame {
     private Runnable mobileSyncAction = () -> { };
     private Runnable saveSettingsAction = () -> { };
     private Runnable backupAction = () -> { };
+    private Runnable backupCleanupAction = () -> { };
     private Runnable createGroupAction = () -> { };
     private Runnable deleteGroupAction = () -> { };
     private Runnable addGroupContactAction = () -> { };
@@ -422,6 +424,7 @@ public final class PhoneBookFrame extends JFrame {
     public void setMobileSyncAction(Runnable action) { mobileSyncAction = action; }
     public void setSaveSettingsAction(Runnable action) { saveSettingsAction = action; }
     public void setBackupAction(Runnable action) { backupAction = action; }
+    public void setBackupCleanupAction(Runnable action) { backupCleanupAction = action; }
     public void setCreateGroupAction(Runnable action) { createGroupAction = action; }
     public void setDeleteGroupAction(Runnable action) { deleteGroupAction = action; }
     public void setAddGroupContactAction(Runnable action) { addGroupContactAction = action; }
@@ -3500,6 +3503,15 @@ public final class PhoneBookFrame extends JFrame {
         listScroll.setBorder(BorderFactory.createEmptyBorder());
         listScroll.getVerticalScrollBar().setUnitIncrement(UiConfig.SCROLL_UNIT_INCREMENT);
         card.add(listScroll, BorderLayout.CENTER);
+
+        JPanel cleanup = new JPanel(new BorderLayout(12, 0));
+        cleanup.setOpaque(false);
+        JLabel cleanupHint = new JLabel(Messages.BACKUP_CLEANUP_HINT);
+        cleanupHint.setForeground(ModernThemePalette.textSecondary());
+        cleanupHint.setFont(cleanupHint.getFont().deriveFont(Font.PLAIN, 11.5f));
+        cleanup.add(cleanupHint, BorderLayout.CENTER);
+        cleanup.add(backupCleanupButton, BorderLayout.EAST);
+        card.add(cleanup, BorderLayout.SOUTH);
         return card;
     }
 
@@ -3906,6 +3918,7 @@ public final class PhoneBookFrame extends JFrame {
         refreshButton.addActionListener(event -> refreshAction.run());
         saveSettingsButton.addActionListener(event -> saveSettingsAction.run());
         backupNowButton.addActionListener(event -> backupAction.run());
+        backupCleanupButton.addActionListener(event -> backupCleanupAction.run());
         photoActionsButton.addActionListener(event -> showPhotoActions());
         quickCallButton.addActionListener(event -> quickCallAction.run());
         quickWhatsAppButton.addActionListener(event -> quickWhatsAppAction.run());
