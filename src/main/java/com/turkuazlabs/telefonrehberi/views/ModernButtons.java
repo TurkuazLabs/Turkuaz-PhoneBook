@@ -21,8 +21,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 public final class ModernButtons {
-    private static final Color PRIMARY_HOVER = new Color(20, 156, 140);
-    private static final Color DANGER_HOVER = new Color(255, 239, 239);
+        private static final Color DANGER_HOVER = new Color(255, 239, 239);
     private static final int BUTTON_ARC = 12;
     private static final int QUICK_MIN_WIDTH = 100;
     private static final int QUICK_ICON_GAP = 8;
@@ -65,8 +64,8 @@ public final class ModernButtons {
             try {
                 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 Color fill = getModel().isPressed()
-                        ? ModernThemePalette.accentStrong()
-                        : (getModel().isRollover() ? PRIMARY_HOVER : ModernThemePalette.accent());
+                        ? ModernThemePalette.actionPressed()
+                        : (getModel().isRollover() ? ModernThemePalette.actionHover() : ModernThemePalette.actionFill());
                 g.setColor(fill);
                 g.fillRoundRect(0, 0, getWidth(), getHeight(), BUTTON_ARC, BUTTON_ARC);
             } finally {
