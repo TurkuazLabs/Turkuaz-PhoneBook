@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.5.0
+// Version: 1.6.0
 // Aciklama: Java 17 release quality gate; masaustu metinleri, contact method storage uyumlulugu ve destekli/desteksiz sistem bolgelerinde telefon ulke fallback davranisini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
@@ -19,6 +19,7 @@ import com.turkuazlabs.telefonrehberi.models.ContactDraft;
 import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
 import com.turkuazlabs.telefonrehberi.repositories.ContactHistoryRepository;
+import com.turkuazlabs.telefonrehberi.repositories.BackupRepository;
 import com.turkuazlabs.telefonrehberi.repositories.ContactRepository;
 import com.turkuazlabs.telefonrehberi.repositories.SimpleYamlRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserPreferencesRepository;
@@ -34,6 +35,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.time.Duration;
+import java.time.Instant;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -55,6 +59,7 @@ public final class QualityGateTest {
             testContactMethodLabelLocalization();
             testPhoneCountryLocalizationAndDefault();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
+            testWeeklyBackupRetention(root.resolve("weekly-backup"));
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
             testMobileRequestLimitAndMapping();
@@ -144,6 +149,33 @@ public final class QualityGateTest {
                 check("wal-visible".equals(rows.getString(1)), "WAL verisi yedege girmedi.");
             }
         }
+    }
+
+    private static void testWeeklyBackupRetention(Path root) throws Exception {
+        Files.createDirectories(root);
+        BackupRepository repository = new BackupRepository(root, null);
+        Instant now = Instant.now();
+
+        for (int index = 0; index < 6; index++) {
+            Path backup = root.resolve(String.format("telefon-rehberi-202609%02d-120000-000.db", 10 + index));
+            Files.writeString(backup, "backup-" + index, StandardCharsets.UTF_8);
+            Files.setLastModifiedTime(backup, FileTime.from(now.minus(Duration.ofDays(5 - index))));
+        }
+
+        check(repository.hasBackupWithin(Duration.ofDays(7)),
+                "Son 7 gun icindeki yedek haftalik otomatik yedegi engellemedi.");
+        int deleted = repository.prune(5);
+        check(deleted == 1, "5 yedek retention fazladan tek eski yedegi silmedi.");
+        var backups = repository.listBackups();
+        check(backups.size() == 5, "Retention sonrasi tam 5 yedek kalmadi.");
+        check(backups.get(0).getFileName().toString().contains("20260915"),
+                "Retention en yeni yedegi korumadi.");
+
+        for (Path backup : backups) {
+            Files.setLastModifiedTime(backup, FileTime.from(now.minus(Duration.ofDays(8))));
+        }
+        check(!repository.hasBackupWithin(Duration.ofDays(7)),
+                "7 gunden eski yedek haftalik otomatik yedegi gereksiz engelledi.");
     }
 
     private static void testSyncUuidIsIdempotent(Path root) throws Exception {
