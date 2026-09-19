@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/repositories/UserPreferencesRepository.java
 // # 📌 Amac: Tum kullaniciya acik ayarlari yazilabilir OS kullanici config alaninda saklar.
 // # 📌 Repository - Java
-// # Version: 3.2.0
-// # Aciklama: Dil, tema, pencere, yedekleme, mobil senkron ve update tercihlerini Program Files configinden ayirir; eski backup retention degerlerini 1..5 araligina migrate eder.
+// # Version: 3.3.0
+// # Aciklama: Dil, tema, pencere, hatirlatma bildirimi, yedekleme, mobil senkron ve update tercihlerini kullanici config alaninda saklar.
 // # Bagimli Oldugu Katman: Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.repositories;
 
@@ -33,6 +33,7 @@ public final class UserPreferencesRepository {
     private static final String MOBILE_SYNC_ENABLED_KEY = "mobile_sync_enabled";
     private static final String MOBILE_SYNC_PORT_KEY = "mobile_sync_port";
     private static final String UPDATE_ENABLED_KEY = "update_enabled";
+    private static final String REMINDER_NOTIFICATIONS_ENABLED_KEY = "reminder_notifications_enabled";
 
     private final SimpleYamlRepository yamlRepository;
     private final Path preferencesFile;
@@ -65,7 +66,8 @@ public final class UserPreferencesRepository {
                 clampBackupRetention(integer(values.get(BACKUP_RETENTION_KEY), UiConfig.DEFAULT_BACKUP_RETENTION)),
                 bool(values.get(MOBILE_SYNC_ENABLED_KEY), AppConfig.MOBILE_SYNC_ENABLED),
                 integer(values.get(MOBILE_SYNC_PORT_KEY), AppConfig.MOBILE_SYNC_PORT),
-                bool(values.get(UPDATE_ENABLED_KEY), true)
+                bool(values.get(UPDATE_ENABLED_KEY), true),
+                bool(values.get(REMINDER_NOTIFICATIONS_ENABLED_KEY), false)
         );
     }
 
@@ -74,7 +76,7 @@ public final class UserPreferencesRepository {
         save(new AppSettings(
                 mode, current.languageCode(), current.startupPage(), current.rememberWindow(), current.windowWidth(), current.windowHeight(),
                 current.compactMode(), current.confirmDelete(), current.autoBackup(), current.backupRetention(),
-                current.mobileSyncEnabled(), current.mobileSyncPort(), current.updateEnabled()
+                current.mobileSyncEnabled(), current.mobileSyncPort(), current.updateEnabled(), current.reminderNotificationsEnabled()
         ));
     }
 
@@ -83,9 +85,9 @@ public final class UserPreferencesRepository {
             Files.createDirectories(preferencesFile.getParent());
             List<String> lines = List.of(
                     "# 📄 Dosya Yolu: C:/Users/<kullanici>/AppData/Roaming/TurkuazLabs/TelefonRehberi/config/preferences.yml",
-                    "# 📌 Amac: Kullanici dil, arayuz, yedekleme, senkron ve update tercihlerini kalici tutar.",
+                    "# 📌 Amac: Kullanici dil, arayuz, hatirlatma, yedekleme, senkron ve update tercihlerini kalici tutar.",
                     "# 📌 Config - YAML",
-                    "# Version: 3.2.0",
+                    "# Version: 3.3.0",
                     "# Aciklama: Program Files altindaki salt-okunur teknik configden bagimsiz kullanici tercihleridir.",
                     "# Bagimli Oldugu Katman: Repository | View | Service",
                     "",
@@ -101,7 +103,8 @@ public final class UserPreferencesRepository {
                     BACKUP_RETENTION_KEY + ": \"" + settings.backupRetention() + "\"",
                     MOBILE_SYNC_ENABLED_KEY + ": \"" + settings.mobileSyncEnabled() + "\"",
                     MOBILE_SYNC_PORT_KEY + ": \"" + settings.mobileSyncPort() + "\"",
-                    UPDATE_ENABLED_KEY + ": \"" + settings.updateEnabled() + "\""
+                    UPDATE_ENABLED_KEY + ": \"" + settings.updateEnabled() + "\"",
+                    REMINDER_NOTIFICATIONS_ENABLED_KEY + ": \"" + settings.reminderNotificationsEnabled() + "\""
             );
             Files.write(preferencesFile, lines, AppConfig.DATA_CHARSET);
         } catch (IOException exception) {
