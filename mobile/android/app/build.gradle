@@ -17,7 +17,7 @@ android {
         minSdk 26
         targetSdk 36
         versionCode 581
-        versionName '2.38.0'
+        versionName '2.38.1'
     }
 
     compileOptions {
