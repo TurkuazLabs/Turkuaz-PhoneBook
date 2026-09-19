@@ -1,10 +1,3 @@
-# 📄 Dosya Yolu: /README.md
-# 📌 Amac: Turkuaz PhoneBook projesinin Turkce GitHub vitrini ve teknik ozetidir
-# 📌 Modul - Markdown
-# Version: 2.39.0
-# Aciklama: GitHub ana vitrini olarak Turkce proje ozeti, platform durumu, veri guvenligi, mimari ve release akislarini toplar
-# Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
-
 <div align="center">
   <img src="assets/branding/app-icon-128.png" alt="Turkuaz" width="120">
 
