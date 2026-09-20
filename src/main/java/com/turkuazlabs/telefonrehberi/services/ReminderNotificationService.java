@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/services/ReminderNotificationService.java
 // # 📌 Amac: Aktif kisi hatirlatmalarini gizlilik odakli tek masaustu bildiriminde ozetler.
 // # 📌 Service - Java
-// Version: 1.0.1
-// Aciklama: Kullanici tercihini, gunluk bildirim dedup state'ini, aktif hatirlatma sayisini ve DesktopNotificationTool cagrisi is kuralini yonetir.
+// Version: 1.1.0
+// Aciklama: Kullanici tercihini, process-safe gunluk bildirim dedup state'ini, aktif hatirlatma sayisini ve DesktopNotificationTool cagrisi is kuralini yonetir.
 // Bagimli Oldugu Katman: Service | Repository | Tool | Language
 package com.turkuazlabs.telefonrehberi.services;
 
@@ -28,21 +28,23 @@ public final class ReminderNotificationService {
     }
 
     public boolean notifyDueReminders(boolean enabled) {
-        if (!enabled) return false;
+        if (!enabled || !notificationTool.isSupported()) return false;
 
-        LocalDate today = LocalDate.now();
-        if (notificationRepository.wasNotifiedOn(today) || !notificationTool.isSupported()) return false;
+        try (ReminderNotificationRepository.NotificationLock ignored = notificationRepository.acquireNotificationLock()) {
+            LocalDate today = LocalDate.now();
+            if (notificationRepository.wasNotifiedOn(today)) return false;
 
-        int dueCount = contactService.listDueReminderContacts().size();
-        if (dueCount <= 0) return false;
+            int dueCount = contactService.listDueReminderContacts().size();
+            if (dueCount <= 0) return false;
 
-        boolean shown = notificationTool.show(
-                Messages.REMINDER_NOTIFICATION_TITLE,
-                String.format(Messages.REMINDER_NOTIFICATION_SUMMARY_FORMAT, dueCount)
-        );
-        if (!shown) return false;
+            boolean shown = notificationTool.show(
+                    Messages.REMINDER_NOTIFICATION_TITLE,
+                    String.format(Messages.REMINDER_NOTIFICATION_SUMMARY_FORMAT, dueCount)
+            );
+            if (!shown) return false;
 
-        notificationRepository.markNotified(today);
-        return true;
+            notificationRepository.markNotified(today);
+            return true;
+        }
     }
 }
