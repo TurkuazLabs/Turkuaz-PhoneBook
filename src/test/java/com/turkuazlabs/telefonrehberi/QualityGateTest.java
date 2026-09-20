@@ -16,6 +16,7 @@ import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.Contact;
 import com.turkuazlabs.telefonrehberi.models.ContactDraft;
+import com.turkuazlabs.telefonrehberi.models.ContactMethod;
 import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
 import com.turkuazlabs.telefonrehberi.models.ReminderLeadTime;
 import com.turkuazlabs.telefonrehberi.models.KeepInTouchInterval;
@@ -289,16 +290,18 @@ public final class QualityGateTest {
         LocalDate today = LocalDate.now();
         service.addContact(new ContactDraft(
                 "Birthday Due", "+905550000001", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
-                List.of(), List.of(), null, ReminderLeadTime.SAME_DAY, List.of(), KeepInTouchInterval.DISABLED, ""
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000001", true, 0)), List.of(), null,
+                ReminderLeadTime.SAME_DAY, List.of(), KeepInTouchInterval.DISABLED, ""
         ));
         service.addContact(new ContactDraft(
                 "Keep In Touch Due", "+905550000002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", false,
-                List.of(), List.of(), null, ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.MONTHLY,
-                today.minusDays(31).toString()
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000002", true, 0)), List.of(), null,
+                ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.MONTHLY, today.minusDays(31).toString()
         ));
         service.addContact(new ContactDraft(
                 "No Reminder", "+905550000003", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
-                List.of(), List.of(), null, ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.DISABLED, ""
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000003", true, 0)), List.of(), null,
+                ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.DISABLED, ""
         ));
 
         var due = service.listDueReminderContacts();
