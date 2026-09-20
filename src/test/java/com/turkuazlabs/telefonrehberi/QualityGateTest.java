@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.7.0
-// Aciklama: Java 17 release quality gate; haftalik yedek/retention, legacy preference clamp, masaustu metinleri ve veri guvenligi davranislarini dogrular.
+// Version: 1.8.0
+// Aciklama: Java 17 release quality gate; yedekleme, reminder selection, notification preference, yerellestirme ve veri guvenligini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
@@ -16,14 +16,19 @@ import com.turkuazlabs.telefonrehberi.language.ProductText;
 import com.turkuazlabs.telefonrehberi.models.AppSettings;
 import com.turkuazlabs.telefonrehberi.models.Contact;
 import com.turkuazlabs.telefonrehberi.models.ContactDraft;
+import com.turkuazlabs.telefonrehberi.models.ContactMethod;
 import com.turkuazlabs.telefonrehberi.models.PhoneCountryCode;
+import com.turkuazlabs.telefonrehberi.models.ReminderLeadTime;
+import com.turkuazlabs.telefonrehberi.models.KeepInTouchInterval;
 import com.turkuazlabs.telefonrehberi.models.ThemeMode;
 import com.turkuazlabs.telefonrehberi.repositories.ContactHistoryRepository;
 import com.turkuazlabs.telefonrehberi.repositories.BackupRepository;
 import com.turkuazlabs.telefonrehberi.repositories.ContactRepository;
 import com.turkuazlabs.telefonrehberi.repositories.SimpleYamlRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserPreferencesRepository;
+import com.turkuazlabs.telefonrehberi.services.ContactService;
 import com.turkuazlabs.telefonrehberi.tools.ContactMethodCodec;
+import com.turkuazlabs.telefonrehberi.tools.ContactSnapshotCodec;
 import com.turkuazlabs.telefonrehberi.tools.FormCodec;
 import com.turkuazlabs.telefonrehberi.tools.LanguagePreferenceTool;
 import com.turkuazlabs.telefonrehberi.tools.MobileSyncFormTool;
@@ -38,12 +43,14 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.List;
 import java.util.UUID;
 
 public final class QualityGateTest {
@@ -63,6 +70,7 @@ public final class QualityGateTest {
             testSyncUuidIsIdempotent(root.resolve("sync"));
             testHistoryRetention(root.resolve("history"));
             testMobileRequestLimitAndMapping();
+            testDueReminderSelection(root.resolve("reminders"));
             testUserPreferencesRoundTrip(root.resolve("preferences"));
             System.out.println("QUALITY_GATE_OK");
         } finally {
@@ -269,13 +277,46 @@ public final class QualityGateTest {
         check(rejected, "Mobil request body limiti uygulanmadi.");
     }
 
+    private static void testDueReminderSelection(Path root) throws Exception {
+        Files.createDirectories(root);
+        SQLiteConnectionProvider provider = new SQLiteConnectionProvider(
+                root.resolve("contacts.db"), AppConfig.SQLITE_BUSY_TIMEOUT_MILLISECONDS
+        );
+        ContactRepository repository = new ContactRepository(provider);
+        ContactService service = new ContactService(
+                repository, new ContactHistoryRepository(provider), new ContactSnapshotCodec()
+        );
+
+        LocalDate today = LocalDate.now();
+        service.addContact(new ContactDraft(
+                "Birthday Due", "+905550000001", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000001", true, 0)), List.of(), null,
+                ReminderLeadTime.SAME_DAY, List.of(), KeepInTouchInterval.DISABLED, ""
+        ));
+        service.addContact(new ContactDraft(
+                "Keep In Touch Due", "+905550000002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", false,
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000002", true, 0)), List.of(), null,
+                ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.MONTHLY, today.minusDays(31).toString()
+        ));
+        service.addContact(new ContactDraft(
+                "No Reminder", "+905550000003", "", "", "", "", "", "", today.toString(), "", "", "", "", "", "", "", "", false,
+                List.of(new ContactMethod(ContactMethod.PHONE, ContactMethod.LABEL_MOBILE, "+905550000003", true, 0)), List.of(), null,
+                ReminderLeadTime.DISABLED, List.of(), KeepInTouchInterval.DISABLED, ""
+        ));
+
+        var due = service.listDueReminderContacts();
+        check(due.size() == 2, "Aktif reminder kisi secimi beklenen 2 kaydi dondurmedi.");
+        check(due.stream().anyMatch(contact -> "Birthday Due".equals(contact.name())), "Dogum gunu reminder kaydi eksik.");
+        check(due.stream().anyMatch(contact -> "Keep In Touch Due".equals(contact.name())), "Keep In Touch reminder kaydi eksik.");
+    }
+
     private static void testUserPreferencesRoundTrip(Path root) throws Exception {
         Files.createDirectories(root);
         Path preferences = root.resolve("preferences.yml");
         UserPreferencesRepository repository = new UserPreferencesRepository(new SimpleYamlRepository(), preferences);
         AppSettings expected = new AppSettings(
                 ThemeMode.DARK, LocaleText.LANGUAGE_ENGLISH_CODE, "contacts", true, 1280, 800, true, true,
-                true, 5, true, 18787, false
+                true, 5, true, 18787, false, true
         );
         repository.save(expected);
         AppSettings actual = repository.load();
@@ -287,10 +328,12 @@ public final class QualityGateTest {
         check(actual.mobileSyncEnabled(), "Mobile sync preference saklanmadi.");
         check(actual.mobileSyncPort() == 18787, "Mobile sync port preference saklanmadi.");
         check(!actual.updateEnabled(), "Update preference saklanmadi.");
+        check(actual.reminderNotificationsEnabled(), "Reminder notification preference saklanmadi.");
 
         Files.writeString(preferences, "backup_retention: \"14\"\n", StandardCharsets.UTF_8);
         AppSettings legacy = repository.load();
         check(legacy.backupRetention() == 5, "Legacy backup_retention 14 degeri 5'e clamp edilmedi.");
+        check(!legacy.reminderNotificationsEnabled(), "Legacy preferences icin reminder notification varsayilani kapali olmali.");
     }
 
     private static ContactDraft draft(String name, String phone, String email) {

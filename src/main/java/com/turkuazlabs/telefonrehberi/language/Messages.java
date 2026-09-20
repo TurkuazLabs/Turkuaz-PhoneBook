@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/language/Messages.java
 // # 📌 Amac: Masaustu uygulamasinda gorunen sabit metinleri Turkce/Ingilizce merkezi olarak sunar.
 // # 📌 Language - Java
-// Version: 2.38.1
+// Version: 2.39.0
 // Aciklama: Turkce locale icin mevcut Turkce metinleri, diger locale degerleri icin Ingilizce fallback metinlerini kullanir.
 // Bagimli Oldugu Katman: Language
 package com.turkuazlabs.telefonrehberi.language;
@@ -373,7 +373,7 @@ public final class Messages {
     public static final String MOBILE_SYNC_BUTTON = t("Mobil Senkron", "Mobile Sync");
 
     public static final String SETTINGS_TITLE = t("Ayarlar", "Settings");
-    public static final String SETTINGS_SUBTITLE = t("Gorunum, yedekleme, senkron ve guncelleme davranisini yonet.", "Manage appearance, backup, sync and update behavior.");
+    public static final String SETTINGS_SUBTITLE = t("Gorunum, hatirlatma, yedekleme, senkron ve guncelleme davranisini yonet.", "Manage appearance, reminders, backup, sync and update behavior.");
     public static final String SETTINGS_TAB_GENERAL = t("Genel", "General");
     public static final String SETTINGS_TAB_APPEARANCE = t("Gorunum", "Appearance");
     public static final String SETTINGS_TAB_BACKUP = t("Yedekleme", "Backup");
@@ -389,6 +389,8 @@ public final class Messages {
     public static final String STARTUP_CONTACTS = t("Kisiler", "Contacts");
     public static final String REMEMBER_WINDOW_LABEL = t("Pencere boyutunu hatirla", "Remember window size");
     public static final String CONFIRM_DELETE_LABEL = t("Silmeden once onay iste", "Ask for confirmation before deleting");
+    public static final String REMINDER_NOTIFICATIONS_LABEL = t("Masaustu hatirlatma bildirimlerini goster", "Show desktop reminder notifications");
+    public static final String REMINDER_NOTIFICATIONS_HINT = t("Yalniz aktif hatirlatma sayisini gosterir; kisi adlari masaustu bildirimine yazilmaz.", "Shows only the active reminder count; contact names are not included in desktop notifications.");
     public static final String THEME_LABEL = t("Gorunum Temasi", "Theme");
     public static final String THEME_DESCRIPTION = t("Acik tema varsayilan gorunumdur. Koyu tema ikincil secenek olarak yalnizca Ayarlar > Gorunum bolumunden degistirilir.", "Light theme is the default. Dark theme can be selected from Settings > Appearance.");
     public static final String THEME_LIGHT = t("Acik Tema (Varsayilan)", "Light Theme (Default)");
@@ -405,7 +407,7 @@ public final class Messages {
     public static final String DATA_FILE_LABEL = t("Veritabani", "Database");
     public static final String BACKUP_FOLDER_LABEL = t("Yedek Klasoru", "Backup Folder");
     public static final String SETTINGS_GENERAL_CARD_TITLE = t("Baslangic ve Pencere", "Startup and Window");
-    public static final String SETTINGS_GENERAL_CARD_DESC = t("Uygulama dili, acilis sayfasi ve temel masaustu davranislarini belirleyin.", "Choose the application language, startup page and core desktop behavior.");
+    public static final String SETTINGS_GENERAL_CARD_DESC = t("Uygulama dili, acilis sayfasi, hatirlatma bildirimi ve temel masaustu davranislarini belirleyin.", "Choose the application language, startup page, reminder notifications and core desktop behavior.");
     public static final String SETTINGS_DATA_CARD_TITLE = t("Veri Konumlari", "Data Locations");
     public static final String SETTINGS_DATA_CARD_DESC = t("Rehber verisi ve yerel yedeklerin kullanildigi klasorleri goruntuleyin.", "View the folders used for contact data and local backups.");
     public static final String SETTINGS_APPEARANCE_CARD_TITLE = t("Gorunum Tercihleri", "Appearance Preferences");
@@ -418,6 +420,8 @@ public final class Messages {
     public static final String SETTINGS_UPDATE_CARD_TITLE = t("Guncelleme Kontrolu", "Update Checks");
     public static final String SETTINGS_UPDATE_CARD_DESC = t("Yeni surumlerin GitHub Releases uzerinden otomatik kontrol edilmesini yonetin.", "Manage automatic checks for new versions on GitHub Releases.");
     public static final String SETTINGS_SAVE_HINT = t("Degisiklikler yalniz Ayarlari Kaydet ile kalici hale gelir.", "Changes become permanent only after choosing Save Settings.");
+    public static final String REMINDER_NOTIFICATION_TITLE = t("Bugunun Hatirlatmalari", "Today's Reminders");
+    public static final String REMINDER_NOTIFICATION_SUMMARY_FORMAT = t("Bugun %d kisi icin aktif hatirlatma var. Ayrintilar icin Turkuaz'i acin.", "There are active reminders for %d contacts today. Open Turkuaz for details.");
 
     public static final String BACKUP_TITLE = t("Yedekleme", "Backup");
     public static final String BACKUP_SUBTITLE = t("SQLite rehber verinizi zaman damgali yerel kopyalarla koruyun.", "Protect your SQLite contact data with timestamped local copies.");

@@ -1,9 +1,20 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.38.4
-# Aciklama: v2.38.4 legacy backup retention tercihlerini 5'e clamp eden release duzeltmesidir.
+# Version: 2.39.0
+# Aciklama: v2.39.0 gizlilik odakli masaustu hatirlatma bildirim modulunu ekleyen minor surumdur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.39.0
+
+- Ayarlar > Genel bolumune istege bagli **masaustu hatirlatma bildirimleri** tercihi eklendi; geriye donuk uyumluluk ve gizlilik icin varsayilan kapali gelir.
+- Uygulama acilisinda dogum gunu, onemli tarih veya Iletisimde Kal kurali aktif olan kisiler icin en fazla **tek ozet bildirim** gosterilir.
+- Masaustu bildiriminde kisi adi veya iletisim bilgisi gosterilmez; yalnizca aktif hatirlatmaya sahip kisi sayisi kullanilir.
+- Hatirlatma secimi Service katmaninda, Java SystemTray entegrasyonu yeni `DesktopNotificationTool` Tool katmaninda tutuldu.
+- `reminder_notifications_enabled` tercihi kullanici `preferences.yml` dosyasinda kalici saklanir.
+- Quality gate, aktif dogum gunu/Iletisimde Kal secimini, preference round-trip davranisini ve eski preferences dosyalarinda bildirimin kapali fallback kullanmasini dogrular.
+- Release Build kapisi `config/version.yml` merkezli dinamik tag/dispatch akisina gecirildi; yeni surumlerde workflow icinde sabit surum metni degistirmek gerekmez.
+- Android/iOS build numarasi **590**'a hizalandi.
 
 ## v2.38.4
 

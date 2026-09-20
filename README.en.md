@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
+    <img src="https://img.shields.io/badge/version-2.39.0-0aa6a6" alt="Version 2.39.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -82,6 +82,7 @@ Canonical repository:
 - anniversaries
 - custom important dates
 - keep-in-touch schedules
+- optional privacy-preserving desktop reminder summaries
 
 ### Mobile Synchronization
 
@@ -261,6 +262,8 @@ The project follows a layered architecture:
 | `updates/` | Update-manifest template |
 | `.github/workflows/` | CI and release automation |
 
+Desktop reminder behavior and privacy rules are documented in [`docs/DESKTOP_REMINDERS.md`](./docs/DESKTOP_REMINDERS.md).
+
 ## Build and Quality Gates
 
 CI validates:
@@ -277,6 +280,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.0 Desktop Reminder Notifications
+
+v2.39.0 adds an optional desktop reminder layer. The setting is disabled by default under Settings > General. At startup, Turkuaz shows at most one summary notification when birthday, important-date, or Keep in Touch reminders are active. For privacy, the notification contains only the number of affected contacts and never contact names.
 
 ## v2.38.4 Patch
 

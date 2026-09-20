@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.38.4-0aa6a6" alt="Version 2.38.4">
+    <img src="https://img.shields.io/badge/version-2.39.0-0aa6a6" alt="Version 2.39.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -54,6 +54,7 @@ Temel hedefler:
 - Duplicate tarama ve kayipsiz birlestirme
 - VCF 3.0/4.0 ve UTF-8 CSV import/export
 - Dogum gunu, yildonumu, ozel tarih ve Iletisimde Kal hatirlatmalari
+- Istege bagli, gizlilik odakli masaustu hatirlatma ozeti
 - Android/iOS ile iki yonlu LAN senkronu
 - Kalici `sync_uuid` kimligi ve ambiguity-safe identity fallback
 
@@ -171,6 +172,10 @@ CI su kontrolleri gerceklestirir:
 - Android API 36 debug APK build
 - iOS simulator build
 
+## v2.39.0 Hatirlatma Bildirimleri
+
+v2.39.0 masaustu hatirlatma katmanini ekler. Ayarlar > Genel altindan acilabilen bildirim secenegi varsayilan olarak kapali gelir. Uygulama acilisinda aktif dogum gunu, onemli tarih veya Iletisimde Kal hatirlatmasi varsa tek bir ozet bildirim gosterilir; gizlilik icin bildirimde kisi adlari degil yalnizca aktif kisi sayisi yer alir.
+
 ## v2.38.4 Yama Ozeti
 
 v2.38.4, v2.38.3 sonrasinda bulunan legacy tercih uyumlulugu acigini kapatir: `preferences.yml` icinde kalmis 5'ten buyuk yedek saklama degerleri yuklenirken otomatik olarak **5'e clamp edilir**. Haftalik otomatik yedekleme ve en fazla 5 kopya politikasi degismez; quality gate bu legacy senaryoyu da dogrular.
@@ -204,6 +209,7 @@ v2.38.0, v2.37.0 veri guvenligi temelini uluslararasi marka, Turkce/Ingilizce ye
 - [Windows Installer](./docs/WINDOWS_INSTALLER.md)
 - [User Data Storage](./docs/USER_DATA_STORAGE.md)
 - [Mobile Sync API](./docs/MOBILE_SYNC_API.md)
+- [Desktop Reminders](./docs/DESKTOP_REMINDERS.md)
 - [Security](./SECURITY.md)
 - [Third Party Notices](./THIRD_PARTY_NOTICES.md)
 - [GitHub / Release Setup](./GITHUB_SETUP.md)
