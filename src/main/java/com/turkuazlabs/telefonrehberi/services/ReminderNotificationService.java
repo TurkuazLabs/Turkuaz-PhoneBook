@@ -8,9 +8,9 @@ package com.turkuazlabs.telefonrehberi.services;
 
 import com.turkuazlabs.telefonrehberi.language.Messages;
 import com.turkuazlabs.telefonrehberi.repositories.ReminderNotificationRepository;
+import com.turkuazlabs.telefonrehberi.tools.DesktopNotificationTool;
 
 import java.time.LocalDate;
-import com.turkuazlabs.telefonrehberi.tools.DesktopNotificationTool;
 
 public final class ReminderNotificationService {
     private final ContactService contactService;
