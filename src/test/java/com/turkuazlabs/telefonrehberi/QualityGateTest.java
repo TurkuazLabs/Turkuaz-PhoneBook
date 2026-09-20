@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.8.0
-// Aciklama: Java 17 release quality gate; yedekleme, reminder selection, notification preference, yerellestirme ve veri guvenligini dogrular.
+// Version: 1.8.1
+// Aciklama: Java 17 release quality gate; yedekleme, reminder selection, gunluk notification dedup, preference, yerellestirme ve veri guvenligini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
@@ -26,6 +26,7 @@ import com.turkuazlabs.telefonrehberi.repositories.BackupRepository;
 import com.turkuazlabs.telefonrehberi.repositories.ContactRepository;
 import com.turkuazlabs.telefonrehberi.repositories.SimpleYamlRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserPreferencesRepository;
+import com.turkuazlabs.telefonrehberi.repositories.ReminderNotificationRepository;
 import com.turkuazlabs.telefonrehberi.services.ContactService;
 import com.turkuazlabs.telefonrehberi.tools.ContactMethodCodec;
 import com.turkuazlabs.telefonrehberi.tools.ContactSnapshotCodec;
@@ -71,6 +72,7 @@ public final class QualityGateTest {
             testHistoryRetention(root.resolve("history"));
             testMobileRequestLimitAndMapping();
             testDueReminderSelection(root.resolve("reminders"));
+            testReminderNotificationDailyDedup(root.resolve("reminder-notification-state"));
             testUserPreferencesRoundTrip(root.resolve("preferences"));
             System.out.println("QUALITY_GATE_OK");
         } finally {
@@ -308,6 +310,28 @@ public final class QualityGateTest {
         check(due.size() == 2, "Aktif reminder kisi secimi beklenen 2 kaydi dondurmedi.");
         check(due.stream().anyMatch(contact -> "Birthday Due".equals(contact.name())), "Dogum gunu reminder kaydi eksik.");
         check(due.stream().anyMatch(contact -> "Keep In Touch Due".equals(contact.name())), "Keep In Touch reminder kaydi eksik.");
+    }
+
+    private static void testReminderNotificationDailyDedup(Path root) throws Exception {
+        Files.createDirectories(root);
+        Path stateFile = root.resolve("reminder-notification-state.yml");
+        ReminderNotificationRepository repository = new ReminderNotificationRepository(
+                new SimpleYamlRepository(), stateFile
+        );
+
+        LocalDate today = LocalDate.now();
+        check(!repository.wasNotifiedOn(today), "Bos reminder notification state bugunu gosterildi saydi.");
+
+        repository.markNotified(today);
+        check(repository.wasNotifiedOn(today), "Reminder notification gunluk dedup tarihi saklanmadi.");
+        check(!repository.wasNotifiedOn(today.plusDays(1)), "Reminder notification dedup sonraki gune sasti.");
+
+        String stored = Files.readString(stateFile, AppConfig.DATA_CHARSET);
+        check(stored.contains("# Version: 1.0.0"), "Reminder notification state header eksik.");
+        check(stored.contains("last_notified_date: \"" + today + "\""), "Reminder notification state tarihi yazilmadi.");
+
+        Files.writeString(stateFile, "last_notified_date: \"gecersiz\"\n", AppConfig.DATA_CHARSET);
+        check(repository.lastNotifiedDate().isEmpty(), "Gecersiz reminder notification tarihi bildirimi kalici olarak engelledi.");
     }
 
     private static void testUserPreferencesRoundTrip(Path root) throws Exception {
