@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/Main.java
 // # 📌 Amac: Uygulama katmanlarini olusturur ve tum servis/repository/tool bagimliliklarini baslatir.
 // # 📌 Bootstrap - Java
-// # Version: 2.39.0
+// # Version: 2.39.1
 // # Aciklama: XDG/Contacts platform yerlesimi, SQLite, masaustu hatirlatma bildirimi, mobil API ve GUI wiring islemlerini yapar.
 // # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View
 package com.turkuazlabs.telefonrehberi;
@@ -21,6 +21,7 @@ import com.turkuazlabs.telefonrehberi.repositories.SmartListRepository;
 import com.turkuazlabs.telefonrehberi.repositories.SavedContactViewRepository;
 import com.turkuazlabs.telefonrehberi.repositories.TagRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserPreferencesRepository;
+import com.turkuazlabs.telefonrehberi.repositories.ReminderNotificationRepository;
 import com.turkuazlabs.telefonrehberi.repositories.UserDataMigrationRepository;
 import com.turkuazlabs.telefonrehberi.services.BackupService;
 import com.turkuazlabs.telefonrehberi.services.BulkUndoService;
@@ -123,7 +124,7 @@ public final class Main {
         SyncServerInfo syncServerInfo = mobileSyncController.serverInfo();
         Image appIcon = new BrandAssetTool().loadAppIcon().orElse(null);
         ReminderNotificationService reminderNotificationService = new ReminderNotificationService(
-                contactService, new DesktopNotificationTool(appIcon)
+                contactService, new ReminderNotificationRepository(), new DesktopNotificationTool(appIcon)
         );
 
         SwingUtilities.invokeLater(() -> startGui(
