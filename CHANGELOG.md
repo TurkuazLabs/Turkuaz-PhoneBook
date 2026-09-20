@@ -1,9 +1,18 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.39.0
-# Aciklama: v2.39.0 gizlilik odakli masaustu hatirlatma bildirim modulunu ekleyen minor surumdur.
+# Version: 2.39.1
+# Aciklama: v2.39.1 ayni gun tekrarlanan masaustu hatirlatma bildirimlerini engelleyen patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.39.1
+
+- Uygulama ayni gun birden fazla kez acildiginda ayni masaustu hatirlatma ozeti tekrar gosterilmez.
+- Son basarili bildirim tarihi yeni `ReminderNotificationRepository` ile kullanici config alanindaki `reminder-notification-state.yml` dosyasinda saklanir.
+- SystemTray bildirimi gercekten gosterilemezse gunluk state isaretlenmez; sonraki acilista tekrar denenebilir.
+- Gecersiz/bozuk state tarihi guvenli sekilde yok sayilir ve bildirimi kalici olarak engellemez.
+- SQLite semasi ve kisi verisi degismez.
+- Android/iOS build numarasi **591**'e hizalandi.
 
 ## v2.39.0
 

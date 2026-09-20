@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/tools/DesktopNotificationTool.java
 // # 📌 Amac: Masaustu isletim sistemi bildirim alanina gecici Turkuaz bildirimi gonderir.
 // # 📌 Tool - Java
-// Version: 1.0.0
-// Aciklama: Java SystemTray adaptorudur; desteklenmeyen ortamlarda sessizce no-op olur ve tray ikonunu gecici kullanir.
+// Version: 1.0.1
+// Aciklama: Java SystemTray adaptorudur; bildirim basarisini Service katmanina bildirir, desteklenmeyen ortamlarda sessizce false doner.
 // Bagimli Oldugu Katman: Tool
 package com.turkuazlabs.telefonrehberi.tools;
 
@@ -26,8 +26,8 @@ public final class DesktopNotificationTool {
         return appIcon != null && SystemTray.isSupported();
     }
 
-    public void show(String title, String message) {
-        if (!isSupported() || title == null || title.isBlank() || message == null || message.isBlank()) return;
+    public boolean show(String title, String message) {
+        if (!isSupported() || title == null || title.isBlank() || message == null || message.isBlank()) return false;
 
         SystemTray tray = SystemTray.getSystemTray();
         TrayIcon trayIcon = new TrayIcon(appIcon);
@@ -38,8 +38,10 @@ public final class DesktopNotificationTool {
             tray.add(trayIcon);
             trayIcon.displayMessage(title, message, TrayIcon.MessageType.INFO);
             scheduleRemoval(tray, trayIcon);
+            return true;
         } catch (AWTException | RuntimeException ignored) {
             tray.remove(trayIcon);
+            return false;
         }
     }
 

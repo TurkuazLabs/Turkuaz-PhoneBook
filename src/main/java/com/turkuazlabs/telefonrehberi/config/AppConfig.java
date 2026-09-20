@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/AppConfig.java
 // # 📌 Amac: Uygulama protokol sabitlerini ve yerel config dosya yollarini merkezi sunar.
 // # 📌 Config - Java
-// Version: 2.39.0
+// Version: 2.39.1
 // Aciklama: Yerellestirilmis gorunen urun adi, Windows Contacts DB, XDG veri alanlari, sync limitleri ve v2.39 kalite sabitlerini merkezi tutar.
 // Bagimli Oldugu Katman: Config | Language
 package com.turkuazlabs.telefonrehberi.config;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public final class AppConfig {
     public static final String APP_NAME = ProductText.APP_NAME;
-    public static final String APP_VERSION = "2.39.0";
+    public static final String APP_VERSION = "2.39.1";
     public static final String BRAND_SITE_NAME = "TurkuazLabs";
     public static final String PUBLIC_WEBSITE_DISPLAY = "www.turkuazlabs.com";
     public static final String PUBLIC_WEBSITE_URL = "https://www.turkuazlabs.com";
@@ -46,6 +46,7 @@ public final class AppConfig {
     public static final Path LEGACY_OS_DATABASE_FILE = resolveUserDataPath(RUNTIME.databaseFile());
     public static final Path SAVED_VIEWS_PATH = USER_DATA_ROOT.resolve("data").resolve("saved-views");
     public static final Path PREFERENCES_FILE = USER_CONFIG_ROOT.resolve("preferences.yml");
+    public static final Path REMINDER_NOTIFICATION_STATE_FILE = USER_CONFIG_ROOT.resolve("reminder-notification-state.yml");
     public static final Path LEGACY_OS_BACKUP_PATH = USER_DATA_ROOT.resolve("backup");
     public static final Path LEGACY_OS_PREFERENCES_FILE = USER_DATA_ROOT.resolve("config").resolve("preferences.yml");
 
