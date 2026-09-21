@@ -6,7 +6,7 @@
 ; Bagimli Oldugu Katman: Tool | Config | Language
 
 #ifndef AppVersion
-  #define AppVersion "2.39.2"
+  #define AppVersion "2.39.3"
 #endif
 #ifndef PayloadDir
   #define PayloadDir "..\..\dist-installer\payload"

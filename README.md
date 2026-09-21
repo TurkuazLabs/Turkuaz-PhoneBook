@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.39.2-0aa6a6" alt="Version 2.39.2">
+    <img src="https://img.shields.io/badge/version-2.39.3-0aa6a6" alt="Version 2.39.3">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -171,6 +171,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.3 Release Installer Cache Yamasi
+
+v2.39.3, v2.39.2 ile Build workflow'una eklenen Windows installer dependency cache'ini tag tabanli Release workflow'una da tasir. Boylece GitHub Release assetleri uretilirken de SQLite JDBC, SLF4J, FlatLaf ve Temurin JRE arsivi SHA-256 dogrulamasi korunarak cache'den yeniden kullanilabilir.
 
 ## v2.39.2 Windows Installer Cache Yamasi
 

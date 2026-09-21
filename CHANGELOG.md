@@ -1,9 +1,17 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.39.2
-# Aciklama: v2.39.2 Windows installer dependency indirmelerini SHA-dogrulamali CI cache ile hizlandiran patch surumudur.
+# Version: 2.39.3
+# Aciklama: v2.39.3 SHA-dogrulamali Windows installer cache'ini tag tabanli Release workflow'una tasiyan patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.39.3
+
+- `.github/workflows/release.yml` Windows release asset job'una `actions/cache@v6` dependency cache restore/save adimi eklendi.
+- Release cache anahtari Build workflow ile ayni `config/launcher.yml` hash degerini kullanir; default branch cache'i tag tabanli release kosularinda yeniden kullanilabilir.
+- Installer scriptindeki SHA-256 dogrulamasi cache hit durumunda da zorunlu kalir.
+- Cache mismatch durumunda binary silinip guvenilir kaynaktan yeniden indirilir.
+- Android/iOS build numarasi **593**'e hizalandi.
 
 ## v2.39.2
 
