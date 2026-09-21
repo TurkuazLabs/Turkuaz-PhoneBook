@@ -1,14 +1,15 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-installer.ps1
 # 📌 Amac: Inno Setup icin tam Windows payload ve Setup EXE uretir.
 # 📌 Tool - PowerShell
-# Version: 1.5.0
-# Aciklama: Cache-busting surumlu Windows kisayol/uninstall ICO'su, tema ikonlari, JRE/JDBC/SLF4J/FlatLaf ve Inno Setup EXE uretir.
+# Version: 1.6.0
+# Aciklama: SHA-256 dogrulamali kalici dependency cache, Windows ikonlari, JRE/JDBC/SLF4J/FlatLaf payloadi ve Inno Setup EXE uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 param(
     [string]$ExpectedTag = '',
     [string]$DistPath = 'dist',
-    [string]$StagePath = 'dist-installer'
+    [string]$StagePath = 'dist-installer',
+    [string]$CachePath = 'cache\installer'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -47,6 +48,25 @@ function Ensure-Directory([string]$Path) {
 function Download-File([string]$Url, [string]$Destination) {
     Ensure-Directory (Split-Path -Parent $Destination)
     Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing
+}
+
+function Get-VerifiedCachedFile([string]$Url, [string]$Destination, [string]$ExpectedSha256) {
+    Ensure-Directory (Split-Path -Parent $Destination)
+
+    if (Test-Path -LiteralPath $Destination) {
+        $actual = (Get-FileHash -LiteralPath $Destination -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($actual -eq $ExpectedSha256.ToLowerInvariant()) {
+            Write-Host "[CACHE] Kullaniliyor: $Destination"
+            return
+        }
+
+        Write-Host "[CACHE] SHA uyusmadi, yeniden indiriliyor: $Destination"
+        Remove-Item -LiteralPath $Destination -Force
+    }
+
+    Download-File $Url $Destination
+    Assert-Sha256 $Destination $ExpectedSha256
+    Write-Host "[CACHE] Dogrulandi: $Destination"
 }
 
 
@@ -103,15 +123,18 @@ $installedLauncherConfig = Join-Path $payload 'config\launcher.yml'
     Set-Content -LiteralPath $installedLauncherConfig -Encoding UTF8
 
 $config = Read-SimpleYaml $launcherConfig
-$cache = Join-Path $stage 'cache'
+$cache = if ([IO.Path]::IsPathRooted($CachePath)) {
+    [IO.Path]::GetFullPath($CachePath)
+} else {
+    [IO.Path]::GetFullPath((Join-Path $root $CachePath))
+}
 Ensure-Directory $cache
 
 $sqliteVersion = $config['sqlite_jdbc_version']
 $sqliteUrl = $config['sqlite_jdbc_url'].Replace('{version}', $sqliteVersion)
 $sqliteTarget = Join-Path $payload ($config['sqlite_jdbc_path'].Replace('/', '\'))
 $sqliteDownload = Join-Path $cache 'sqlite-jdbc.jar'
-Download-File $sqliteUrl $sqliteDownload
-Assert-Sha256 $sqliteDownload $config['sqlite_jdbc_sha256']
+Get-VerifiedCachedFile $sqliteUrl $sqliteDownload $config['sqlite_jdbc_sha256']
 Ensure-Directory (Split-Path -Parent $sqliteTarget)
 Copy-Item -LiteralPath $sqliteDownload -Destination $sqliteTarget -Force
 
@@ -120,8 +143,7 @@ $slf4jUrl = $config['slf4j_api_url'].Replace('{version}', $slf4jVersion)
 $slf4jRelative = $config['slf4j_api_path'].Replace('{version}', $slf4jVersion).Replace('/', '\')
 $slf4jTarget = Join-Path $payload $slf4jRelative
 $slf4jDownload = Join-Path $cache 'slf4j-api.jar'
-Download-File $slf4jUrl $slf4jDownload
-Assert-Sha256 $slf4jDownload $config['slf4j_api_sha256']
+Get-VerifiedCachedFile $slf4jUrl $slf4jDownload $config['slf4j_api_sha256']
 Ensure-Directory (Split-Path -Parent $slf4jTarget)
 Copy-Item -LiteralPath $slf4jDownload -Destination $slf4jTarget -Force
 
@@ -133,8 +155,7 @@ $flatTarget = Join-Path $payload $flatRelative
 $flatDownload = Join-Path $cache 'flatlaf.jar'
 $flatShaRaw = (Invoke-WebRequest -Uri $flatShaUrl -UseBasicParsing).Content
 $flatSha = (($flatShaRaw -split '\s+')[0]).Trim().ToLowerInvariant()
-Download-File $flatUrl $flatDownload
-Assert-Sha256 $flatDownload $flatSha
+Get-VerifiedCachedFile $flatUrl $flatDownload $flatSha
 Ensure-Directory (Split-Path -Parent $flatTarget)
 Copy-Item -LiteralPath $flatDownload -Destination $flatTarget -Force
 Set-Content -LiteralPath ($flatTarget + '.sha256') -Value $flatSha -Encoding ASCII
@@ -149,8 +170,7 @@ if (-not $assets -or -not $assets[0].binary.package.link -or -not $assets[0].bin
     throw 'Adoptium Windows JRE paketi bulunamadi.'
 }
 $jreArchive = Join-Path $cache 'temurin-jre.zip'
-Download-File $assets[0].binary.package.link $jreArchive
-Assert-Sha256 $jreArchive $assets[0].binary.package.checksum
+Get-VerifiedCachedFile $assets[0].binary.package.link $jreArchive $assets[0].binary.package.checksum
 $jreExtract = Join-Path $stage 'jre-extract'
 Expand-Archive -LiteralPath $jreArchive -DestinationPath $jreExtract -Force
 $javaw = Get-ChildItem -Path $jreExtract -Filter 'javaw.exe' -Recurse -File | Select-Object -First 1

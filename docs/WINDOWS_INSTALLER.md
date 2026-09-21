@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/WINDOWS_INSTALLER.md
 # 📌 Amac: v2.38.0 Inno Setup Program Files kurulumu, yerellestirilmis urun adi ve auto-update davranisini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.4.0
-# Aciklama: Installed/portable ayrimi, Turkce/Ingilizce gorunen urun adi, writable launcher alani, uninstall ve Setup auto-update akisidir.
+# Version: 2.5.0
+# Aciklama: Installed/portable ayrimi, Setup auto-update, Windows ikon zinciri ve SHA-dogrulamali CI installer dependency cache akisidir.
 # Bagimli Oldugu Katman: Tool | Config
 
 ## Kurulum
@@ -41,3 +41,17 @@ Windows kurulumunda ikonlar tek bir dusuk cozunurluklu kaynaga birakilmaz:
 - Uygulamalar ve Ozellikler / uninstall kaydi ayni surume ozel ICO dosyasini kullanir.
 - Swing pencere basligi ve taskbar icin 512 px kaynaktan 16/20/24/32/40/48/64/128/256 px tam boyutlu ikon listesi uretilir.
 - Light/Dark tema degistiginde Swing pencere ikon listesi de tema paletine gore yenilenir.
+
+
+## CI installer dependency cache
+
+Windows Build job'u Setup payloadi icin gereken buyuk bagimliliklari `cache/installer` altinda saklar. GitHub Actions cache anahtari `config/launcher.yml` dosyasinin hash degerini kullanir; dependency surumu veya URL/config degistiginde yeni cache anahtari uretilir.
+
+Cache kapsami:
+
+- SQLite JDBC
+- SLF4J API
+- FlatLaf
+- Temurin JRE 17 Windows arsivi
+
+Cache guvenilir kaynak yerine gecmez. `build-installer.ps1`, cache'den okunan her dosyanin SHA-256 degerini beklenen checksum ile tekrar karsilastirir. Uyusmazlikta cache dosyasi silinir ve yeniden indirilir. Cache klasoru staging payloadinin disindadir ve Setup paketine dahil edilmez.
