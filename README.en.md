@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.39.2-0aa6a6" alt="Version 2.39.2">
+    <img src="https://img.shields.io/badge/version-2.39.3-0aa6a6" alt="Version 2.39.3">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -280,6 +280,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.3 Release Installer Cache Patch
+
+v2.39.3 extends the Windows installer dependency cache from the Build workflow to the tag-based Release workflow. GitHub Release asset generation can now reuse SQLite JDBC, SLF4J, FlatLaf and the Temurin JRE archive while preserving SHA-256 verification before every use.
 
 ## v2.39.2 Windows Installer Cache Patch
 
