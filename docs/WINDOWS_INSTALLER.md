@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/WINDOWS_INSTALLER.md
 # 📌 Amac: v2.38.0 Inno Setup Program Files kurulumu, yerellestirilmis urun adi ve auto-update davranisini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.5.0
-# Aciklama: Installed/portable ayrimi, Setup auto-update, Windows ikon zinciri ve SHA-dogrulamali CI installer dependency cache akisidir.
+# Version: 2.5.1
+# Aciklama: Installed/portable ayrimi, Setup auto-update, Windows ikon zinciri ve Build/Release workflow'larinda SHA-dogrulamali installer dependency cache akisidir.
 # Bagimli Oldugu Katman: Tool | Config
 
 ## Kurulum
@@ -45,7 +45,7 @@ Windows kurulumunda ikonlar tek bir dusuk cozunurluklu kaynaga birakilmaz:
 
 ## CI installer dependency cache
 
-Windows Build job'u Setup payloadi icin gereken buyuk bagimliliklari `cache/installer` altinda saklar. GitHub Actions cache anahtari `config/launcher.yml` dosyasinin hash degerini kullanir; dependency surumu veya URL/config degistiginde yeni cache anahtari uretilir.
+Windows Build ve tag tabanli Release job'lari Setup payloadi icin gereken buyuk bagimliliklari `cache/installer` altinda ortak anahtarla yeniden kullanir. GitHub Actions cache anahtari `config/launcher.yml` dosyasinin hash degerini kullanir; dependency surumu veya URL/config degistiginde yeni cache anahtari uretilir.
 
 Cache kapsami:
 
