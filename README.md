@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.39.1-0aa6a6" alt="Version 2.39.1">
+    <img src="https://img.shields.io/badge/version-2.39.2-0aa6a6" alt="Version 2.39.2">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -171,6 +171,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.39.2 Windows Installer Cache Yamasi
+
+v2.39.2 Windows CI/Release paketlemesini hizlandirir. SQLite JDBC, SLF4J, FlatLaf ve Temurin JRE indirmeleri `launcher.yml` hash'ine bagli GitHub Actions cache ile yeniden kullanilir. Cache'den gelen her binary kullanilmadan once SHA-256 ile tekrar dogrulanir; uyusmazlik varsa dosya silinip guvenilir kaynaktan yeniden indirilir.
 
 ## v2.39.1 Hatirlatma Bildirimi Yamasi
 
