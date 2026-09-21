@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/Main.java
 // # 📌 Amac: Uygulama katmanlarini olusturur ve tum servis/repository/tool bagimliliklarini baslatir.
 // # 📌 Bootstrap - Java
-// # Version: 2.39.3
-// # Aciklama: XDG/Contacts platform yerlesimi, SQLite, masaustu hatirlatma bildirimi, mobil API ve GUI wiring islemlerini yapar.
+// # Version: 2.40.0
+// # Aciklama: XDG/Contacts, SQLite, runtime dil/tema, masaustu hatirlatma bildirimi, mobil API ve GUI wiring islemlerini yapar.
 // # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View
 package com.turkuazlabs.telefonrehberi;
 
