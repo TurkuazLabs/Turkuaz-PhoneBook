@@ -1,9 +1,18 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.39.1
-# Aciklama: v2.39.1 ayni gun tekrarlanan masaustu hatirlatma bildirimlerini engelleyen patch surumudur.
+# Version: 2.39.2
+# Aciklama: v2.39.2 Windows installer dependency indirmelerini SHA-dogrulamali CI cache ile hizlandiran patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.39.2
+
+- Windows Inno Setup paketleme akisi icin kalici `cache/installer` dependency cache eklendi.
+- GitHub Actions Windows job'u resmi `actions/cache@v6` ile cache'i `config/launcher.yml` hash'ine gore restore/save eder.
+- SQLite JDBC, SLF4J, FlatLaf ve Temurin JRE arsivi cache hit durumunda yeniden indirilmez.
+- Cache'den gelen her binary kullanilmadan once beklenen SHA-256 ile tekrar dogrulanir; uyusmayan dosya silinip yeniden indirilir.
+- Staging dizini temizlenirken dependency cache artik silinmez; installer payloadina cache klasoru dahil edilmez.
+- Android/iOS build numarasi **592**'ye hizalandi.
 
 ## v2.39.1
 
