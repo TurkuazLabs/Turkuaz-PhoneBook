@@ -1,12 +1,13 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
 // # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
 // # 📌 Tool - Java Test
-// Version: 1.8.1
-// Aciklama: Java 17 release quality gate; yedekleme, reminder selection, gunluk notification dedup, preference, yerellestirme ve veri guvenligini dogrular.
+// Version: 1.9.0
+// Aciklama: Java 17 release quality gate; canli dil reload, draft-koruma, Turkuaz tema, reminder/dedup ve veri guvenligini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
 import com.turkuazlabs.telefonrehberi.config.AppConfig;
+import com.turkuazlabs.telefonrehberi.config.ModernThemePalette;
 import com.turkuazlabs.telefonrehberi.config.PhoneCountryCodeCatalog;
 import com.turkuazlabs.telefonrehberi.language.ContactMethodText;
 import com.turkuazlabs.telefonrehberi.language.LocaleText;
@@ -64,6 +65,9 @@ public final class QualityGateTest {
         try {
             testProductNameLocalization();
             testDesktopMessageLocalization();
+            testRuntimeLanguageReload();
+            testTurkuazThemeIdentity();
+            testLiveLanguagePreservesContactDraftSourceContract();
             testContactMethodLabelLocalization();
             testPhoneCountryLocalizationAndDefault();
             testBackupIncludesCommittedWalData(root.resolve("backup"));
@@ -95,6 +99,69 @@ public final class QualityGateTest {
         check((turkish ? "Ayarlar" : "Settings").equals(Messages.NAV_SETTINGS), "Ayarlar navigasyon metni yerellestirme hatasi.");
         check((turkish ? "Hata" : "Error").equals(Messages.ERROR_TITLE), "Hata basligi yerellestirme hatasi.");
         check((turkish ? "Yedekleme" : "Backup").equals(Messages.BACKUP_TITLE), "Yedekleme basligi yerellestirme hatasi.");
+    }
+
+    private static void testRuntimeLanguageReload() {
+        String originalLanguage = LocaleText.configuredLanguageCode();
+        try {
+            LocaleText.applyLanguage(LocaleText.LANGUAGE_ENGLISH_CODE);
+            Messages.reload();
+            check("Contacts".equals(Messages.NAV_CONTACTS), "Runtime English navigasyon reload basarisiz.");
+            check("Settings".equals(Messages.NAV_SETTINGS), "Runtime English ayarlar reload basarisiz.");
+            check(ProductText.APP_NAME_EN.equals(Messages.WINDOW_TITLE), "Runtime English urun adi reload basarisiz.");
+            check("Show desktop reminder notifications".equals(Messages.REMINDER_NOTIFICATIONS_LABEL),
+                    "Runtime English reminder ayari reload basarisiz.");
+
+            LocaleText.applyLanguage(LocaleText.LANGUAGE_TURKISH_CODE);
+            Messages.reload();
+            check("Kisiler".equals(Messages.NAV_CONTACTS), "Runtime Turkce navigasyon reload basarisiz.");
+            check("Ayarlar".equals(Messages.NAV_SETTINGS), "Runtime Turkce ayarlar reload basarisiz.");
+            check(ProductText.APP_NAME_TR.equals(Messages.WINDOW_TITLE), "Runtime Turkce urun adi reload basarisiz.");
+            check("Masaustu hatirlatma bildirimlerini goster".equals(Messages.REMINDER_NOTIFICATIONS_LABEL),
+                    "Runtime Turkce reminder ayari reload basarisiz.");
+        } finally {
+            LocaleText.applyLanguage(originalLanguage);
+            Messages.reload();
+        }
+    }
+
+    private static void testTurkuazThemeIdentity() {
+        check(ModernThemePalette.brandAccent(false).equals(ModernThemePalette.brandAccent(true)),
+                "Light ve dark logo Turkuaz rengi ayni marka tonunu kullanmiyor.");
+        check(!ModernThemePalette.actionFill().equals(ModernThemePalette.brandAccent(false)),
+                "Primary aksiyon zemini logo renginden bagimsiz kontrast tonu kullanmiyor.");
+    }
+
+    private static void testLiveLanguagePreservesContactDraftSourceContract() throws Exception {
+        Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath().normalize();
+        String controller = Files.readString(
+                root.resolve("src/main/java/com/turkuazlabs/telefonrehberi/controllers/PhoneBookController.java"),
+                StandardCharsets.UTF_8
+        );
+        String frame = Files.readString(
+                root.resolve("src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java"),
+                StandardCharsets.UTF_8
+        );
+
+        String saveSettings = sourceMethod(controller, "private void saveSettings()", "private void");
+        check(saveSettings.contains("view.refreshLanguage(saved)"),
+                "Canli dil Controller -> View refreshLanguage akisi eksik.");
+        check(!saveSettings.contains("refreshAll()") && !saveSettings.contains("refreshContacts()"),
+                "Mevcut kisi edit drafti dil degisiminde contact reload ile ezilebilir.");
+
+        String refreshLanguage = sourceMethod(frame, "public void refreshLanguage", "private void applySettingsState");
+        check(!refreshLanguage.contains("clearForm()"),
+                "Yeni kisi drafti dil degisiminde clearForm ile silinebilir.");
+        check(!refreshLanguage.contains("showContacts(") && !refreshLanguage.contains("fillFormFromSelection"),
+                "Mevcut kisi drafti dil degisiminde persisted selection ile yeniden doldurulabilir.");
+    }
+
+    private static String sourceMethod(String source, String startMarker, String endMarker) {
+        int start = source.indexOf(startMarker);
+        check(start >= 0, "Source method baslangici bulunamadi: " + startMarker);
+        int end = source.indexOf(endMarker, start + startMarker.length());
+        check(end > start, "Source method sonu bulunamadi: " + startMarker);
+        return source.substring(start, end);
     }
 
     private static void testContactMethodLabelLocalization() {

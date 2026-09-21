@@ -1,9 +1,22 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.39.3
-# Aciklama: v2.39.3 SHA-dogrulamali Windows installer cache'ini tag tabanli Release workflow'una tasiyan patch surumudur.
+# Version: 2.40.0
+# Aciklama: v2.40.0 Turkuaz tema sistemi ve draft-korumali canli dil degisimi getiren minor surumdur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.40.0
+
+- Acik tema daha ferah yuzeylere, koyu tema Turkuaz marka tonlari etrafinda teal-charcoal yuzeylere tasindi.
+- Light/Dark logo ana Turkuaz rengi ayni kalir; primary aksiyon dolgusu marka renginden ayrilarak metin kontrasti korunur.
+- FlatLaf global input, liste, tablo, sekme, focus, border ve scrollbar renkleri merkezi Turkuaz paletiyle hizalandi.
+- Maintenance, Sync, Backup ve Settings navigasyon ikonlari daha tutarli vektor cizim diline getirildi.
+- `Messages` ve `ProductText` runtime reload destekler; Turkce/English degisikligi restart olmadan mevcut pencerede uygulanir.
+- Dil degisiminde Controller contact listesini yeniden yuklemez; yeni kisi ve mevcut kisi edit formundaki kaydedilmemis draft korunur.
+- Contact method ve important-date alt panelleri runtime dil degisiminde buton/tooltip metinlerini yeniden etiketler.
+- Mobil sync servis/port degisikligi restart uyarisi vermeye devam eder; yalniz dil degisikligi artik restart gerektirmez.
+- Quality gate runtime TR/EN reload, Turkuaz tema kimligi ve yeni/mevcut kisi draft-koruma source contractini dogrular.
+- Android/iOS build numarasi **600**'e hizalandi.
 
 ## v2.39.3
 

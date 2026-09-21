@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.39.3-0aa6a6" alt="Version 2.39.3">
+    <img src="https://img.shields.io/badge/version-2.40.0-0aa6a6" alt="Version 2.40.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -107,7 +107,7 @@ GitHub Actions validates Windows, Linux, Android API 36 and iOS simulator builds
 
 The application and distribution layers support Turkish and English/fallback product identity:
 
-- The Swing desktop UI defaults to the JVM/system locale, and Settings > General can persist `System`, `Turkce` or `English` as the application language.
+- The Swing desktop UI defaults to the JVM/system locale, and Settings > General can persist `System`, `Turkce` or `English`; the saved language is applied to the current window immediately.
 - The desktop product title is **Turkuaz Telefon Rehberi** on Turkish systems and **Turkuaz PhoneBook** otherwise.
 - Windows Inno Setup uses **Turkuaz Telefon Rehberi** or **Turkuaz PhoneBook** according to the selected installer language.
 - The native Go launcher reads the Windows UI language or Linux `LC_ALL` / `LC_MESSAGES` / `LANG` locale and localizes splash, status and user-visible error text.
@@ -117,7 +117,7 @@ The application and distribution layers support Turkish and English/fallback pro
 - `Kurulum.sh` and `Kaldir.sh` localize terminal output for Turkish vs. English/fallback locales.
 - The splash brand itself remains simply **Turkuaz**.
 
-Desktop language selection is persisted in `preferences.yml`. A language change takes effect after restarting the application because the Language catalog is initialized during startup. Technical identifiers and existing user-data paths remain unchanged.
+Desktop language selection is persisted in `preferences.yml`. Language changes reload the runtime message catalog and relabel the current Swing shell immediately; the application does not restart and unsaved new/existing contact form drafts are preserved. Technical identifiers and existing user-data paths remain unchanged.
 
 ## Quick Start
 
@@ -280,6 +280,10 @@ CI validates:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.40.0 Turkuaz Theme and Live Language
+
+v2.40.0 unifies the desktop UI around the Turkuaz brand. The light theme uses brighter surfaces while the dark theme uses teal-charcoal surfaces; the logo keeps the same Turkuaz hue in both modes and primary actions use a separate contrast-safe fill. Turkish/English language changes apply to the current window immediately after saving. Live relabeling does not reload the contact list, so unsaved new-contact and existing-contact form drafts remain intact.
 
 ## v2.39.3 Release Installer Cache Patch
 

@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.39.3-0aa6a6" alt="Version 2.39.3">
+    <img src="https://img.shields.io/badge/version-2.40.0-0aa6a6" alt="Version 2.40.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
   </p>
@@ -69,7 +69,7 @@ Temel hedefler:
 
 ## Dil ve Yerellestirme
 
-- Masaustu Swing arayuzu varsayilan olarak JVM/sistem locale degerini kullanir; Ayarlar > Genel bolumunden `Sistem Dilini Kullan`, `Turkce` veya `English` tercihi kalici olarak secilebilir.
+- Masaustu Swing arayuzu varsayilan olarak JVM/sistem locale degerini kullanir; Ayarlar > Genel bolumunden `Sistem Dilini Kullan`, `Turkce` veya `English` tercihi kalici olarak secilebilir ve kaydedildigi anda mevcut pencerede uygulanir.
 - Masaustu urun adi Turkce sistemlerde **Turkuaz Telefon Rehberi**, diger sistemlerde **Turkuaz PhoneBook** olarak gorunur.
 - Windows Inno Setup secilen kurulum diline gore `Turkuaz Telefon Rehberi` veya `Turkuaz PhoneBook` adini gosterir.
 - Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL`, `LC_MESSAGES` ve `LANG` degerlerini kullanarak splash, durum ve kullaniciya gosterilen hata metinlerini yerellestirir.
@@ -79,7 +79,7 @@ Temel hedefler:
 - `Kurulum.sh` ve `Kaldir.sh` terminal mesajlari sistem locale degerine gore Turkce veya Ingilizce gosterilir.
 - Ana logo ve splash marka adi yalnizca **Turkuaz** olarak kalir.
 
-Masaustu dil tercihi `preferences.yml` icinde kalici tutulur. Language katalogu uygulama acilisinda olusturuldugu icin dil degisikligi uygulama yeniden baslatildiginda tum arayuze uygulanir. Teknik kimlikler ve mevcut kullanici veri yollari degismez.
+Masaustu dil tercihi `preferences.yml` icinde kalici tutulur. Dil degisikligi runtime mesaj katalogunu ve mevcut Swing shell'i yeniden etiketler; uygulama yeniden baslatilmaz ve yeni/mevcut kisi formundaki kaydedilmemis draft korunur. Teknik kimlikler ve mevcut kullanici veri yollari degismez.
 
 ## Hizli Baslangic
 
@@ -171,6 +171,10 @@ CI su kontrolleri gerceklestirir:
 - Linux native release build
 - Android API 36 debug APK build
 - iOS simulator build
+
+## v2.40.0 Turkuaz Tema ve Canli Dil
+
+v2.40.0 masaustu arayuzunu Turkuaz marka rengine toplar. Acik tema daha ferah yuzeyler, koyu tema teal-charcoal zeminler kullanir; logo Turkuaz tonu light/dark modda ayni kalirken primary aksiyon rengi okunabilirlik icin ayri tutulur. Turkce/English dil degisikligi kaydedildigi anda pencereyi kapatmadan uygulanir. Canli yenileme kisi listesini yeniden yuklemez; yeni kisi ve mevcut kisi duzenleme formundaki kaydedilmemis alanlar korunur.
 
 ## v2.39.3 Release Installer Cache Yamasi
 

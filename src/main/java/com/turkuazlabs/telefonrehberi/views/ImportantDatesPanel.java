@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/ImportantDatesPanel.java
 // # 📌 Amac: Kisi editorunde sinirsiz yildonumu ve ozel tarih kaydini yonetir.
 // # 📌 View - Java
-// # Version: 1.0.0
+// # Version: 1.2.0
 // # Aciklama: Onemli tarih ekleme, duzenleme, silme ve hatirlatma secimi icin modern Swing paneli sunar.
 // # Bagimli Oldugu Katman: View | Model | Language | Config
 package com.turkuazlabs.telefonrehberi.views;
@@ -40,6 +40,8 @@ import java.util.List;
 public final class ImportantDatesPanel extends JPanel {
     private final DefaultListModel<ImportantDate> model = new DefaultListModel<>();
     private final JList<ImportantDate> list = new JList<>(model);
+    private final JButton addButton;
+    private final JButton moreButton;
 
     public ImportantDatesPanel() {
         setOpaque(false);
@@ -64,14 +66,21 @@ public final class ImportantDatesPanel extends JPanel {
 
         JPanel actions = new JPanel(new BorderLayout(6, 0));
         actions.setOpaque(false);
-        JButton add = ModernButtons.secondary(Messages.IMPORTANT_DATE_ADD_BUTTON);
-        JButton more = ModernButtons.secondary(Messages.METHOD_MORE_BUTTON);
-        more.setToolTipText(Messages.IMPORTANT_DATE_ACTIONS_TOOLTIP);
-        add.addActionListener(event -> addDate());
-        more.addActionListener(event -> showActions(more));
-        actions.add(add, BorderLayout.WEST);
-        actions.add(more, BorderLayout.EAST);
+        addButton = ModernButtons.secondary(Messages.IMPORTANT_DATE_ADD_BUTTON);
+        moreButton = ModernButtons.secondary(Messages.METHOD_MORE_BUTTON);
+        moreButton.setToolTipText(Messages.IMPORTANT_DATE_ACTIONS_TOOLTIP);
+        addButton.addActionListener(event -> addDate());
+        moreButton.addActionListener(event -> showActions(moreButton));
+        actions.add(addButton, BorderLayout.WEST);
+        actions.add(moreButton, BorderLayout.EAST);
         add(actions, BorderLayout.NORTH);
+    }
+
+    public void refreshLanguage() {
+        addButton.setText(Messages.IMPORTANT_DATE_ADD_BUTTON);
+        moreButton.setText(Messages.METHOD_MORE_BUTTON);
+        moreButton.setToolTipText(Messages.IMPORTANT_DATE_ACTIONS_TOOLTIP);
+        list.repaint();
     }
 
     public List<ImportantDate> getDates() {

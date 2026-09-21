@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/controllers/PhoneBookController.java
 // # 📌 Amac: GUI kullanici isteklerini alir ve ilgili servis katmanlarina yonlendirir.
 // # 📌 Controller - Java
-// # Version: 2.39.0
-// # Aciklama: GUI eventlerini Service katmanina baglar; backup ve masaustu hatirlatma bildirimlerini Swing EDT disinda calistirir.
+// # Version: 2.40.0
+// # Aciklama: GUI eventlerini Service katmanina baglar; canli dil yenilemesini kisi draftini reload etmeden View'a iletir.
 // # Bagimli Oldugu Katman: Controller | Service | View | Model | Language
 package com.turkuazlabs.telefonrehberi.controllers;
 
@@ -678,7 +678,12 @@ public final class PhoneBookController {
         execute(() -> {
             SettingsSaveResult result = settingsService.saveSettings(view.readSettingsInput());
             AppSettings saved = settingsService.loadSettings();
-            view.applySettings(saved);
+            if (result.languageChanged()) {
+                view.refreshLanguage(saved);
+                view.showSyncState(syncServerInfo);
+            } else {
+                view.applySettings(saved);
+            }
             view.showMessage(result.restartRequired() ? Messages.SETTINGS_SAVED_RESTART : Messages.SETTINGS_SAVED);
         });
     }
