@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
-# Version: 2.14.0
-# Aciklama: Windows installer dependency cache, Java quality gate, version consistency, native launcher, Inno Setup smoke, Android/iOS kontrolleri ve dinamik release kapisini yonetir.
+# Version: 2.14.1
+# Aciklama: Windows installer cache, Java/version quality gate, release-manifest sync Bash syntax kontrolu, native launcher ve cross-platform build/release kapisini yonetir.
 # Bagimli Oldugu Katman: Tool | Config
 
 name: Build
@@ -116,6 +116,10 @@ jobs:
         with:
           go-version: '1.23.x'
           cache-dependency-path: launcher/native/go.mod
+
+      - name: Validate release manifest sync tool
+        shell: bash
+        run: bash -n ./tools/sync-published-manifest.sh
 
       - name: Run Linux Java quality gate
         shell: bash
