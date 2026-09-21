@@ -253,7 +253,7 @@ jobs:
 
           cat > release-assets/publish/update-manifest.yml <<MANIFEST
           # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml
-          # 📌 Amac: GitHub Release cross-platform update metadata ve SHA-256 degerlerini tanimlar.
+          # 📌 Amac: Son yayinlanmis GitHub Release update metadata ve SHA-256 degerlerini referans olarak tutar.
           # 📌 Modul - YAML
           # Version: 2.8.0
           # Aciklama: v${APP_VERSION} icin yayinlanmis cross-platform JAR, native launcher ve Windows Setup update referansidir.
