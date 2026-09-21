@@ -1,8 +1,8 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/services/SettingsService.java
 // # 📌 Amac: Kullanici ayarlari is kurallarini ve runtime degisiklik kontrolunu yonetir.
 // # 📌 Service - Java
-// # Version: 2.3.0
-// # Aciklama: Hatirlatma bildirimi dahil tum kullanici tercihlerini UserPreferencesRepository uzerinden dogrular ve saklar.
+// # Version: 2.4.0
+// # Aciklama: Hatirlatma dahil tercihleri saklar; tema ve dili runtime uygular, yalniz mobil senkron servis degisikliklerini restart olarak isaretler.
 // # Bagimli Oldugu Katman: Service | Repository | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.services;
 
@@ -45,12 +45,17 @@ public final class SettingsService {
     public SettingsSaveResult saveSettings(AppSettings input) {
         validate(input);
         AppSettings before = loadSettings();
+        String normalizedLanguage = LocaleText.normalizeLanguageCode(input.languageCode());
+        boolean languageChanged = !before.languageCode().equals(normalizedLanguage);
         preferencesRepository.save(input);
         themeService.setTheme(input.theme());
-        boolean restartRequired = !before.languageCode().equals(LocaleText.normalizeLanguageCode(input.languageCode()))
-                || before.mobileSyncEnabled() != input.mobileSyncEnabled()
+        if (languageChanged) {
+            LocaleText.applyLanguage(normalizedLanguage);
+            Messages.reload();
+        }
+        boolean restartRequired = before.mobileSyncEnabled() != input.mobileSyncEnabled()
                 || before.mobileSyncPort() != input.mobileSyncPort();
-        return new SettingsSaveResult(restartRequired);
+        return new SettingsSaveResult(languageChanged, restartRequired);
     }
 
     private void validate(AppSettings settings) {
