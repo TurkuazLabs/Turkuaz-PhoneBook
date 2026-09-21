@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/GITHUB_SETUP.md
 # 📌 Amac: TurkuazLabs GitHub repository, quality gate, yerellestirme ve cross-platform release akislarini belgeler.
 # 📌 Modul - Markdown
-# Version: 2.6.0
-# Aciklama: Turkuaz-PhoneBook v2.38.0 build artefactlari, release checklist, Windows Inno Setup auto-update, Linux native/TAR.GZ, mobil test build ve Turkce/Ingilizce dagitim akisidir.
+# Version: 2.7.0
+# Aciklama: Dinamik release gate, cross-platform asset uretimi, SHA-dogrulamali Windows cache ve otomatik main update-manifest senkronizasyon akisidir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 # Repository
@@ -28,6 +28,7 @@ Kaynak dosyalari repository kokune yerlestir.
    - `TelefonRehberi-Setup-v2.38.0.exe`
    - `TelefonRehberi-Linux-v2.38.0-FULL.tar.gz`
    - Android test APK
+7. Release yayinlandiktan sonra uretilen `update-manifest.yml`, surum yarisi kontrolu ile `main/updates/update-manifest.yml` dosyasina otomatik senkronize edilir.
 
 Windows kurulumlu surum `C:\Program Files\TurkuazLabs\TelefonRehberi` altina kurulur ve JRE/JDBC/SLF4J/FlatLaf bagimliliklarini Setup icinde tasir. Portable Windows ve Linux paketleri bootstrap dagitimidir; ilk acilista native launcher eksik runtime/bagimliliklari indirip hash dogrulamasi yapar. Portable kullanici `TelefonRehberi.exe`, Linux kullanicisi `TelefonRehberi` native launcher ile baslatir.
 
@@ -42,7 +43,7 @@ Gorunen uygulama adi kurulum/arayuz diline gore yerellestirilebilir:
 
 Dagitim katmanlari:
 
-- Masaustu Swing UI varsayilan olarak sistem/JVM locale degerini kullanir; Ayarlar > Genel bolumundeki kalici `system` / `tr` / `en` tercihi yeniden baslatmada bu secimi override eder.
+- Masaustu Swing UI varsayilan olarak sistem/JVM locale degerini kullanir; Ayarlar > Genel bolumundeki kalici `system` / `tr` / `en` tercihi kaydedildigi anda mevcut pencerede uygulanir.
 - Windows Inno Setup, secilen kurulum diline gore urun adini yerellestirir.
 - Native Go launcher Windows'ta OS UI dilini, Linux'ta `LC_ALL` / `LC_MESSAGES` / `LANG` degerlerini kullanarak Turkce veya Ingilizce splash/durum/hata metinleri secmektedir.
 - Android varsayilan Ingilizce `values` kaynaklarini, Turkce sistemlerde `values-tr` kaynaklarini kullanir.
@@ -64,7 +65,7 @@ Geriye donuk uyumluluk icin teknik kimlikler (`TelefonRehberi.exe`, Java package
 
 ## Otomatik guncelleme
 
-Release workflow `TelefonRehberi-Setup-vX.Y.Z.exe` SHA-256 degerini `update-manifest.yml` icine yazar. Program Files kurulumlu launcher yeni `app_version` gorurse Setup EXE'yi LocalAppData cache'e indirir, SHA-256 dogrular ve Inno Setup'i normal kullanici tokeniyla baslatir. Inno Setup UAC ister ve `/AUTOUPDATE` tamamlaninca uygulamayi normal kullanici olarak yeniden acar. Portable Windows ve Linux dagitimlari JAR/native launcher staged update akisini kullanir.
+Release workflow `TelefonRehberi-Setup-vX.Y.Z.exe` SHA-256 degerini `update-manifest.yml` icine yazar ve yayin basarili oldugunda ayni manifesti `main` branch'e otomatik senkronize eder. Program Files kurulumlu launcher yeni `app_version` gorurse Setup EXE'yi LocalAppData cache'e indirir, SHA-256 dogrular ve Inno Setup'i normal kullanici tokeniyla baslatir. Inno Setup UAC ister ve `/AUTOUPDATE` tamamlaninca uygulamayi normal kullanici olarak yeniden acar. Portable Windows ve Linux dagitimlari JAR/native launcher staged update akisini kullanir.
 
 Updater release assetlerini `https://github.com/TurkuazLabs/Turkuaz-PhoneBook` repository'sinden alir.
 
