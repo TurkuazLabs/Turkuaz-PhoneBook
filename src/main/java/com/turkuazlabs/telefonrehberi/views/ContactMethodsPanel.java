@@ -52,6 +52,8 @@ public final class ContactMethodsPanel extends JPanel {
     private final DefaultListModel<ContactMethod> model = new DefaultListModel<>();
     private final JList<ContactMethod> list = new JList<>(model);
     private final PhoneNumberTool phoneNumberTool = new PhoneNumberTool();
+    private final JButton addButton;
+    private final JButton moreButton;
 
     public ContactMethodsPanel(String kind, String defaultLabel) {
         this.kind = kind;
@@ -80,13 +82,13 @@ public final class ContactMethodsPanel extends JPanel {
 
         JPanel actions = new JPanel(new BorderLayout(6, 0));
         actions.setOpaque(false);
-        JButton add = ModernButtons.secondary("+ " + Messages.METHOD_ADD_BUTTON);
-        JButton more = ModernButtons.secondary(Messages.METHOD_MORE_BUTTON);
-        more.setToolTipText(Messages.METHOD_ACTIONS_TOOLTIP);
-        add.addActionListener(event -> addMethod());
-        more.addActionListener(event -> showActions(more));
-        actions.add(add, BorderLayout.WEST);
-        actions.add(more, BorderLayout.EAST);
+        addButton = ModernButtons.secondary("+ " + Messages.METHOD_ADD_BUTTON);
+        moreButton = ModernButtons.secondary(Messages.METHOD_MORE_BUTTON);
+        moreButton.setToolTipText(Messages.METHOD_ACTIONS_TOOLTIP);
+        addButton.addActionListener(event -> addMethod());
+        moreButton.addActionListener(event -> showActions(moreButton));
+        actions.add(addButton, BorderLayout.WEST);
+        actions.add(moreButton, BorderLayout.EAST);
         add(actions, BorderLayout.NORTH);
     }
 
@@ -105,6 +107,13 @@ public final class ContactMethodsPanel extends JPanel {
         menu.addSeparator();
         menu.add(remove);
         menu.show(anchor, 0, anchor.getHeight());
+    }
+
+    public void refreshLanguage() {
+        addButton.setText("+ " + Messages.METHOD_ADD_BUTTON);
+        moreButton.setText(Messages.METHOD_MORE_BUTTON);
+        moreButton.setToolTipText(Messages.METHOD_ACTIONS_TOOLTIP);
+        list.repaint();
     }
 
     public List<ContactMethod> getMethods() {
