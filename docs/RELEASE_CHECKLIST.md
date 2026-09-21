@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/docs/RELEASE_CHECKLIST.md
 # 📌 Amac: Turkuaz PhoneBook release oncesi ve sonrasi dogrulama adimlarini tek yerde tutar.
 # 📌 Modul - Markdown
-# Version: 1.4.0
+# Version: 1.5.0
 # Aciklama: config/version.yml merkezli preflight, dinamik tag/release, checksum, update-manifest ve dagitim smoke kontrolleridir.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
@@ -56,6 +56,6 @@ Asagidaki assetler release'te bulunmali:
 - Temiz Windows sisteminde Setup kurulumunu ve uygulama acilisini kontrol et.
 - Portable Windows paketinin mevcut kullanici verisini paket icine yazmadan acildigini ve temiz sistemde ilk acilista runtime/bagimlilik bootstrap akisini basariyla tamamladigini kontrol et.
 - Linux full pakette `Kurulum.sh`, native launcher ve masaustu girdisini kontrol et.
-- Turkce ve English masaustu dil tercihlerinin kaydedilip yeniden baslatma sonrasi uygulandigini kontrol et.
+- Turkce ve English masaustu dil tercihlerinin kaydedildigi anda mevcut pencerede uygulanip kaydedilmemis kisi draftini korudugunu kontrol et.
 - Launcher latest release kontrolunun yeni `v<APP_VERSION>` manifestini gordugunu dogrula.
 - Release tamamlandiktan sonra main `updates/update-manifest.yml` dosyasini yayinlanmis assetlerin gercek SHA-256 degerleriyle guncelle.
