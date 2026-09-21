@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.7.0
-# Aciklama: Tag push veya workflow_dispatch ile SHA-dogrulamali Windows installer cache, quality gate, Inno Setup smoke ve cross-platform Turkuaz PhoneBook release uretir.
+# Version: 2.8.0
+# Aciklama: Cross-platform release uretir, SHA-dogrulamali Windows cache kullanir ve yayinlanan update manifestini guvenli sekilde main branch'e senkronize eder.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
 name: Release
@@ -255,8 +255,8 @@ jobs:
           # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/updates/update-manifest.yml
           # 📌 Amac: GitHub Release cross-platform update metadata ve SHA-256 degerlerini tanimlar.
           # 📌 Modul - YAML
-          # Version: 2.4.0
-          # Aciklama: Turkuaz PhoneBook cross-platform portable launcher ve Windows Inno Setup auto-update assetlerini sunar.
+          # Version: 2.8.0
+          # Aciklama: v${APP_VERSION} icin yayinlanmis cross-platform JAR, native launcher ve Windows Setup update referansidir.
           # Bagimli Oldugu Katman: Tool
 
           app_version: "${APP_VERSION}"
@@ -301,3 +301,14 @@ jobs:
             --verify-tag \
             --generate-notes \
             --title "Turkuaz PhoneBook ${GITHUB_REF_NAME}"
+
+      - name: Sync published update manifest to main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          bash ./tools/sync-published-manifest.sh \
+            "${GITHUB_REF_NAME}" \
+            "release-assets/publish/update-manifest.yml" \
+            "updates/update-manifest.yml" \
+            "main"
