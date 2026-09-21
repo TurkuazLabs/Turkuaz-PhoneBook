@@ -1,9 +1,19 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
 # 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
 # 📌 Modul - Markdown
-# Version: 2.40.0
-# Aciklama: v2.40.0 Turkuaz tema sistemi ve draft-korumali canli dil degisimi getiren minor surumdur.
+# Version: 2.40.1
+# Aciklama: v2.40.1 yayinlanan update manifestini main branch'e guvenli ve otomatik senkronize eden patch surumudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.40.1
+
+- Release workflow sonuna yayinlanan `update-manifest.yml` dosyasini `main/updates/update-manifest.yml` ile otomatik senkronize eden Tool katmani eklendi.
+- Senkronizasyon, release tag surumunu uretilen manifestin `app_version` degeriyle dogrular.
+- `main/config/version.yml` daha yeni bir surume ilerlemisse eski release metadata'si main branch'e yazilmaz.
+- GitHub Contents API guncellemesi mevcut target SHA ile yapilir; eszamanli degisiklikte sessiz overwrite yerine API conflict olusur.
+- Main manifest zaten ayni icerikteyse gereksiz metadata commit'i olusturulmaz.
+- Release tarafinda uretilen manifest header'i checked-in manifest sozlesmesiyle `2.8.0` seviyesine hizalandi.
+- Android/iOS build numarasi **601**'e hizalandi.
 
 ## v2.40.0
 
