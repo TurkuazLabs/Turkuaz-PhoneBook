@@ -14,7 +14,7 @@
 - `FlatLafThemeTool` Button, ToggleButton, text inputlari, ComboBox, Spinner, List, Tree, Table, TabbedPane, menu, tooltip, progress, scrollbar ve title pane renklerini merkezi palete bagladi.
 - `ModernButtons` bastan yazildi; Primary, Secondary, Danger, Text, Quick ve Chip varyantlari artik default/hover/pressed/disabled/keyboard-focus durumlarini ayri cizer.
 - Buton focus tamamen kapatilmiyor; 2px klavye focus halkasi ve dinamik preferred width ile runtime dil degisimleri korunuyor.
-- Buton yukseklikleri ve radius degerleri sadeleştirildi: standart aksiyonlar 40px/10px, text 36px, chip 30px pill geometri kullanir.
+- Buton yukseklikleri ve radius degerleri sadelestirildi: standart aksiyonlar 40px/10px, text 36px, chip 30px pill geometri kullanir.
 - `PhoneBookFrame` icindeki son sabit Dark pill rengi kaldirildi ve semantik `accentStrong` tokenina baglandi.
 - Quality gate Light/Dark ana ve ikincil metin kontrastlarini, primary buton AA kontrastini, danger kontrastini ve durum renklerinin ayrismasini otomatik test eder.
 - Android/iOS build numarasi **602**'ye hizalandi.
