@@ -229,14 +229,14 @@ public final class UiConfig {
     public static final String STAT_INDICATOR = "\u25CF";
 
     public static final Color BRAND_PRIMARY = new Color(18, 140, 126);
-    public static final Color BRAND_PRIMARY_DARK = new Color(17, 117, 104);
-    public static final Color BRAND_DARK = new Color(24, 34, 43);
-    public static final Color BRAND_DARKER = new Color(17, 22, 28);
-    public static final Color BRAND_NAV_ACTIVE = new Color(17, 117, 104);
-    public static final Color BRAND_SOFT = new Color(223, 247, 238);
-    public static final Color BRAND_TEXT_SOFT = new Color(134, 147, 156);
-    public static final Color STATUS_DARK = new Color(248, 250, 251);
-    public static final Color DANGER = new Color(210, 55, 55);
+    public static final Color BRAND_PRIMARY_DARK = new Color(11, 123, 111);
+    public static final Color BRAND_DARK = new Color(24, 37, 43);
+    public static final Color BRAND_DARKER = new Color(16, 23, 27);
+    public static final Color BRAND_NAV_ACTIVE = new Color(8, 105, 96);
+    public static final Color BRAND_SOFT = new Color(230, 245, 242);
+    public static final Color BRAND_TEXT_SOFT = new Color(132, 149, 157);
+    public static final Color STATUS_DARK = new Color(241, 247, 247);
+    public static final Color DANGER = new Color(190, 45, 54);
 
     public static final String PAGE_DASHBOARD = "dashboard";
     public static final String PAGE_CONTACTS = "contacts";
