@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import java.awt.Color;
 
 public final class ModernThemePalette {
+    private static final Color BRAND_LOGO = new Color(18, 140, 126);
     private static final Color BRAND_300 = new Color(99, 218, 205);
     private static final Color BRAND_400 = new Color(48, 196, 180);
     private static final Color BRAND_600 = new Color(11, 123, 111);
@@ -196,11 +197,11 @@ public final class ModernThemePalette {
     }
 
     public static Color brandAccent() {
-        return BRAND_600;
+        return BRAND_LOGO;
     }
 
     public static Color brandAccent(boolean dark) {
-        return BRAND_600;
+        return BRAND_LOGO;
     }
 
     public static Color brandGlyph(boolean dark) {
