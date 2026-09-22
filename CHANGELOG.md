@@ -1,9 +1,23 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
-# 📌 Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
-# 📌 Modul - Markdown
-# Version: 2.40.1
-# Aciklama: v2.40.1 yayinlanan update manifestini main branch'e guvenli ve otomatik senkronize eden patch surumudur.
+# Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
+# Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
+# Modul - Markdown
+# Version: 2.41.0
+# Aciklama: v2.41.0 Light/Dark renk sistemi, standart kontroller ve tum aksiyon butonlarini yeniden tasarlayan tema revizyonudur.
 # Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+
+## v2.41.0
+
+- Turkuaz Theme v3 ile Light tema neutral acik gri/beyaz yuzeylere, Dark tema neutral charcoal yuzeylere yeniden kuruldu.
+- Logo/marka turkuazi ile primary aksiyon rengi ayrildi; primary buton beyaz metinle WCAG AA kontrastini koruyan daha koyu aksiyon tonu kullanir.
+- `ModernThemePalette` arka plan, surface, border, text, selection, focus, hover/pressed, disabled ve danger durumlari icin semantik tokenlara genisletildi.
+- Light ve Dark danger hover/pressed renkleri ayrildi; onceki Light-only sabit danger hover rengi kaldirildi.
+- `FlatLafThemeTool` Button, ToggleButton, text inputlari, ComboBox, Spinner, List, Tree, Table, TabbedPane, menu, tooltip, progress, scrollbar ve title pane renklerini merkezi palete bagladi.
+- `ModernButtons` bastan yazildi; Primary, Secondary, Danger, Text, Quick ve Chip varyantlari artik default/hover/pressed/disabled/keyboard-focus durumlarini ayri cizer.
+- Buton focus tamamen kapatilmiyor; 2px klavye focus halkasi ve dinamik preferred width ile runtime dil degisimleri korunuyor.
+- Buton yukseklikleri ve radius degerleri sadeleştirildi: standart aksiyonlar 40px/10px, text 36px, chip 30px pill geometri kullanir.
+- `PhoneBookFrame` icindeki son sabit Dark pill rengi kaldirildi ve semantik `accentStrong` tokenina baglandi.
+- Quality gate Light/Dark ana ve ikincil metin kontrastlarini, primary buton AA kontrastini, danger kontrastini ve durum renklerinin ayrismasini otomatik test eder.
+- Android/iOS build numarasi **602**'ye hizalandi.
 
 ## v2.40.1
 
