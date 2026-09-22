@@ -2,18 +2,18 @@
 # 📌 Amac: Son yayinlanmis GitHub Release update metadata ve SHA-256 degerlerini referans olarak tutar.
 # 📌 Modul - YAML
 # Version: 2.8.0
-# Aciklama: v2.40.1 icin yayinlanmis cross-platform JAR, native launcher ve Windows Setup update referansidir.
+# Aciklama: v2.41.0 icin yayinlanmis cross-platform JAR, native launcher ve Windows Setup update referansidir.
 # Bagimli Oldugu Katman: Tool
 
-app_version: "2.40.1"
+app_version: "2.41.0"
 app_asset: "TelefonRehberi.jar"
-app_sha256: "6a5b7f126ff7eda30341e121883c34b4a4d8a16fc11457c435e5c776a63c3316"
+app_sha256: "2466122e43d6b1d46318503f64422e5cd067901f32ab93fd9ef0c1e33694c720"
 launcher_version: "2.5.2"
 launcher_windows_asset: "TelefonRehberi.exe"
-launcher_windows_sha256: "425b16d4c590ec7bec331bd6aff490ff349f0810d0dd65434dbf7e634e0e444a"
+launcher_windows_sha256: "aaa210b9cc15005d9f683582357330b641262bcec755d5dc79845679523a12c7"
 launcher_linux_asset: "TelefonRehberi-linux-amd64"
-launcher_linux_sha256: "521e8787aceb1b899b7c4fcae048109b7d3542ee157523b0f8f76efe812967c5"
-windows_setup_asset: "TelefonRehberi-Setup-v2.40.1.exe"
-windows_setup_sha256: "8631841fd9bd79a24c13de5396bc7fc82432668d86a4d90c22ca4218bb121da4"
+launcher_linux_sha256: "a37bc263fc1c545526005a20c14b2dd144507c975e2f4222f5cd6c9d41480aec"
+windows_setup_asset: "TelefonRehberi-Setup-v2.41.0.exe"
+windows_setup_sha256: "39975fd6edfdfa621f61766613f9027706d4da6374fafdc9bfcb6e8bda36397c"
 launcher_asset: "TelefonRehberi.exe"
-launcher_sha256: "425b16d4c590ec7bec331bd6aff490ff349f0810d0dd65434dbf7e634e0e444a"
+launcher_sha256: "aaa210b9cc15005d9f683582357330b641262bcec755d5dc79845679523a12c7"
