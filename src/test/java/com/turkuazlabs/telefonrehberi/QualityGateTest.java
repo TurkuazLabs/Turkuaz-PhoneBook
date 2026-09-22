@@ -1,8 +1,8 @@
-// # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
-// # 📌 Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
-// # 📌 Tool - Java Test
-// Version: 1.9.0
-// Aciklama: Java 17 release quality gate; canli dil reload, draft-koruma, Turkuaz tema, reminder/dedup ve veri guvenligini dogrular.
+// # Dosya Yolu: C:/Projects/TelefonRehberi/src/test/java/com/turkuazlabs/telefonrehberi/QualityGateTest.java
+// # Amac: SQLite backup, sync UUID, history retention, request limiti, kullanici ayarlari ve urun/arayuz yerellestirmesini dogrular.
+// # Tool - Java Test
+// Version: 2.0.0
+// Aciklama: Java 17 release quality gate; tema v3 semantik renkleri, WCAG kontrasti, canli dil, reminder/dedup ve veri guvenligini dogrular.
 // Bagimli Oldugu Katman: Repository | Service | Tool | Config | Model | Language
 package com.turkuazlabs.telefonrehberi;
 
@@ -37,6 +37,8 @@ import com.turkuazlabs.telefonrehberi.tools.MobileSyncFormTool;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteBackupTool;
 import com.turkuazlabs.telefonrehberi.tools.SQLiteConnectionProvider;
 
+import javax.swing.UIManager;
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -126,10 +128,65 @@ public final class QualityGateTest {
     }
 
     private static void testTurkuazThemeIdentity() {
-        check(ModernThemePalette.brandAccent(false).equals(ModernThemePalette.brandAccent(true)),
-                "Light ve dark logo Turkuaz rengi ayni marka tonunu kullanmiyor.");
-        check(!ModernThemePalette.actionFill().equals(ModernThemePalette.brandAccent(false)),
-                "Primary aksiyon zemini logo renginden bagimsiz kontrast tonu kullanmiyor.");
+        Object originalDark = UIManager.get("laf.dark");
+        try {
+            check(ModernThemePalette.brandAccent(false).equals(ModernThemePalette.brandAccent(true)),
+                    "Light ve dark logo Turkuaz rengi ayni marka tonunu kullanmiyor.");
+            check(!ModernThemePalette.actionFill().equals(ModernThemePalette.brandAccent(false)),
+                    "Primary aksiyon zemini logo renginden bagimsiz kontrast tonu kullanmiyor.");
+            check(contrastRatio(ModernThemePalette.actionForeground(), ModernThemePalette.actionFill()) >= 4.5d,
+                    "Primary buton kontrasti WCAG AA esigini karsilamiyor.");
+
+            UIManager.put("laf.dark", false);
+            Color lightDangerHover = ModernThemePalette.dangerHover();
+            check(contrastRatio(ModernThemePalette.textPrimary(), ModernThemePalette.background()) >= 7.0d,
+                    "Light tema ana metin kontrasti zayif.");
+            check(contrastRatio(ModernThemePalette.textSecondary(), ModernThemePalette.surface()) >= 4.5d,
+                    "Light tema ikincil metin kontrasti zayif.");
+            check(!ModernThemePalette.border().equals(ModernThemePalette.borderStrong()),
+                    "Light tema normal ve guclu border tonlari ayrismiyor.");
+            check(!ModernThemePalette.controlHover().equals(ModernThemePalette.surfaceElevated()),
+                    "Light tema hover durumu yuzeyden ayrismiyor.");
+
+            UIManager.put("laf.dark", true);
+            check(contrastRatio(ModernThemePalette.textPrimary(), ModernThemePalette.background()) >= 7.0d,
+                    "Dark tema ana metin kontrasti zayif.");
+            check(contrastRatio(ModernThemePalette.textSecondary(), ModernThemePalette.surface()) >= 4.5d,
+                    "Dark tema ikincil metin kontrasti zayif.");
+            check(contrastRatio(ModernThemePalette.danger(), ModernThemePalette.surfaceElevated()) >= 4.5d,
+                    "Dark tema danger metin kontrasti zayif.");
+            check(!ModernThemePalette.dangerHover().equals(lightDangerHover),
+                    "Danger hover rengi light ve dark temada ayni kalmamali.");
+            check(!ModernThemePalette.controlHover().equals(ModernThemePalette.surfaceElevated()),
+                    "Dark tema hover durumu yuzeyden ayrismiyor.");
+        } finally {
+            if (originalDark == null) {
+                UIManager.getDefaults().remove("laf.dark");
+            } else {
+                UIManager.put("laf.dark", originalDark);
+            }
+        }
+    }
+
+    private static double contrastRatio(Color first, Color second) {
+        double firstLuminance = relativeLuminance(first);
+        double secondLuminance = relativeLuminance(second);
+        double lighter = Math.max(firstLuminance, secondLuminance);
+        double darker = Math.min(firstLuminance, secondLuminance);
+        return (lighter + 0.05d) / (darker + 0.05d);
+    }
+
+    private static double relativeLuminance(Color color) {
+        return (0.2126d * linearize(color.getRed()))
+                + (0.7152d * linearize(color.getGreen()))
+                + (0.0722d * linearize(color.getBlue()));
+    }
+
+    private static double linearize(int channel) {
+        double value = channel / 255.0d;
+        return value <= 0.04045d
+                ? value / 12.92d
+                : Math.pow((value + 0.055d) / 1.055d, 2.4d);
     }
 
     private static void testLiveLanguagePreservesContactDraftSourceContract() throws Exception {
