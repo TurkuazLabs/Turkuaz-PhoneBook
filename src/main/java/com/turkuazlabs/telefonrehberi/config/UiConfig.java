@@ -1,8 +1,8 @@
-// # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/UiConfig.java
-// # 📌 Amac: Swing ve FlatLaf arayuz sabitlerini merkezi olarak tanimlar.
-// # 📌 Config - Java
-// # Version: 2.34.0
-// # Aciklama: Responsive dashboard, sade kisi tarayicisi, kompakt profil ve acilir navigasyon olculerini merkezilestirir.
+// # Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/config/UiConfig.java
+// # Amac: Swing ve FlatLaf arayuz sabitlerini merkezi olarak tanimlar.
+// # Config - Java
+// # Version: 2.41.0
+// # Aciklama: Tema v3 ile kontrol radius, buton olculeri, focus halkasi ve kompakt chip geometrisini merkezi hale getirir.
 // # Bagimli Oldugu Katman: Config
 package com.turkuazlabs.telefonrehberi.config;
 
@@ -39,7 +39,7 @@ public final class UiConfig {
     public static final int BULK_PREVIEW_NAME_LIMIT = 4;
     public static final int FILTER_PANEL_GAP = 7;
     public static final int FILTER_CONTROL_HEIGHT = 32;
-    public static final int FILTER_CHIP_HEIGHT = 28;
+    public static final int FILTER_CHIP_HEIGHT = 30;
     public static final int FILTER_CHIP_GAP = 5;
     public static final int FILTER_CHIP_WIDE_COLUMNS = 2;
     public static final int FILTER_CHIP_COMPACT_COLUMNS = 1;
@@ -197,7 +197,7 @@ public final class UiConfig {
     public static final int SETTINGS_CONTENT_GAP = 14;
     public static final int DEFAULT_BACKUP_RETENTION = 5;
     public static final int MAX_BACKUP_RETENTION = 5;
-    public static final int CARD_ARC = 18;
+    public static final int CARD_ARC = 16;
     public static final int CARD_PADDING = 20;
     public static final int NAV_HEIGHT = 42;
     public static final int NAV_CHILD_HEIGHT = 38;
@@ -209,7 +209,15 @@ public final class UiConfig {
     public static final int CARD_SHADOW_OFFSET = 1;
     public static final int HEADER_TITLE_SIZE = 30;
     public static final int HEADER_SUBTITLE_SIZE = 15;
-    public static final int PRIMARY_BUTTON_HEIGHT = 42;
+    public static final int PRIMARY_BUTTON_HEIGHT = 40;
+    public static final int TEXT_BUTTON_HEIGHT = 36;
+    public static final int BUTTON_MIN_WIDTH = 88;
+    public static final int BUTTON_ARC = 10;
+    public static final int BUTTON_FOCUS_RING_WIDTH = 2;
+    public static final int CHIP_ARC = 999;
+    public static final float BUTTON_FONT_SIZE = 13.5f;
+    public static final float TEXT_BUTTON_FONT_SIZE = 13f;
+    public static final float CHIP_FONT_SIZE = 12f;
     public static final int QUICK_ACTION_HEIGHT = 40;
     public static final int QUICK_ACTION_GAP = 8;
     public static final int QUICK_ACTION_ICON_SIZE = 18;
@@ -221,14 +229,14 @@ public final class UiConfig {
     public static final String STAT_INDICATOR = "\u25CF";
 
     public static final Color BRAND_PRIMARY = new Color(18, 140, 126);
-    public static final Color BRAND_PRIMARY_DARK = new Color(17, 117, 104);
-    public static final Color BRAND_DARK = new Color(24, 34, 43);
-    public static final Color BRAND_DARKER = new Color(17, 22, 28);
-    public static final Color BRAND_NAV_ACTIVE = new Color(17, 117, 104);
-    public static final Color BRAND_SOFT = new Color(223, 247, 238);
-    public static final Color BRAND_TEXT_SOFT = new Color(134, 147, 156);
-    public static final Color STATUS_DARK = new Color(248, 250, 251);
-    public static final Color DANGER = new Color(210, 55, 55);
+    public static final Color BRAND_PRIMARY_DARK = new Color(11, 123, 111);
+    public static final Color BRAND_DARK = new Color(24, 37, 43);
+    public static final Color BRAND_DARKER = new Color(16, 23, 27);
+    public static final Color BRAND_NAV_ACTIVE = new Color(8, 105, 96);
+    public static final Color BRAND_SOFT = new Color(230, 245, 242);
+    public static final Color BRAND_TEXT_SOFT = new Color(132, 149, 157);
+    public static final Color STATUS_DARK = new Color(241, 247, 247);
+    public static final Color DANGER = new Color(190, 45, 54);
 
     public static final String PAGE_DASHBOARD = "dashboard";
     public static final String PAGE_CONTACTS = "contacts";

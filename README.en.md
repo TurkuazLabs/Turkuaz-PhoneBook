@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml"><img src="https://github.com/TurkuazLabs/Turkuaz-PhoneBook/actions/workflows/build.yml/badge.svg" alt="Build"></a>
-    <img src="https://img.shields.io/badge/version-2.40.1-0aa6a6" alt="Version 2.40.1">
+    <img src="https://img.shields.io/badge/version-2.41.0-0aa6a6" alt="Version 2.41.0">
     <img src="https://img.shields.io/badge/Java-17-orange" alt="Java 17">
     <img src="https://img.shields.io/badge/SQLite-local-blue" alt="SQLite">
     <img src="https://img.shields.io/badge/Windows-supported-0078D4" alt="Windows">
@@ -50,6 +50,9 @@ Canonical repository:
 `https://github.com/TurkuazLabs/Turkuaz-PhoneBook`
 
 ## Features
+
+- Turkuaz Theme v3 with a rebuilt Light/Dark color system and accessible button states
+- Central semantic theme tokens, 2px keyboard focus rings and WCAG contrast quality gates
 
 ### Contact Management
 
