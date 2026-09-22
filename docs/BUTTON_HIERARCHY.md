@@ -44,7 +44,7 @@ Primary hover/pressed koyulasir. Secondary hover neutral kalir. Danger hover kir
 - Chip: 30px yukseklik.
 - Standart buton radius: 10px.
 - Chip radius: pill.
-- Standart minimum genislik: 88px; chip ve text içerige gore genisler.
+- Standart minimum genislik: 88px; chip ve text icerige gore genisler.
 
 ## Kisi editoru
 
