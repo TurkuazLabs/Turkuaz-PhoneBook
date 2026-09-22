@@ -1,7 +1,7 @@
 // # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/src/main/java/com/turkuazlabs/telefonrehberi/views/PhoneBookFrame.java
 // # 📌 Amac: FlatLaf tabanli modern masaustu telefon rehberi GUI'sini sunar.
 // # 📌 View - Java
-// # Version: 2.40.0
+// # Version: 2.41.0
 // # Aciklama: Turkuaz light/dark tema ve kaydedilmemis kisi draftini koruyan canli dil yenileme sunar.
 // # Bagimli Oldugu Katman: View | Model | Config | Language
 package com.turkuazlabs.telefonrehberi.views;
@@ -4873,11 +4873,11 @@ public final class PhoneBookFrame extends JFrame {
             try {
                 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g.setColor(ModernThemePalette.accentSoft());
-                g.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
+                g.fillRoundRect(0, 0, getWidth(), getHeight(), UiConfig.CHIP_ARC, UiConfig.CHIP_ARC);
             } finally {
                 g.dispose();
             }
-            setForeground(ModernThemePalette.isDark() ? new Color(196, 238, 240) : ModernThemePalette.accentStrong());
+            setForeground(ModernThemePalette.accentStrong());
             super.paintComponent(graphics);
         }
     }
