@@ -1,7 +1,7 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
-# 📌 Amac: Version tag push edildiginde Windows, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
+# 📌 Amac: Version tag push edildiginde Windows TurkuazInstaller, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
-# Version: 2.8.0
+# Version: 2.8.1
 # Aciklama: Cross-platform release uretir, SHA-dogrulamali Windows cache kullanir ve yayinlanan update manifestini guvenli sekilde main branch'e senkronize eder.
 # Bagimli Oldugu Katman: Tool | Config | Language
 
@@ -56,33 +56,32 @@ jobs:
         shell: powershell
         run: .\tools\build-release.ps1 -ExpectedTag "${{ github.ref_name }}"
 
-      - name: Install Inno Setup
-        shell: powershell
-        run: choco install innosetup -y --no-progress
-
-      - name: Build Windows installer
+      # @dev-id TR-TI-SETUP-002
+      - name: Build Windows installer using TurkuazInstaller
         shell: powershell
         run: .\tools\build-installer.ps1 -ExpectedTag "${{ github.ref_name }}"
 
-      - name: Smoke test Windows installer
+      - name: Verify TurkuazInstaller package and embedded native setup
         shell: powershell
         run: |
           $version = "${{ github.ref_name }}".TrimStart('v')
           $setup = Join-Path $PWD "dist\TelefonRehberi-Setup-v$version.exe"
-          if (-not (Test-Path -LiteralPath $setup)) { throw "Setup bulunamadi: $setup" }
-          $target = Join-Path $env:TEMP "TurkuazTelefonRehberi-Smoke"
-          Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction SilentlyContinue
-          $installArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=`"$target`"")
-          $installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
-          if ($installProcess.ExitCode -ne 0) { throw "Setup smoke install basarisiz: $($installProcess.ExitCode)" }
+          $package = Join-Path $PWD "dist\TelefonRehberi-v$version.tzpkg"
+          foreach ($file in @($setup, $package)) {
+            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "TurkuazInstaller cikti dosyasi eksik: $file" }
+            if ((Get-Item -LiteralPath $file).Length -eq 0) { throw "Bos kurulum dosyasi: $file" }
+          }
+          $target = Join-Path $env:RUNNER_TEMP "TurkuazTelefonRehberi-Installer-Smoke-$version"
+          if (Test-Path -LiteralPath $target) { throw 'Smoke test hedefi zaten mevcut.' }
+          & $setup install-local-self --target $target
+          if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kurulum smoke testi basarisiz.' }
           foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
-            if (-not (Test-Path -LiteralPath (Join-Path $target $required))) { throw "Setup smoke eksik dosya: $required" }
+            if (-not (Test-Path -LiteralPath (Join-Path $target $required) -PathType Leaf)) {
+              throw "Kurulum smoke testi eksik dosya: $required"
+            }
           }
-          $uninstaller = Join-Path $target 'unins000.exe'
-          if (Test-Path -LiteralPath $uninstaller) {
-            $uninstallProcess = Start-Process -FilePath $uninstaller -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART') -Wait -PassThru
-            if ($uninstallProcess.ExitCode -ne 0) { throw "Setup smoke uninstall basarisiz: $($uninstallProcess.ExitCode)" }
-          }
+          & $setup uninstall-local --package-id com.turkuazlabs.telefonrehberi --target $target --confirm-uninstall YES
+          if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kaldirma smoke testi basarisiz.' }
 
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v7
