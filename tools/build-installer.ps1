@@ -1,8 +1,8 @@
 # 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-installer.ps1
-# 📌 Amac: Inno Setup icin tam Windows payload ve Setup EXE uretir.
+# 📌 Amac: TurkuazInstaller icin Windows payload ve native Setup EXE uretir.
 # 📌 Tool - PowerShell
-# Version: 1.6.0
-# Aciklama: SHA-256 dogrulamali kalici dependency cache, Windows ikonlari, JRE/JDBC/SLF4J/FlatLaf payloadi ve Inno Setup EXE uretir.
+# Version: 1.7.0
+# Aciklama: SHA-256 dogrulamali kalici dependency cache, Windows ikonlari, JRE/JDBC/SLF4J/FlatLaf payloadi ve Rust TurkuazInstaller EXE uretir.
 # Bagimli Oldugu Katman: Tool | Config
 
 param(
@@ -19,7 +19,7 @@ $stage = Join-Path $root $StagePath
 $payload = Join-Path $stage 'payload'
 $launcherConfig = Join-Path $root 'config\launcher.yml'
 $versionConfig = Join-Path $root 'config\version.yml'
-$iss = Join-Path $root 'packaging\windows\TelefonRehberi.iss'
+$installerCommit = '10101dee8b6efe4775f5cf72aa05f3a3da934bfa'
 . (Join-Path $PSScriptRoot 'windows-branding.ps1')
 
 function Read-SimpleYaml([string]$Path) {
@@ -69,20 +69,6 @@ function Get-VerifiedCachedFile([string]$Url, [string]$Destination, [string]$Exp
     Write-Host "[CACHE] Dogrulandi: $Destination"
 }
 
-
-function Find-Iscc {
-    if ($env:ISCC_PATH -and (Test-Path -LiteralPath $env:ISCC_PATH)) { return $env:ISCC_PATH }
-    $candidates = @(
-        (Join-Path ${env:ProgramFiles} 'Inno Setup 7\ISCC.exe'),
-        (Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 7\ISCC.exe'),
-        (Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'),
-        (Join-Path ${env:ProgramFiles} 'Inno Setup 6\ISCC.exe')
-    )
-    foreach ($candidate in $candidates) {
-        if ($candidate -and (Test-Path -LiteralPath $candidate)) { return $candidate }
-    }
-    throw 'ISCC.exe bulunamadi. Inno Setup 6 veya 7 kurulu olmali.'
-}
 
 $version = Read-SimpleYaml $versionConfig
 $appVersion = $version['app_version']
@@ -180,13 +166,30 @@ $jreTarget = Join-Path $payload ($config['java_runtime_dir'].Replace('/', '\'))
 Ensure-Directory (Split-Path -Parent $jreTarget)
 Copy-Item -LiteralPath $jreHome -Destination $jreTarget -Recurse -Force
 
-$iscc = Find-Iscc
+# @dev-id TR-TI-SETUP-001
+# Pinned, independently verified TurkuazInstaller source; no Inno/NSIS.
+$engineSource = Join-Path $stage 'turkuaz-installer-source'
+& git clone --no-checkout 'https://github.com/TurkuazLabs/TurkuazInstaller.git' $engineSource
+if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller clone basarisiz.' }
+& git -C $engineSource checkout --detach $installerCommit
+if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller pinned checkout basarisiz.' }
+$actualCommit = (& git -C $engineSource rev-parse HEAD).Trim()
+if ($LASTEXITCODE -ne 0 -or $actualCommit -cne $installerCommit) {
+    throw 'TurkuazInstaller kaynak commit kimligi eslesmiyor.'
+}
+$engineManifest = Join-Path $engineSource 'rust/Cargo.toml'
+& cargo build --locked --manifest-path $engineManifest -p turkuaz-installer-cli --release --bin turkuaz-installer --features setup-authoring-gui
+if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller engine build basarisiz.' }
+$cli = Join-Path $engineSource 'rust/target/release/turkuaz-installer.exe'
+if (-not (Test-Path -LiteralPath $cli -PathType Leaf)) { throw 'TurkuazInstaller engine bulunamadi.' }
 Ensure-Directory $dist
-& $iscc "/DAppVersion=$appVersion" "/DPayloadDir=$payload" "/DOutputDir=$dist" $iss
-if ($LASTEXITCODE -ne 0) { throw "Inno Setup derlemesi basarisiz: $LASTEXITCODE" }
-
+$package = Join-Path $dist "TelefonRehberi-v$appVersion.tzpkg"
 $setup = Join-Path $dist "TelefonRehberi-Setup-v$appVersion.exe"
-if (-not (Test-Path -LiteralPath $setup)) { throw "Setup EXE uretilmedi: $setup" }
+& $cli build-package --package-id com.turkuazlabs.telefonrehberi --version $appVersion --source $payload --output $package --executable TelefonRehberi.exe
+if ($LASTEXITCODE -ne 0) { throw 'TelefonRehberi TurkuazInstaller paket build basarisiz.' }
+& $cli build-native-setup --stub $cli --package $package --output $setup
+if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller native setup build basarisiz.' }
+if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Setup EXE uretilmedi: $setup" }
 
 $setupSha = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash.ToLowerInvariant()
 $manifestPath = Join-Path $dist 'update-manifest.yml'
@@ -203,6 +206,7 @@ $checksumTargets = @(
     'TelefonRehberi.exe',
     "TelefonRehberi-Portable-v$appVersion-FULL.zip",
     "TelefonRehberi-Setup-v$appVersion.exe",
+    "TelefonRehberi-v$appVersion.tzpkg",
     'update-manifest.yml'
 )
 $checksumLines = foreach ($targetName in $checksumTargets) {
