@@ -1,4 +1,4 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/check-version-consistency.ps1
+# Dosya Yolu: REPO_ROOT/tools/check-version-consistency.ps1
 # 📌 Amac: Merkezi release surumlerinin masaustu, launcher, Android, iOS ve Windows installer ile birebir uyumunu dogrular.
 # 📌 Tool - PowerShell
 # Version: 1.1.0
@@ -70,8 +70,19 @@ Assert-ContainsLiteral (Join-Path $root 'mobile\ios\TurkuazTelefonRehberiIOS\pro
 Assert-ContainsLiteral (Join-Path $root 'mobile\ios\TurkuazTelefonRehberiIOS\project.yml') `
     ('CURRENT_PROJECT_VERSION: "{0}"' -f $mobileBuild) 'iOS CURRENT_PROJECT_VERSION'
 
-Assert-ContainsLiteral (Join-Path $root 'packaging\windows\TelefonRehberi.iss') `
-    ('#define AppVersion "{0}"' -f $appVersion) 'Inno Setup fallback AppVersion'
+# The active builder derives its package and setup versions from config/version.yml.
+$installerPath = Join-Path $root 'tools\build-installer.ps1'
+foreach ($token in @(
+    '$versionConfig = Join-Path $root ''config\version.yml''',
+    '$version = Read-SimpleYaml $versionConfig',
+    '$appVersion = $version[''app_version'']',
+    'build-package --package-id com.turkuazlabs.telefonrehberi --version $appVersion --source $payload --output $package --executable TelefonRehberi.exe',
+    'build-native-setup --stub $cli --package $package --output $setup',
+    '$package = Join-Path $dist "TelefonRehberi-v$appVersion.tzpkg"',
+    '$setup = Join-Path $dist "TelefonRehberi-Setup-v$appVersion.exe"'
+)) {
+    Assert-ContainsLiteral $installerPath $token 'TurkuazInstaller version source contract'
+}
 
 Assert-ContainsLiteral (Join-Path $root 'launcher\native\services\launcher_service.go') `
     ("TurkuazPhoneBookLauncher/$launcherVersion") 'Native launcher User-Agent'
