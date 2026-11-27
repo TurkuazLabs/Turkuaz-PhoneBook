@@ -1,9 +1,11 @@
-# Dosya Yolu: C:/Projects/TelefonRehberi/CHANGELOG.md
-# Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
-# Modul - Markdown
-# Version: 2.41.0
-# Aciklama: v2.41.0 Light/Dark renk sistemi, standart kontroller ve tum aksiyon butonlarini yeniden tasarlayan tema revizyonudur.
-# Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+<!--
+Dosya Yolu: REPO_ROOT/CHANGELOG.md
+Amac: Turkuaz PhoneBook guncel surum degisikliklerini kaydeder ve eski tam surum gecmisine baglanti verir.
+Modul - Markdown
+Version: 2.41.0
+Aciklama: v2.41.0 Light/Dark renk sistemi, standart kontroller ve tum aksiyon butonlarini yeniden tasarlayan tema revizyonudur.
+Bagimli Oldugu Katman: Controller | Service | Repository | Tool | View | Language
+-->
 
 ## v2.41.0
 
