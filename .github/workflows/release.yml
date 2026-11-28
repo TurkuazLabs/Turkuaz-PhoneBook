@@ -1,4 +1,4 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/release.yml
+# Dosya Yolu: REPO_ROOT/.github/workflows/release.yml
 # 📌 Amac: Version tag push edildiginde Windows TurkuazInstaller, Linux ve Android release assetlerini GitHub Release olarak yayinlar.
 # 📌 Tool - YAML
 # Version: 2.8.1
@@ -63,25 +63,7 @@ jobs:
 
       - name: Verify TurkuazInstaller package and embedded native setup
         shell: powershell
-        run: |
-          $version = "${{ github.ref_name }}".TrimStart('v')
-          $setup = Join-Path $PWD "dist\TelefonRehberi-Setup-v$version.exe"
-          $package = Join-Path $PWD "dist\TelefonRehberi-v$version.tzpkg"
-          foreach ($file in @($setup, $package)) {
-            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "TurkuazInstaller cikti dosyasi eksik: $file" }
-            if ((Get-Item -LiteralPath $file).Length -eq 0) { throw "Bos kurulum dosyasi: $file" }
-          }
-          $target = Join-Path $env:RUNNER_TEMP "TurkuazTelefonRehberi-Installer-Smoke-$version"
-          if (Test-Path -LiteralPath $target) { throw 'Smoke test hedefi zaten mevcut.' }
-          & $setup install-local-self --target $target
-          if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kurulum smoke testi basarisiz.' }
-          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
-            if (-not (Test-Path -LiteralPath (Join-Path $target $required) -PathType Leaf)) {
-              throw "Kurulum smoke testi eksik dosya: $required"
-            }
-          }
-          & $setup uninstall-local --package-id com.turkuazlabs.telefonrehberi --target $target --confirm-uninstall YES
-          if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kaldirma smoke testi basarisiz.' }
+        run: .\tools\test-windows-installer.ps1
 
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v7
@@ -294,7 +276,7 @@ jobs:
             "release-assets/publish/update-manifest.yml#Update-Manifest" \
             "release-assets/publish/CHECKSUMS.txt#SHA-256-Checksums" \
             "${WINDOWS_ZIP}#Windows-Portable-Full" \
-            "${WINDOWS_SETUP}#Windows-Inno-Setup" \
+            "${WINDOWS_SETUP}#Windows-TurkuazInstaller-Setup" \
             "${LINUX_TAR}#Linux-Portable-Full" \
             "${ANDROID_APK}#Android-Test-APK" \
             --verify-tag \

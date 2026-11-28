@@ -1,4 +1,4 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/tools/build-installer.ps1
+# Dosya Yolu: REPO_ROOT/tools/build-installer.ps1
 # 📌 Amac: TurkuazInstaller icin Windows payload ve native Setup EXE uretir.
 # 📌 Tool - PowerShell
 # Version: 1.7.0
@@ -185,10 +185,13 @@ if (-not (Test-Path -LiteralPath $cli -PathType Leaf)) { throw 'TurkuazInstaller
 Ensure-Directory $dist
 $package = Join-Path $dist "TelefonRehberi-v$appVersion.tzpkg"
 $setup = Join-Path $dist "TelefonRehberi-Setup-v$appVersion.exe"
-& $cli build-package --package-id com.turkuazlabs.telefonrehberi --version $appVersion --source $payload --output $package --executable TelefonRehberi.exe
-if ($LASTEXITCODE -ne 0) { throw 'TelefonRehberi TurkuazInstaller paket build basarisiz.' }
-& $cli build-native-setup --stub $cli --package $package --output $setup
-if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller native setup build basarisiz.' }
+$packageArgs = @('build-package', '--package-id', 'com.turkuazlabs.telefonrehberi', '--version', $appVersion, '--source', ('"{0}"' -f $payload), '--output', ('"{0}"' -f $package), '--executable', 'TelefonRehberi.exe')
+$packageProcess = Start-Process -FilePath $cli -ArgumentList $packageArgs -Wait -PassThru
+if ($packageProcess.ExitCode -ne 0) { throw ('TelefonRehberi TurkuazInstaller paket build basarisiz: ' + $packageProcess.ExitCode) }
+if (-not (Test-Path -LiteralPath $package -PathType Leaf) -or (Get-Item -LiteralPath $package).Length -eq 0) { throw "TZPKG uretilmedi: $package" }
+$setupArgs = @('build-native-setup', '--stub', ('"{0}"' -f $cli), '--package', ('"{0}"' -f $package), '--output', ('"{0}"' -f $setup))
+$setupProcess = Start-Process -FilePath $cli -ArgumentList $setupArgs -Wait -PassThru
+if ($setupProcess.ExitCode -ne 0) { throw ('TurkuazInstaller native setup build basarisiz: ' + $setupProcess.ExitCode) }
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Setup EXE uretilmedi: $setup" }
 
 $setupSha = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash.ToLowerInvariant()

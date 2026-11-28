@@ -1,9 +1,11 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/SECURITY.md
-# 📌 Amac: Defines the Turkuaz PhoneBook security support and vulnerability-reporting policy.
-# 📌 Modul - Markdown
-# Version: 1.2.0
-# Aciklama: English primary policy covering supported releases, sensitive data, LAN sync boundaries and responsible security reporting.
-# Bagimli Oldugu Katman: Tool | Config
+<!--
+Dosya Yolu: REPO_ROOT/SECURITY.md
+Amac: Defines the Turkuaz PhoneBook security support and vulnerability-reporting policy.
+Modul - Markdown
+Version: 1.2.0
+Aciklama: English primary policy covering supported releases, sensitive data, LAN sync boundaries and responsible security reporting.
+Bagimli Oldugu Katman: Tool | Config
+-->
 
 # Security Policy
 

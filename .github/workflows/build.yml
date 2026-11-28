@@ -1,4 +1,4 @@
-# 📄 Dosya Yolu: C:/Projects/TelefonRehberi/.github/workflows/build.yml
+# Dosya Yolu: REPO_ROOT/.github/workflows/build.yml
 # 📌 Amac: Masaustu, Android ve iOS kaynaklarini main/pull request degisikliklerinde dogrular.
 # 📌 Tool - YAML
 # Version: 2.14.1
@@ -58,36 +58,13 @@ jobs:
         shell: powershell
         run: .\tools\build-release.ps1
 
-      - name: Install Inno Setup
-        shell: powershell
-        run: choco install innosetup -y --no-progress
-
-      - name: Build Windows installer
+      - name: Build Windows installer using TurkuazInstaller
         shell: powershell
         run: .\tools\build-installer.ps1
 
-      - name: Smoke test Windows installer
+      - name: Verify TurkuazInstaller package and embedded native setup
         shell: powershell
-        run: |
-          $versionMatch = Select-String -Path .\config\version.yml -Pattern '^app_version:' | Select-Object -First 1
-          if ($null -eq $versionMatch) { throw "app_version bulunamadi" }
-          $version = ($versionMatch.Line -split ':',2)[1].Trim().Trim('"')
-          if ([string]::IsNullOrWhiteSpace($version)) { throw "app_version bos" }
-          $setup = Join-Path $PWD "dist\TelefonRehberi-Setup-v$version.exe"
-          if (-not (Test-Path -LiteralPath $setup)) { throw "Setup bulunamadi: $setup" }
-          $target = Join-Path $env:TEMP "TurkuazTelefonRehberi-Smoke"
-          Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction SilentlyContinue
-          $installArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=`"$target`"")
-          $installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
-          if ($installProcess.ExitCode -ne 0) { throw "Setup smoke install basarisiz: $($installProcess.ExitCode)" }
-          foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
-            if (-not (Test-Path -LiteralPath (Join-Path $target $required))) { throw "Setup smoke eksik dosya: $required" }
-          }
-          $uninstaller = Join-Path $target 'unins000.exe'
-          if (Test-Path -LiteralPath $uninstaller) {
-            $uninstallProcess = Start-Process -FilePath $uninstaller -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART') -Wait -PassThru
-            if ($uninstallProcess.ExitCode -ne 0) { throw "Setup smoke uninstall basarisiz: $($uninstallProcess.ExitCode)" }
-          }
+        run: .\tools\test-windows-installer.ps1
 
       - name: Upload Windows main-build artifacts
         if: github.event_name == 'push'
