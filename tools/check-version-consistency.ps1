@@ -76,8 +76,10 @@ foreach ($token in @(
     '$versionConfig = Join-Path $root ''config\version.yml''',
     '$version = Read-SimpleYaml $versionConfig',
     '$appVersion = $version[''app_version'']',
-    'build-package --package-id com.turkuazlabs.telefonrehberi --version $appVersion --source $payload --output $package --executable TelefonRehberi.exe',
-    'build-native-setup --stub $cli --package $package --output $setup',
+    '$packageArgs = @(''build-package'', ''--package-id'', ''com.turkuazlabs.telefonrehberi'', ''--version'', $appVersion, ''--source'', (''"{0}"'' -f $payload), ''--output'', (''"{0}"'' -f $package), ''--executable'', ''TelefonRehberi.exe'')',
+    '$packageProcess = Start-Process -FilePath $cli -ArgumentList $packageArgs -Wait -PassThru',
+    '$setupArgs = @(''build-native-setup'', ''--stub'', (''"{0}"'' -f $cli), ''--package'', (''"{0}"'' -f $package), ''--output'', (''"{0}"'' -f $setup))',
+    '$setupProcess = Start-Process -FilePath $cli -ArgumentList $setupArgs -Wait -PassThru',
     '$package = Join-Path $dist "TelefonRehberi-v$appVersion.tzpkg"',
     '$setup = Join-Path $dist "TelefonRehberi-Setup-v$appVersion.exe"'
 )) {

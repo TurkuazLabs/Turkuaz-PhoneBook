@@ -23,13 +23,15 @@ foreach ($file in @($setup, $package)) {
 if ([string]::IsNullOrWhiteSpace($env:RUNNER_TEMP)) { throw 'RUNNER_TEMP tanimli degil.' }
 $target = Join-Path $env:RUNNER_TEMP ("TurkuazTelefonRehberi-Installer-Smoke-" + [Guid]::NewGuid().ToString('N'))
 if (Test-Path -LiteralPath $target) { throw 'Smoke test hedefi zaten mevcut.' }
-& $setup install-local-self --target $target
-if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kurulum smoke testi basarisiz.' }
+$installArgs = @('install-local-self', '--target', ('"{0}"' -f $target))
+$installProcess = Start-Process -FilePath $setup -ArgumentList $installArgs -Wait -PassThru
+if ($installProcess.ExitCode -ne 0) { throw ('TurkuazInstaller kurulum smoke testi basarisiz: ' + $installProcess.ExitCode) }
 foreach ($required in @('TelefonRehberi.exe','app\TelefonRehberi.jar','config\installed.mode','runtime\temurin-17\bin\javaw.exe')) {
     if (-not (Test-Path -LiteralPath (Join-Path $target $required) -PathType Leaf)) {
         throw "Kurulum smoke testi eksik dosya: $required"
     }
 }
-& $setup uninstall-local --package-id com.turkuazlabs.telefonrehberi --target $target --confirm-uninstall YES
-if ($LASTEXITCODE -ne 0) { throw 'TurkuazInstaller kaldirma smoke testi basarisiz.' }
+$uninstallArgs = @('uninstall-local', '--package-id', 'com.turkuazlabs.telefonrehberi', '--target', ('"{0}"' -f $target), '--confirm-uninstall', 'YES')
+$uninstallProcess = Start-Process -FilePath $setup -ArgumentList $uninstallArgs -Wait -PassThru
+if ($uninstallProcess.ExitCode -ne 0) { throw ('TurkuazInstaller kaldirma smoke testi basarisiz: ' + $uninstallProcess.ExitCode) }
 Write-Host 'TurkuazInstaller isolated install/uninstall command smoke: PASS'
